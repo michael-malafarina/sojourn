@@ -13,11 +13,13 @@ public class Entity
     Entity()
     {
         image = new Texture(Gdx.files.internal("player_ship.png"));
-        y = Sojourn.HEIGHT;
+        y = Sojourn.HEIGHT/2;
     }
 
     public void update()
     {
+        System.out.println("Updating Ship Entity");
+
         x++;
 
         if(x > Sojourn.WIDTH)

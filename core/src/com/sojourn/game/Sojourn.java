@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -35,6 +37,21 @@ public class Sojourn extends Game
 	private FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
 
 
+	public float getAverageRatio()
+	{
+		return (Gdx.graphics.getDisplayMode().width / WIDTH + Gdx.graphics.getDisplayMode().height / HEIGHT)  / 2;
+	}
+
+	public float getWidthRatio()
+	{
+		return Gdx.graphics.getDisplayMode().width / WIDTH;
+	}
+
+	public float getHeightRatio()
+	{
+		return Gdx.graphics.getDisplayMode().height / HEIGHT;
+	}
+
 	@Override
 	public void create()
 	{
@@ -50,15 +67,15 @@ public class Sojourn extends Game
 
 		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("TCM.ttf"));
 		fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		fontParameter.size = 100;
-		fontParameter.borderWidth = 5;
+		fontParameter.size = (int) (16 * getAverageRatio());
+		fontParameter.borderWidth = 1;
 		fontParameter.borderColor = Color.BLACK;
 		fontParameter.color = Color.WHITE;
 		font = fontGenerator.generateFont(fontParameter);
+		font.getData().setScale(1.0f/getAverageRatio());
+		font.setUseIntegerPositions(false);
 
-		font = new BitmapFont();
-
-
+//	System.out.println("Font Size: " + fontParameter.size);
 
 
 		setupCamera();
@@ -70,12 +87,12 @@ public class Sojourn extends Game
 
 		// Create the camera and port for GAMEPLAY objects
 		gameCam = new OrthographicCamera(WIDTH, HEIGHT);
-		gamePort = new StretchViewport(WIDTH, HEIGHT, gameCam);
+		gamePort = new FitViewport(WIDTH, HEIGHT, gameCam);
 		gameCam.setToOrtho(false);
 
 		// Create the camera and port for USER INTERFACE objects
 		hudCam = new OrthographicCamera(WIDTH, HEIGHT);
-		hudPort = new StretchViewport(WIDTH, HEIGHT, hudCam);
+		hudPort = new FitViewport(WIDTH, HEIGHT, hudCam);
 		hudCam.setToOrtho(false);
 
 		// Need to wait to go to fullscreen until after start to make scaling work
