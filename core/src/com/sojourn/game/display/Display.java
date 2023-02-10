@@ -9,7 +9,7 @@ import com.sojourn.game.Sojourn;
 public class Display
 {
     private static SpriteBatch batch;
-    private Text text;
+    private final Text text;
 
     public Display()
     {
@@ -20,17 +20,18 @@ public class Display
 
     public static float getAverageRatio()
     {
-        return (Gdx.graphics.getDisplayMode().width / Sojourn.WIDTH + Gdx.graphics.getDisplayMode().height / Sojourn.HEIGHT)  / 2;
+        return ((float) Gdx.graphics.getDisplayMode().width / (float) Sojourn.WIDTH +
+                (float) Gdx.graphics.getDisplayMode().height / (float) Sojourn.HEIGHT)  / 2.0f;
     }
 
     public static float getWidthRatio()
     {
-        return Gdx.graphics.getDisplayMode().width / Sojourn.WIDTH;
+        return (float) Gdx.graphics.getDisplayMode().width / (float) Sojourn.WIDTH;
     }
 
     public static float getHeightRatio()
     {
-        return Gdx.graphics.getDisplayMode().height / Sojourn.HEIGHT;
+        return (float) Gdx.graphics.getDisplayMode().height / (float) Sojourn.HEIGHT;
     }
 
     public static void begin()
