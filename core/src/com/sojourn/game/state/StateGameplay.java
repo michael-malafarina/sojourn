@@ -1,10 +1,12 @@
-package com.sojourn.game;
+package com.sojourn.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.sojourn.game.Sojourn;
+import com.sojourn.game.display.Fonts;
+import com.sojourn.game.display.Text;
+import com.sojourn.game.entity.Entity;
 
 public class StateGameplay extends State {
 
@@ -17,27 +19,31 @@ public class StateGameplay extends State {
     }
 
     @Override
-    public void update()
+    public void update(float delta)
     {
-        ship.update();
+        cameraControls();
+        ship.update(delta);
     }
 
     @Override
-    public void renderBackground(Batch batch, float delta)
+    public void renderBackground(float delta)
     {
-        ScreenUtils.clear(.50f, .50f, .50f, 1);
+        ScreenUtils.clear(.02f, .02f, .02f, 1);
+       // batch.draw(game.img, 0, 0, Sojourn.WIDTH, Sojourn.HEIGHT);
+
     }
 
     @Override
-    public void renderGameplay(Batch batch, float delta)
+    public void renderGameplay(float delta)
     {
-        ship.render(batch);
+        ship.render();
     }
 
     @Override
-    public void renderHud(Batch batch, float delta)
+    public void renderHud(float delta)
     {
-        game.font.draw(batch, "Gameplay", 50, 50);
+        Text.setFont(Fonts.small);
+        Text.draw("Gameplay", 5, Sojourn.HEIGHT-5);
     }
 
     public void cameraControls()

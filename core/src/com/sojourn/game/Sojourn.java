@@ -3,22 +3,20 @@ package com.sojourn.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sojourn.game.display.Display;
+import com.sojourn.game.state.StateGameplay;
+import com.sojourn.game.state.StateTitle;
 
 public class Sojourn extends Game
 {
 
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 480;
+	public static final int WIDTH = 1920/2;
+	public static final int HEIGHT = 1080/2;
 
 	public Viewport gamePort;
 	public OrthographicCamera gameCam;
@@ -26,59 +24,34 @@ public class Sojourn extends Game
 	public Viewport hudPort;
 	public OrthographicCamera hudCam;
 
-	public SpriteBatch batch;
+	private Display display;
+
 	Texture img;
-	BitmapFont font;
+
 
 	StateTitle title;
 	StateGameplay gameplay;
 
-	private FreeTypeFontGenerator fontGenerator;
-	private FreeTypeFontGenerator.FreeTypeFontParameter fontParameter;
 
 
-	public float getAverageRatio()
-	{
-		return (Gdx.graphics.getDisplayMode().width / WIDTH + Gdx.graphics.getDisplayMode().height / HEIGHT)  / 2;
-	}
-
-	public float getWidthRatio()
-	{
-		return Gdx.graphics.getDisplayMode().width / WIDTH;
-	}
-
-	public float getHeightRatio()
-	{
-		return Gdx.graphics.getDisplayMode().height / HEIGHT;
-	}
 
 	@Override
 	public void create()
 	{
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("box.png");
 
 		gameplay = new StateGameplay(this);
 		title = new StateTitle(this);
-
+		display = new Display();
 
 		this.setScreen(title);
 
 
-		fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("TCM.ttf"));
-		fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		fontParameter.size = (int) (16 * getAverageRatio());
-		fontParameter.borderWidth = 1;
-		fontParameter.borderColor = Color.BLACK;
-		fontParameter.color = Color.WHITE;
-		font = fontGenerator.generateFont(fontParameter);
-		font.getData().setScale(1.0f/getAverageRatio());
-		font.setUseIntegerPositions(false);
-
-//	System.out.println("Font Size: " + fontParameter.size);
 
 
 		setupCamera();
+
+
 
 	}
 
@@ -87,18 +60,19 @@ public class Sojourn extends Game
 
 		// Create the camera and port for GAMEPLAY objects
 		gameCam = new OrthographicCamera(WIDTH, HEIGHT);
-		gamePort = new FitViewport(WIDTH, HEIGHT, gameCam);
+		gamePort = new StretchViewport(WIDTH, HEIGHT, gameCam);
 		gameCam.setToOrtho(false);
+		gameCam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
 
 		// Create the camera and port for USER INTERFACE objects
 		hudCam = new OrthographicCamera(WIDTH, HEIGHT);
-		hudPort = new FitViewport(WIDTH, HEIGHT, hudCam);
+		hudPort = new StretchViewport(WIDTH, HEIGHT, hudCam);
 		hudCam.setToOrtho(false);
+		hudCam.position.set(hudPort.getWorldWidth()/2, hudPort.getWorldHeight()/2, 0);
 
 		// Need to wait to go to fullscreen until after start to make scaling work
 		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 
-		// a comment was just added what
 	}
 
 
@@ -109,8 +83,19 @@ public class Sojourn extends Game
 	{
 		super.render();
 
+		Gdx.gl.glClearColor( 1, 0, 0, 1 );
+		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
+
+//		gameCam.update();
+//		hudCam.update();
+
 		getScreen().render(Gdx.graphics.getDeltaTime());
 
+//		gamePort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//		hudPort.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		gameCam.update();
+//
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1))
 		{
 			setScreen(title);
@@ -124,9 +109,9 @@ public class Sojourn extends Game
 	}
 
 	@Override
-	public void dispose() {
-		batch.dispose();
-		font.dispose();
+	public void dispose()
+	{
+		display.dispose();
 	}
 
 	public void resize(int width, int height) {
