@@ -1,41 +1,128 @@
 package com.sojourn.game.display;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
-import com.sojourn.game.Sojourn;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Display
 {
+    public static final int WIDTH = 1920/2;
+    public static final int HEIGHT = 1080/2;
+
     private static SpriteBatch batch;
-    private final Text text;
+    private static Text text;
+
+    private static Viewport gamePort;
+    private static OrthographicCamera gameCam;
+
+    private static Viewport hudPort;
+    private static OrthographicCamera hudCam;
+
 
     public Display()
     {
         batch = new SpriteBatch();
         text = new Text();
+
+        setupCamera();
+    }
+
+    public void update()
+    {
+        controlCamera();
     }
 
 
+    public void setupCamera()
+    {
+
+        // Create the camera and port for GAMEPLAY objects
+        gameCam = new OrthographicCamera(WIDTH, HEIGHT);
+        gamePort = new StretchViewport(WIDTH, HEIGHT, gameCam);
+        gameCam.setToOrtho(false);
+        gameCam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
+
+        // Create the camera and port for USER INTERFACE objects
+        hudCam = new OrthographicCamera(WIDTH, HEIGHT);
+        hudPort = new StretchViewport(WIDTH, HEIGHT, hudCam);
+        hudCam.setToOrtho(false);
+        hudCam.position.set(hudPort.getWorldWidth()/2, hudPort.getWorldHeight()/2, 0);
+
+        // Need to wait to go to fullscreen until after start to make scaling work
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+
+    }
+
+    public void controlCamera()
+    {
+        int translateSpeed = 10;
+        if (Gdx.input.isKeyPressed(Input.Keys.E))
+        {
+            gameCam.zoom += 0.02;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.Q))
+        {
+            gameCam.zoom -= 0.02;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A))
+        {
+            gameCam.translate(-translateSpeed, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D))
+        {
+            gameCam.translate(translateSpeed, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S))
+        {
+            gameCam.translate(0, -translateSpeed, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W))
+        {
+            gameCam.translate(0, translateSpeed, 0);
+        }
+        gameCam.update();
+    }
+
     public static float getAverageRatio()
     {
-        return ((float) Gdx.graphics.getDisplayMode().width / (float) Sojourn.WIDTH +
-                (float) Gdx.graphics.getDisplayMode().height / (float) Sojourn.HEIGHT)  / 2.0f;
+        return ((float) Gdx.graphics.getDisplayMode().width / (float) WIDTH +
+                (float) Gdx.graphics.getDisplayMode().height / (float) HEIGHT)  / 2.0f;
     }
 
     public static float getWidthRatio()
     {
-        return (float) Gdx.graphics.getDisplayMode().width / (float) Sojourn.WIDTH;
+        return (float) Gdx.graphics.getDisplayMode().width / (float) WIDTH;
     }
 
     public static float getHeightRatio()
     {
-        return (float) Gdx.graphics.getDisplayMode().height / (float) Sojourn.HEIGHT;
+        return (float) Gdx.graphics.getDisplayMode().height / (float) HEIGHT;
     }
 
-    public static void begin()
+    public static float getMouseX()
     {
+        return Gdx.input.getX() / getWidthRatio();
+    }
+
+    public static float getMouseY()
+    {
+        return HEIGHT - Gdx.input.getY() / getHeightRatio();
+    }
+
+    public static void beginBatchGameplay()
+    {
+        batch.setProjectionMatrix(gameCam.combined);
+        batch.begin();
+    }
+
+    public static void beginBatchHUD()
+    {
+        batch.setProjectionMatrix(hudCam.combined);
         batch.begin();
     }
 
@@ -49,21 +136,30 @@ public class Display
         batch.draw(t, x, y);
     }
 
+    public static void draw(Texture t, float x, float y, float w, float h)
+    {
+        batch.draw(t, x, y, w, h);
+    }
 
-
-    public static void end()
+    public static void endBatch()
     {
         batch.end();
     }
 
-    public static void setProjectionMatrix(Matrix4 projectionMatrix)
+    public static Camera getHUDCamera()
     {
-        batch.setProjectionMatrix(projectionMatrix);
+        return hudCam;
     }
 
     public void dispose()
     {
         batch.dispose();
         text.dispose();
+    }
+
+    public void resize(int width, int height)
+    {
+        gamePort.update(width, height);
+        hudPort.update(width, height);
     }
 }

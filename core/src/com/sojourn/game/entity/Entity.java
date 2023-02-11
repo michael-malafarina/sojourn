@@ -2,7 +2,6 @@ package com.sojourn.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Display;
 
 public class Entity
@@ -14,7 +13,7 @@ public class Entity
     public Entity()
     {
         image = new Texture(Gdx.files.internal("droplet.png"));
-        y = Sojourn.HEIGHT/2;
+        y = Display.HEIGHT/2;
         image.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
     }
 
@@ -24,7 +23,7 @@ public class Entity
 
         x  += delta * 50;
 
-        if(x > Sojourn.WIDTH)
+        if(x > Display.WIDTH)
         {
             x = 0;
         }

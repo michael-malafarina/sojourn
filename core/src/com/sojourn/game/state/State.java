@@ -37,25 +37,23 @@ abstract public class State implements Screen {
 
     private void renderBackgroundLayer(float delta)
     {
-        Display.begin();
+        Display.beginBatchGameplay();       // change later for a background layer / parallax
         renderBackground(delta);
-        Display.end();
+        Display.endBatch();
     }
 
     private void renderGameplayLayer(float delta)
     {
-        Display.setProjectionMatrix(game.gameCam.combined);
-        Display.begin();
+        Display.beginBatchGameplay();
         renderGameplay(delta);
-        Display.end();
+        Display.endBatch();
     }
 
     private void renderHudLayer(float delta)
     {
-        Display.setProjectionMatrix(game.hudCam.combined);
-        Display.begin();
+        Display.beginBatchHUD();
         renderHud(delta);
-        Display.end();
+        Display.endBatch();
     }
 
     @Override
