@@ -12,8 +12,11 @@ public class Sojourn extends Game
 {
 	private Display display;
 
-	StateTitle title;
-	StateGameplay gameplay;
+	public final int STATE_TITLE_ID = 0;
+	public final int STATE_GAMEPLAY_ID = 1;
+
+	private StateTitle title;
+	private StateGameplay gameplay;
 
 	@Override
 	public void create()
@@ -39,12 +42,20 @@ public class Sojourn extends Game
 		{
 			setScreen(title);
 		}
-		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2))
-		{
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
 			setScreen(gameplay);
 		}
 
 
+	}
+
+	public void setState(int stateID)
+	{
+		switch(stateID)
+		{
+			case STATE_TITLE_ID -> setScreen(title);
+			case STATE_GAMEPLAY_ID -> setScreen(gameplay);
+		};
 	}
 
 	@Override

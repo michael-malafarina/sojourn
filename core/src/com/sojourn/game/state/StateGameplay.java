@@ -2,6 +2,7 @@ package com.sojourn.game.state;
 
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.Entity;
@@ -31,9 +32,10 @@ public class StateGameplay extends State {
     }
 
     @Override
-    protected void renderHud(float delta) {
+    protected void renderHud(float delta)
+    {
+        Text.setAlignment(Alignment.LEFT, Alignment.TOP);
         Text.draw("Gameplay", 5, Display.HEIGHT-5);
-
     }
 
 }

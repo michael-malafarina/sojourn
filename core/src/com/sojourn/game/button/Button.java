@@ -5,12 +5,14 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Text;
 
-public class Button implements InputProcessor
+abstract public class Button implements InputProcessor
 {
+    protected final Sojourn game;
     private Texture image;
     private Rectangle box;
 
@@ -19,8 +21,12 @@ public class Button implements InputProcessor
     private Texture buttonBase;
     private Texture buttonMouseover;
 
-    public Button()
+    abstract protected void clicked();
+    abstract protected void mouseover();
+
+    public Button(final Sojourn game)
     {
+        this.game = game;
         buttonBase = new Texture(Gdx.files.internal("box.png"));
         buttonMouseover = new Texture(Gdx.files.internal("droplet.png"));
         box = new Rectangle(50, 50, 100, 40);
@@ -73,7 +79,7 @@ public class Button implements InputProcessor
         Display.getHUDCamera().unproject(tp.set(screenX, screenY, 0));
         if(box.contains(tp.x, tp.y))
         {
-            System.out.println("Click");
+            clicked();
             return true;
         }
         return false;
@@ -90,13 +96,15 @@ public class Button implements InputProcessor
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    public boolean mouseMoved(int screenX, int screenY)
+    {
         Vector3 tp = new Vector3();
         Display.getHUDCamera().unproject(tp.set(screenX, screenY, 0));
 
         if(box.contains(tp.x, tp.y))
         {
             image = buttonMouseover;
+            mouseover();
             return true;
         }
         else

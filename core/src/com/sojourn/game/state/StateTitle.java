@@ -3,6 +3,8 @@ package com.sojourn.game.state;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.button.Button;
+import com.sojourn.game.button.StartButton;
+import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Text;
 
@@ -12,7 +14,7 @@ public class StateTitle extends State {
     public StateTitle(final Sojourn game)
     {
         super(game);
-        test = new Button();
+        test = new StartButton(game);
         test.set(10, 10, 200, 60);
         test.setLabel("Example Button");
     }
@@ -36,6 +38,8 @@ public class StateTitle extends State {
     @Override
     public void renderHud(float delta)
     {
+        Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
+
         Text.draw("Title", 5, Display.HEIGHT-5);
         test.render();
     }

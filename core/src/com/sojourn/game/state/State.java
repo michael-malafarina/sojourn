@@ -8,11 +8,13 @@ import com.sojourn.game.display.Display;
 
 abstract public class State implements Screen {
 
-    final Sojourn game;
+    protected final Sojourn game;
 
     public State(final Sojourn game)
     {
         this.game = game;
+
+
     }
 
     abstract protected void update(float delta);
