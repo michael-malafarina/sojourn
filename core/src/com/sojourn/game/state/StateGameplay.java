@@ -34,7 +34,7 @@ public class StateGameplay extends State {
     @Override
     protected void renderHud(float delta)
     {
-        Text.setAlignment(Alignment.LEFT, Alignment.TOP);
+        Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
         Text.draw("Gameplay", 5, Display.HEIGHT-5);
     }
 

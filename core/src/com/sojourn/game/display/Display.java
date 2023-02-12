@@ -3,16 +3,18 @@ package com.sojourn.game.display;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Display
 {
-    public static final int WIDTH = 1920/2;
-    public static final int HEIGHT = 1080/2;
+    public static final int WIDTH = 480;
+    public static final int HEIGHT = 270;
 
     private static SpriteBatch batch;
     private static Text text;
@@ -38,8 +40,7 @@ public class Display
     }
 
 
-    public void setupCamera()
-    {
+    public void setupCamera() {
 
         // Create the camera and port for GAMEPLAY objects
         gameCam = new OrthographicCamera(WIDTH, HEIGHT);
@@ -58,96 +59,101 @@ public class Display
 
     }
 
-    public void controlCamera()
-    {
+    public void controlCamera() {
         int translateSpeed = 10;
-        if (Gdx.input.isKeyPressed(Input.Keys.E))
-        {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
             gameCam.zoom += 0.02;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.Q))
-        {
+        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
             gameCam.zoom -= 0.02;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A))
-        {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             gameCam.translate(-translateSpeed, 0, 0);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D))
-        {
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             gameCam.translate(translateSpeed, 0, 0);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S))
-        {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             gameCam.translate(0, -translateSpeed, 0);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.W))
-        {
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             gameCam.translate(0, translateSpeed, 0);
         }
         gameCam.update();
     }
 
-    public static float getAverageRatio()
-    {
+    public static float getAverageRatio() {
         return ((float) Gdx.graphics.getDisplayMode().width / (float) WIDTH +
                 (float) Gdx.graphics.getDisplayMode().height / (float) HEIGHT)  / 2.0f;
     }
 
-    public static float getWidthRatio()
-    {
+    public static float getWidthRatio() {
         return (float) Gdx.graphics.getDisplayMode().width / (float) WIDTH;
     }
 
-    public static float getHeightRatio()
-    {
+    public static float getHeightRatio() {
         return (float) Gdx.graphics.getDisplayMode().height / (float) HEIGHT;
     }
 
-    public static float getMouseX()
-    {
+    public static float getMouseX() {
         return Gdx.input.getX() / getWidthRatio();
     }
 
-    public static float getMouseY()
-    {
+    public static float getMouseY() {
         return HEIGHT - Gdx.input.getY() / getHeightRatio();
     }
 
-    public static void beginBatchGameplay()
-    {
+    public static void beginBatchGameplay() {
         batch.setProjectionMatrix(gameCam.combined);
         batch.begin();
     }
 
-    public static void beginBatchHUD()
-    {
+    public static void beginBatchHUD() {
         batch.setProjectionMatrix(hudCam.combined);
         batch.begin();
     }
 
-    public static SpriteBatch getBatch()
-    {
+    public static SpriteBatch getBatch() {
         return batch;
     }
 
-    public static void draw(Texture t, float x, float y)
-    {
+    public static void draw(Texture t, float x, float y) {
         batch.draw(t, x, y);
     }
 
-    public static void draw(Texture t, float x, float y, float w, float h)
-    {
+    public static void draw(TextureRegion t, float x, float y) {
+        batch.draw(t, x, y);
+    }
+
+    public static void draw(Texture t, float x, float y, float w, float h) {
         batch.draw(t, x, y, w, h);
     }
 
-    public static void endBatch()
-    {
+    public static void draw(TextureRegion t, float x, float y, float w, float h) {
+        batch.draw(t, x, y, w, h);
+    }
+
+    public static void draw(Texture t, Color c, float x, float y, float w, float h) {
+        batch.setColor(c);
+        batch.draw(t, x, y, w, h);
+        batch.setColor(Color.WHITE);
+    }
+
+    public static void draw(TextureRegion t, Color c, float x, float y, float w, float h) {
+        batch.setColor(c);
+        batch.draw(t, x, y, w, h);
+        batch.setColor(Color.WHITE);
+    }
+
+
+
+
+    public static void endBatch() {
         batch.end();
     }
 
-    public static Camera getHUDCamera()
-    {
+    public static Camera getHUDCamera() {
         return hudCam;
     }
 

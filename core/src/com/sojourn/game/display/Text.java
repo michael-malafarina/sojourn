@@ -11,68 +11,49 @@ public class Text
     private static Alignment alignHorizontal;
     private static Alignment alignVertical;
 
-    Text()
-    {
+    Text() {
         fonts = new Fonts();
         setFont(fonts.small);
     }
 
-    public static void setFont(BitmapFont f)
-    {
+    public static void setFont(BitmapFont f) {
         currentFont = f;
     }
 
-    public static void draw(String text, float x, float y)
-    {
+    public static void draw(String text, float x, float y) {
         currentFont.draw(Display.getBatch(), text, x - getHorizontalOffset(text), y + getVerticalOffset(text));
     }
 
-    private static float getHorizontalOffset(String text)
-    {
+    private static float getHorizontalOffset(String text) {
+
         GlyphLayout glyphLayout = new GlyphLayout(currentFont, text);
 
-        if(alignHorizontal == Alignment.RIGHT)
+        return switch(alignHorizontal)
         {
-            return glyphLayout.width;
-        }
-        if(alignHorizontal == Alignment.CENTER)
-        {
-            return glyphLayout.width/2;
-        }
-        else
-        {
-            return 0;
-        }
+            case RIGHT -> glyphLayout.width;
+            case CENTER -> glyphLayout.width/2;
+            default -> 0;
+        };
     }
 
-    // VERTICAL ALIGNMENT ISN'T RIGHT MEBBE --> TEST IT!
+    private static float getVerticalOffset(String text)  {
 
-    private static float getVerticalOffset(String text)
-    {
         GlyphLayout glyphLayout = new GlyphLayout(currentFont, text);
 
-        if(alignVertical == Alignment.TOP)
+        return switch(alignVertical)
         {
-            return glyphLayout.height;
-        }
-        if(alignVertical == Alignment.CENTER)
-        {
-            return glyphLayout.height/2;
-        }
-        else
-        {
-            return 0;
-        }
+            case TOP -> glyphLayout.height;
+            case CENTER -> glyphLayout.height/2;
+            default -> 0;
+        };
     }
 
-    public static void setAlignment(Alignment horizontal, Alignment vertical)
-    {
+    public static void setAlignment(Alignment horizontal, Alignment vertical)  {
         alignHorizontal = horizontal;
         alignVertical = vertical;
     }
 
-    public void dispose()
-    {
+    public void dispose() {
         fonts.dispose();
     }
 

@@ -10,23 +10,17 @@ abstract public class State implements Screen {
 
     protected final Sojourn game;
 
-    public State(final Sojourn game)
-    {
+    public State(final Sojourn game) {
         this.game = game;
-
-
     }
 
     abstract protected void update(float delta);
-
     abstract protected void renderBackground(float delta);
-
     abstract protected void renderGameplay(float delta);
     abstract protected void renderHud(float delta);
 
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         update(delta);
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1.0f);
@@ -37,22 +31,19 @@ abstract public class State implements Screen {
         renderHudLayer(delta);
     }
 
-    private void renderBackgroundLayer(float delta)
-    {
+    private void renderBackgroundLayer(float delta) {
         Display.beginBatchGameplay();       // change later for a background layer / parallax
         renderBackground(delta);
         Display.endBatch();
     }
 
-    private void renderGameplayLayer(float delta)
-    {
+    private void renderGameplayLayer(float delta) {
         Display.beginBatchGameplay();
         renderGameplay(delta);
         Display.endBatch();
     }
 
-    private void renderHudLayer(float delta)
-    {
+    private void renderHudLayer(float delta) {
         Display.beginBatchHUD();
         renderHud(delta);
         Display.endBatch();

@@ -27,17 +27,21 @@ abstract public class Button implements InputProcessor
     public Button(final Sojourn game)
     {
         this.game = game;
-        buttonBase = new Texture(Gdx.files.internal("box.png"));
-        buttonMouseover = new Texture(Gdx.files.internal("droplet.png"));
-        box = new Rectangle(50, 50, 100, 40);
+        buttonBase = new Texture(Gdx.files.internal("ui/button/button.png"));
+        buttonMouseover = new Texture(Gdx.files.internal("ui/button/buttonOver.png"));
+        box = new Rectangle(0, 0, 72, 18);
+
         image = buttonBase;
         label = "";
         Gdx.input.setInputProcessor(this);
     }
 
-    public void set(int x, int y, int w, int h)
-    {
+    public void set(int x, int y, int w, int h) {
         box.set(x, y, w, h);
+    }
+
+    public void setPosition(int x, int y) {
+        box.setPosition(x, y);
     }
 
     public void setLabel(String label)
@@ -45,14 +49,12 @@ abstract public class Button implements InputProcessor
         this.label = label;
     }
 
-    public void update()
-    {
+    public void update() {
 
     }
 
-    public void render()
-    {
-        Display.draw(image, box.x, box.y, 200, 60);
+    public void render() {
+        Display.draw(image, box.x, box.y, box.width, box.height);
         Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
         Text.draw(label, box.x+box.width/2, box.y+box.height/2);
     }
@@ -77,8 +79,8 @@ abstract public class Button implements InputProcessor
     {
         Vector3 tp = new Vector3();
         Display.getHUDCamera().unproject(tp.set(screenX, screenY, 0));
-        if(box.contains(tp.x, tp.y))
-        {
+
+        if(box.contains(tp.x, tp.y)) {
             clicked();
             return true;
         }
@@ -101,17 +103,14 @@ abstract public class Button implements InputProcessor
         Vector3 tp = new Vector3();
         Display.getHUDCamera().unproject(tp.set(screenX, screenY, 0));
 
-        if(box.contains(tp.x, tp.y))
-        {
+        if(box.contains(tp.x, tp.y)) {
             image = buttonMouseover;
             mouseover();
             return true;
         }
-        else
-        {
+        else {
             image = buttonBase;
             return false;
-
         }
     }
 

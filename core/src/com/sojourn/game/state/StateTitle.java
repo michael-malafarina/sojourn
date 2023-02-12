@@ -15,29 +15,27 @@ public class StateTitle extends State {
     {
         super(game);
         test = new StartButton(game);
-        test.set(10, 10, 200, 60);
-        test.setLabel("Example Button");
+        test.setPosition(10, 10);
+        test.setLabel("Play");
     }
 
     @Override
-    public void update(float delta)
-    {
+    public void update(float delta) {
         test.update();
     }
+
     @Override
-    public void renderBackground(float delta)
-    {
+    public void renderBackground(float delta) {
         ScreenUtils.clear(.1f, .1f, .6f, 1);
     }
+
     @Override
-    public void renderGameplay(float delta)
-    {
+    public void renderGameplay(float delta)  {
 
     }
 
     @Override
-    public void renderHud(float delta)
-    {
+    public void renderHud(float delta) {
         Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
 
         Text.draw("Title", 5, Display.HEIGHT-5);
