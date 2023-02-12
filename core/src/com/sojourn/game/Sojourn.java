@@ -12,8 +12,8 @@ public class Sojourn extends Game
 {
 	private Display display;
 
-	public final int STATE_TITLE_ID = 0;
-	public final int STATE_GAMEPLAY_ID = 1;
+	public static final int STATE_TITLE_ID = 0;
+	public static final int STATE_GAMEPLAY_ID = 1;
 
 	private StateTitle title;
 	private StateGameplay gameplay;
@@ -50,6 +50,13 @@ public class Sojourn extends Game
 		}
 
 
+	}
+
+	public void exit()
+	{
+		dispose();
+		Gdx.app.exit();
+		System.exit(0);
 	}
 
 	public void setState(int stateID)

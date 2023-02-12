@@ -1,54 +1,55 @@
 package com.sojourn.game.entity;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import com.sojourn.game.display.Display;
+import com.sojourn.game.entity.images.Image;
+import com.sojourn.game.faction.Faction;
+import com.sojourn.game.faction.PlayerFaction;
 
 import java.awt.*;
 
-public class Entity
+abstract public class Entity
 {
+    private Faction faction;
+    private com.sojourn.game.entity.images.Image image;
     private Rectangle box;
-    private Texture sheet;
-    private TextureRegion[] imageLayers;
-    private TextureRegion image;
-    private Color color;
+
+    abstract public int getNumLayers();
 
     public Entity()
     {
-
-        sheet = new Texture(Gdx.files.internal("assault0.png"));
-        sheet.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        loadImage(5);
-        box = new Rectangle(0, 0, image.getRegionWidth(), image.getRegionHeight());
-
-        color = Color.WHITE;
-
-
-//        imageLayers = new TextureRegion[5];
-//        imageLayers[0] = new TextureRegion(sheet, 72, 0, 72, 72 );
-
+        faction = new PlayerFaction();
+        image = new Image(this);
+        box = new Rectangle(0, 0, 32, 32);
     }
 
-    public void loadImage(int numLayers)
+    public int getX() {
+        return box.x;
+    }
+
+    public int getY() {
+        return box.y;
+    }
+    public int getWidth() {
+        return box.width;
+    }
+
+    public int getHeight() {
+        return box.height;
+    }
+
+    public Faction getFaction()
     {
-        imageLayers = new TextureRegion[numLayers];
-        int width = sheet.getWidth() / numLayers;
+        return faction;
+    }
 
-        for(int i = 0; i < numLayers; i++)
-        {
-            imageLayers[i] = new TextureRegion(sheet, i * width, 0, width, sheet.getHeight() );
-        }
-
-        image = imageLayers[0];
+    public Rectangle getRectangle()
+    {
+        return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
     public void update(float delta)
     {
-//        System.out.println("Updating Ship Entity");
-
         box.y = Display.HEIGHT/2;
         box.x += delta * 50;
 
@@ -60,6 +61,6 @@ public class Entity
 
     public void render()
     {
-        Display.draw(image, color, box.x, box.y, box.width, box.height);
+        image.render();
     }
 }

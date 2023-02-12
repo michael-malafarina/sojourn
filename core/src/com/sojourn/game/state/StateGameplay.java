@@ -6,6 +6,7 @@ import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.Entity;
+import com.sojourn.game.entity.Unit;
 
 public class StateGameplay extends State {
 
@@ -13,7 +14,7 @@ public class StateGameplay extends State {
 
     public StateGameplay(final Sojourn game) {
         super(game);
-        ship = new Entity();
+        ship = new Unit();
     }
 
     @Override

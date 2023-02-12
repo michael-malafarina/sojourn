@@ -3,25 +3,32 @@ package com.sojourn.game.state;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.button.Button;
-import com.sojourn.game.button.StartButton;
 import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Text;
 
 public class StateTitle extends State {
-    static Button test;
+    Button startButton;
+    Button exitButton;
 
     public StateTitle(final Sojourn game)
     {
         super(game);
-        test = new StartButton(game);
-        test.setPosition(10, 10);
-        test.setLabel("Play");
+        startButton = new Button(game);
+        startButton.setPosition(10, 40);
+        startButton.setLabel("Play");
+        startButton.setClickEvent(() -> game.setState(Sojourn.STATE_GAMEPLAY_ID));
+
+      //  exitButton = new Button(game);
+//        exitButton.setPosition(10, 10);
+//        exitButton.setLabel("Quit");
+//        exitButton.setClickEvent(() -> game.exit());
     }
 
     @Override
     public void update(float delta) {
-        test.update();
+        startButton.update();
+     //   exitButton.update();
     }
 
     @Override
@@ -39,7 +46,9 @@ public class StateTitle extends State {
         Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
 
         Text.draw("Title", 5, Display.HEIGHT-5);
-        test.render();
+        startButton.render();
+       // exitButton.render();
+
     }
 
 

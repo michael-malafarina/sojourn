@@ -10,7 +10,9 @@ import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Text;
 
-abstract public class Button implements InputProcessor
+
+
+public class Button implements InputProcessor
 {
     protected final Sojourn game;
     private Texture image;
@@ -21,23 +23,37 @@ abstract public class Button implements InputProcessor
     private Texture buttonBase;
     private Texture buttonMouseover;
 
-    abstract protected void clicked();
-    abstract protected void mouseover();
+    protected ButtonEvent clickEvent;
+    protected ButtonEvent mouseoverEvent;
 
     public Button(final Sojourn game)
     {
         this.game = game;
         buttonBase = new Texture(Gdx.files.internal("ui/button/button.png"));
         buttonMouseover = new Texture(Gdx.files.internal("ui/button/buttonOver.png"));
-        box = new Rectangle(0, 0, 72, 18);
+        box = new Rectangle(0, 0, Display.WIDTH * .15f, Display.HEIGHT * .15f * .25f);
 
         image = buttonBase;
         label = "";
         Gdx.input.setInputProcessor(this);
+
+//        clickEvent = () -> System.out.println("Clicked");
+//        mouseoverEvent = () -> System.out.println("Mouseover");
+
     }
 
     public void set(int x, int y, int w, int h) {
         box.set(x, y, w, h);
+    }
+
+    public void setClickEvent(ButtonEvent clickEvent)
+    {
+        this.clickEvent = clickEvent;
+    }
+
+    public void setMouseoverEvent(ButtonEvent mouseoverEvent)
+    {
+        this.mouseoverEvent = mouseoverEvent;
     }
 
     public void setPosition(int x, int y) {
@@ -50,6 +66,7 @@ abstract public class Button implements InputProcessor
     }
 
     public void update() {
+       // execute(() -> System.out.println("Hello, World!"));
 
     }
 
@@ -81,10 +98,17 @@ abstract public class Button implements InputProcessor
         Display.getHUDCamera().unproject(tp.set(screenX, screenY, 0));
 
         if(box.contains(tp.x, tp.y)) {
-            clicked();
+            clicked(clickEvent);
             return true;
         }
         return false;
+    }
+
+    protected void clicked(ButtonEvent f)    {
+        if(f != null ) {
+            f.activate();
+//            System.out.println("clicked " + label);
+        }
     }
 
     @Override
@@ -105,7 +129,7 @@ abstract public class Button implements InputProcessor
 
         if(box.contains(tp.x, tp.y)) {
             image = buttonMouseover;
-            mouseover();
+            mouseover(mouseoverEvent);
             return true;
         }
         else {
@@ -113,6 +137,12 @@ abstract public class Button implements InputProcessor
             return false;
         }
     }
+
+    protected void mouseover(ButtonEvent f) {
+        if(f != null ) {
+            f.activate();
+        }
+    };
 
     @Override
     public boolean scrolled(float amountX, float amountY) {

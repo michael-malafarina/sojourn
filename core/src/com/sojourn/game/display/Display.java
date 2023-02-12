@@ -13,8 +13,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Display
 {
-    public static final int WIDTH = 480;
-    public static final int HEIGHT = 270;
+    public static final int WIDTH = 480*2;
+    public static final int HEIGHT = 270*2;
 
     private static SpriteBatch batch;
     private static Text text;
@@ -60,13 +60,13 @@ public class Display
     }
 
     public void controlCamera() {
-        int translateSpeed = 10;
+        int translateSpeed = 50;
 
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-            gameCam.zoom += 0.02;
+            gameCam.zoom += 0.1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
-            gameCam.zoom -= 0.02;
+            gameCam.zoom -= 0.1;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             gameCam.translate(-translateSpeed, 0, 0);
