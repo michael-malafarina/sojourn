@@ -1,21 +1,31 @@
 package com.sojourn.game.entity;
 
-import com.badlogic.gdx.graphics.Color;
-
 public class Unit extends Entity
 {
-    public Color getColor(int layerNum)
+    public Unit()
     {
-        return switch(layerNum)
-        {
-            case 0 -> Color.BLUE;
-            case 1 -> Color.YELLOW;
-            default -> Color.WHITE;
-        };
+        super();
     }
 
     public int getNumLayers()
     {
         return 5;
+    }
+
+    @Override
+    public int getMaxSpeedBase()
+    {
+        return 50;
+    }
+
+    @Override
+    public int getAccelerationBase()
+    {
+        return 25;
+    }
+
+    @Override
+    public float getMaxSpeed() {
+        return 25;
     }
 }

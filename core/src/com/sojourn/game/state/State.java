@@ -1,23 +1,44 @@
 package com.sojourn.game.state;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.button.Button;
+import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.display.Text;
 
-abstract public class State implements Screen {
+import java.util.ArrayList;
 
+abstract public class State implements Screen, InputProcessor
+{
+    protected ArrayList<Button> buttons;
     protected final Sojourn game;
 
     public State(final Sojourn game) {
         this.game = game;
+        buttons = new ArrayList<>();
+        Gdx.input.setInputProcessor(this);
+
     }
 
-    abstract protected void update(float delta);
+    protected void update(float delta)
+    {
+        buttons.forEach((n) -> n.update());
+    }
+
     abstract protected void renderBackground(float delta);
     abstract protected void renderGameplay(float delta);
-    abstract protected void renderHud(float delta);
+
+    protected void renderHud(float delta)
+    {
+        Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
+        Text.draw(this + " FPS: " + Gdx.graphics.getFramesPerSecond(), 5, Display.HEIGHT-5);
+
+        buttons.forEach((n) -> n.render());
+    }
 
     @Override
     public void render(float delta) {
@@ -78,5 +99,51 @@ abstract public class State implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button)
+    {
+        buttons.forEach((n) -> n.touchDown(screenX, screenY, pointer, button));
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        buttons.forEach((n) -> n.mouseMoved(screenX, screenY));
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY)
+    {
+//        System.out.println("scrolled (main state) : " + amountY);
+
+        return false;
     }
 }

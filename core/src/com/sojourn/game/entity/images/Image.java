@@ -25,7 +25,7 @@ public class Image
 
     public void loadImage()
     {
-        imageLayers = new ArrayList<ImageLayer>();
+        imageLayers = new ArrayList<>();
         int width = sheet.getWidth() / owner.getNumLayers();
 
         for(int i = 0; i < owner.getNumLayers(); i++)
@@ -36,6 +36,6 @@ public class Image
 
     public void render()
     {
-        imageLayers.forEach((n) -> Display.draw(n.getTexture(), n.getColor(), owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight()));
+        imageLayers.forEach(n -> Display.draw(n.getTexture(), n.getColor(), owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
     }
 }

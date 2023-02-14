@@ -2,24 +2,36 @@ package com.sojourn.game.state;
 
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
-import com.sojourn.game.display.Alignment;
+import com.sojourn.game.Utility;
 import com.sojourn.game.display.Display;
-import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.Unit;
 
-public class StateGameplay extends State {
+import java.util.ArrayList;
 
-    Entity ship;
+public class StateGameplay extends State
+{
+    ArrayList<Entity> entities;
 
-    public StateGameplay(final Sojourn game) {
+    public StateGameplay(final Sojourn game)
+    {
         super(game);
-        ship = new Unit();
+
+        entities = new ArrayList<>();
+
+        for(int i = 0; i < 5; i++)
+        {
+            Unit u = new Unit();
+            u.setPosition(0, Utility.random(Display.HEIGHT));
+            entities.add(u);
+        }
     }
 
     @Override
-    public void update(float delta) {
-        ship.update(delta);
+    public void update(float delta)
+    {
+        super.update(delta);
+        entities.forEach((n)->n.update(delta));
     }
 
     @Override
@@ -29,14 +41,28 @@ public class StateGameplay extends State {
 
     @Override
     protected void renderGameplay(float delta) {
-        ship.render();
+        entities.forEach((n)->n.render());
     }
 
     @Override
     protected void renderHud(float delta)
     {
-        Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
-        Text.draw("Gameplay", 5, Display.HEIGHT-5);
+        super.renderHud(delta);
+
+    }
+
+    public String toString()
+    {
+        return "Gameplay";
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY)
+    {
+        //super.scrolled(amountX, amountY);
+        System.out.println("scrolled: " + amountY);
+        Display.cameraZoom(amountY);
+        return false;
     }
 
 }

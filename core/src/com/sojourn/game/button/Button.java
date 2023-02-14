@@ -1,7 +1,6 @@
 package com.sojourn.game.button;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -12,7 +11,7 @@ import com.sojourn.game.display.Text;
 
 
 
-public class Button implements InputProcessor
+public class Button
 {
     protected final Sojourn game;
     private Texture image;
@@ -35,7 +34,6 @@ public class Button implements InputProcessor
 
         image = buttonBase;
         label = "";
-        Gdx.input.setInputProcessor(this);
 
 //        clickEvent = () -> System.out.println("Clicked");
 //        mouseoverEvent = () -> System.out.println("Mouseover");
@@ -76,22 +74,7 @@ public class Button implements InputProcessor
         Text.draw(label, box.x+box.width/2, box.y+box.height/2);
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
 
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
         Vector3 tp = new Vector3();
@@ -111,17 +94,7 @@ public class Button implements InputProcessor
         }
     }
 
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
 
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
     public boolean mouseMoved(int screenX, int screenY)
     {
         Vector3 tp = new Vector3();
@@ -144,8 +117,4 @@ public class Button implements InputProcessor
         }
     };
 
-    @Override
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
-    }
 }

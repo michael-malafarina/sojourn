@@ -80,7 +80,13 @@ public class Display
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             gameCam.translate(0, translateSpeed, 0);
         }
+
         gameCam.update();
+    }
+
+    public static void cameraZoom(float amount)
+    {
+        gameCam.zoom += amount;
     }
 
     public static float getAverageRatio() {
@@ -140,9 +146,11 @@ public class Display
         batch.setColor(Color.WHITE);
     }
 
-    public static void draw(TextureRegion t, Color c, float x, float y, float w, float h) {
+    public static void draw(TextureRegion t, Color c, float x, float y, float w, float h, float theta) {
         batch.setColor(c);
-        batch.draw(t, x, y, w, h);
+
+        batch.draw(t, x, y, w/2, h/2, w, h, 1, 1, theta);
+
         batch.setColor(Color.WHITE);
     }
 

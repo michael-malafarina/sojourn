@@ -36,6 +36,7 @@ public class Sojourn extends Game
 		Gdx.gl.glClearColor( 1, 0, 0, 1 );
 		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
+		System.out.println(Gdx.graphics.getFramesPerSecond() + " " + Gdx.graphics.getDeltaTime());
 
 		display.update();
 
@@ -44,6 +45,7 @@ public class Sojourn extends Game
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1))
 		{
 			setScreen(title);
+
 		}
 		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
 			setScreen(gameplay);
