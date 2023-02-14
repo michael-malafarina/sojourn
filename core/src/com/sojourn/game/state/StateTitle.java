@@ -39,6 +39,11 @@ public class StateTitle extends State {
     }
 
     @Override
+    protected void renderGameplayShapes(float delta) {
+
+    }
+
+    @Override
     public void renderHud(float delta)
     {
         super.renderHud(delta);

@@ -15,9 +15,17 @@ public class Display
 {
     public static final int WIDTH = 480*2;
     public static final int HEIGHT = 270*2;
+    private static final float ZOOM_RATE = .1f;
+
+
+    public static final float ZOOM_DISTANT = 4f;
+    public static final float ZOOM_MEDIUM = 2f;
+    public static final float ZOOM_CLOSE = 1;
+
 
     private static SpriteBatch batch;
     private static Text text;
+    private static Shape shape;
 
     private static Viewport gamePort;
     private static OrthographicCamera gameCam;
@@ -26,17 +34,26 @@ public class Display
     private static OrthographicCamera hudCam;
 
 
+    private static float targetZoom;
+
     public Display()
     {
         batch = new SpriteBatch();
         text = new Text();
-
+        shape = new Shape();
+        targetZoom = 1;
         setupCamera();
+    }
+
+    public static OrthographicCamera getGameCam()
+    {
+        return gameCam;
     }
 
     public void update()
     {
         controlCamera();
+        updateZoom();
     }
 
 
@@ -62,12 +79,6 @@ public class Display
     public void controlCamera() {
         int translateSpeed = 50;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-            gameCam.zoom += 0.1;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
-            gameCam.zoom -= 0.1;
-        }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             gameCam.translate(-translateSpeed, 0, 0);
         }
@@ -81,12 +92,52 @@ public class Display
             gameCam.translate(0, translateSpeed, 0);
         }
 
+
         gameCam.update();
+    }
+
+    public void updateZoom()
+    {
+        if(gameCam.zoom < targetZoom)
+        {
+            gameCam.zoom = Math.min(gameCam.zoom + ZOOM_RATE, targetZoom);
+        }
+
+        if(gameCam.zoom > targetZoom)
+        {
+            gameCam.zoom = Math.max(gameCam.zoom - ZOOM_RATE, targetZoom);
+        }
     }
 
     public static void cameraZoom(float amount)
     {
-        gameCam.zoom += amount;
+        // Increase by a zoom level
+        if(amount < 0)
+        {
+            if(targetZoom == ZOOM_MEDIUM)
+            {
+                targetZoom = ZOOM_CLOSE;
+            }
+            else if(targetZoom == ZOOM_DISTANT)
+            {
+                targetZoom = ZOOM_MEDIUM;
+            }
+        }
+
+        // Decrease by a zoom level
+        else if(amount > 0)
+        {
+            if(targetZoom == ZOOM_CLOSE)
+            {
+                targetZoom = ZOOM_MEDIUM;
+            }
+            else if(targetZoom == ZOOM_MEDIUM)
+            {
+                targetZoom = ZOOM_DISTANT;
+            }
+        }
+
+//        gameCam.zoom = MathUtils.lerp(gameCam.zoom,targetZoom,amount/20);
     }
 
     public static float getAverageRatio() {

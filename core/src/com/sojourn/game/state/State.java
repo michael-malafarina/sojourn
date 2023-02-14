@@ -8,6 +8,7 @@ import com.sojourn.game.Sojourn;
 import com.sojourn.game.button.Button;
 import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.display.Shape;
 import com.sojourn.game.display.Text;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ abstract public class State implements Screen, InputProcessor
     public State(final Sojourn game) {
         this.game = game;
         buttons = new ArrayList<>();
-        Gdx.input.setInputProcessor(this);
 
     }
 
@@ -31,6 +31,7 @@ abstract public class State implements Screen, InputProcessor
 
     abstract protected void renderBackground(float delta);
     abstract protected void renderGameplay(float delta);
+    abstract protected void renderGameplayShapes(float delta);
 
     protected void renderHud(float delta)
     {
@@ -62,6 +63,9 @@ abstract public class State implements Screen, InputProcessor
         Display.beginBatchGameplay();
         renderGameplay(delta);
         Display.endBatch();
+        Shape.beginShapeGameplay();
+        renderGameplayShapes(delta);
+        Shape.endShape();
     }
 
     private void renderHudLayer(float delta) {
@@ -142,8 +146,6 @@ abstract public class State implements Screen, InputProcessor
     @Override
     public boolean scrolled(float amountX, float amountY)
     {
-//        System.out.println("scrolled (main state) : " + amountY);
-
         return false;
     }
 }
