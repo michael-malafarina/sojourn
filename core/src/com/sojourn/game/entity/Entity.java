@@ -125,7 +125,7 @@ abstract public class Entity
         {
             Shape.getRenderer().setColor(Color.WHITE);
             Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
-            Shape.getRenderer().rect(getX(), getY(), getWidth(), getHeight());
+            Shape.getRenderer().rect(getX() - getWidth() * .25f, getY() - getHeight() * .25f,getWidth() * 1.5f, getHeight() * 1.5f);
         }
     }
 

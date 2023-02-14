@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.state.State;
 import com.sojourn.game.state.StateGameplay;
 import com.sojourn.game.state.StateTitle;
 
@@ -25,9 +26,16 @@ public class Sojourn extends Game
 		title = new StateTitle(this);
 		display = new Display();
 
-		this.setScreen(title);
+		setScreen(title);
 
 	}
+
+	private void setScreen(State state)
+	{
+		super.setScreen(state);
+		Gdx.input.setInputProcessor(state);
+	}
+
 	@Override
 	public void render()
 	{
@@ -45,19 +53,11 @@ public class Sojourn extends Game
 		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1))
 		{
 			setScreen(title);
-
-			// This needs the cast to call subclass methods properly
-			Gdx.input.setInputProcessor((StateTitle)title);
-
-
 		}
-		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2))
+		{
 			setScreen(gameplay);
-
-			// This needs the cast to call subclass methods properly
-			Gdx.input.setInputProcessor((StateGameplay)gameplay);
 		}
-
 
 	}
 

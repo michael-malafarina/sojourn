@@ -26,19 +26,19 @@ abstract public class State implements Screen, InputProcessor
 
     protected void update(float delta)
     {
-        buttons.forEach((n) -> n.update());
+        buttons.forEach(Button::update);
     }
 
     abstract protected void renderBackground(float delta);
     abstract protected void renderGameplay(float delta);
-    abstract protected void renderGameplayShapes(float delta);
+    abstract protected void renderGameplayShapes();
 
     protected void renderHud(float delta)
     {
         Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
         Text.draw(this + " FPS: " + Gdx.graphics.getFramesPerSecond(), 5, Display.HEIGHT-5);
 
-        buttons.forEach((n) -> n.render());
+        buttons.forEach(Button::render);
     }
 
     @Override
@@ -64,7 +64,7 @@ abstract public class State implements Screen, InputProcessor
         renderGameplay(delta);
         Display.endBatch();
         Shape.beginShapeGameplay();
-        renderGameplayShapes(delta);
+        renderGameplayShapes();
         Shape.endShape();
     }
 

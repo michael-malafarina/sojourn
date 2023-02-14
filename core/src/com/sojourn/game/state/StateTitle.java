@@ -18,7 +18,7 @@ public class StateTitle extends State {
         Button exitButton = new Button(game);
         exitButton.setPosition(10, 10);
         exitButton.setLabel("Quit");
-        exitButton.setClickEvent(() -> game.exit());
+        exitButton.setClickEvent(game::exit);
         buttons.add(exitButton);
 
     }
@@ -39,7 +39,7 @@ public class StateTitle extends State {
     }
 
     @Override
-    protected void renderGameplayShapes(float delta) {
+    protected void renderGameplayShapes() {
 
     }
 
