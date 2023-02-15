@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.Utility;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.images.Image;
 import com.sojourn.game.faction.Faction;
@@ -18,9 +19,8 @@ abstract public class Entity
     protected Rectangle box;
     private boolean selected;
 
-    protected float xSpeed;
-    protected float ySpeed;
-    private boolean atMaxSpeed;
+    protected Vector2 speed;
+
     private float theta;
     private float delta;
 
@@ -41,11 +41,14 @@ abstract public class Entity
         return getAccelerationBase();
     }
 
+
     public Entity()
     {
         faction = new PlayerFaction();
         image = new Image(this);
         box = new Rectangle(0,0, 32, 32);
+        speed = new Vector2(0, 0);
+
     }
 
     public Vector2 getPosition()
@@ -142,34 +145,51 @@ abstract public class Entity
 
     /********************* MOVEMENT *********************/
 
+
     private void move()
     {
         changeSpeed(getAcceleration() * delta);
 
-        box.x += xSpeed;
-        box.y += ySpeed;
+        box.x += speed.x;
+        box.y += speed.y;
+
+        //System.out.println(xSpeed + " " + ySpeed + " " + currentSpeed + " " + getMaxSpeed());
     }
+
+//    protected void pidTurn(Vector2 p) {
+//        double kD = 0.5 * getMaxSpeed() / getAcceleration();
+//
+//        double xDist = (p.x - getCenterX()) - xSpeed * kD;
+//        double yDist = (p.y - getCenterY()) - ySpeed * kD;
+//        double angle = Math.atan2(yDist, xDist);
+//        turnTo((float) Math.toDegrees(angle));
+//      //  move();
+//    }
+
+//    protected boolean slowOnApproach(Vector2 p)
+//    {
+//        getCenterPosition().
+//
+//        float framesToReachTarget = currentSpeed / getCenterPosition().dst(p);
+//        float framesToStop = currentSpeed / getAcceleration();
+//
+//        System.out.println(currentSpeed + " / " + getAcceleration());
+//
+//        System.out.println(framesToReachTarget + " | " + framesToStop);
+//
+//
+//        return framesToReachTarget <= framesToStop;
+//    }
 
     private void changeSpeed(float amount)
     {
-        // Find the change in my speed from moving forward for one frame in the direction I'm facing
-        float xDelta = (float) (amount * Math.cos(Math.toRadians(theta))); // Calculate change in x speed
-        float yDelta = (float) (amount * Math.sin(Math.toRadians(theta))); // Calculate change in y speed
+        speed.add(Utility.makeVector(amount, theta));
 
-        xSpeed += xDelta; // Change xSpeed
-        ySpeed += yDelta; // Change ySpeed
-
-        // If the magnitude of the velocity vector is > maxSpeed, lower it.
-        final float VelocityMagnitude = (float) Math.sqrt(xSpeed * xSpeed + ySpeed * ySpeed);
-
-        if (VelocityMagnitude > getMaxSpeed()) {
-            atMaxSpeed = true; // Begin max speed animation
-
-            // Normalize the velocity vector, then multiply by maxSpeed so magnitude remains maxSpeed
-            xSpeed = xSpeed / VelocityMagnitude * getMaxSpeed();
-            ySpeed = ySpeed / VelocityMagnitude * getMaxSpeed();
+        if (speed.len() > getMaxSpeed())
+        {
+            speed.nor();
+            speed.scl(getMaxSpeed());
         }
-
     }
 
     /********************* TURNING *********************/
@@ -232,5 +252,7 @@ abstract public class Entity
     {
         turn(180);
     }
+
+
 
 }

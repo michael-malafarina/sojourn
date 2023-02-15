@@ -47,11 +47,6 @@ public class StateTitle extends State {
     public void renderHud(float delta)
     {
         super.renderHud(delta);
-//        Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
-
-//        startButton.render();
-//       // exitButton.render();
-
     }
 
     public String toString()

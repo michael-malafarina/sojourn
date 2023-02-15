@@ -18,7 +18,9 @@ public abstract class Unit extends Entity
 
         if(hasDestination())
         {
-            turnTo(destination);
+            //moveTo(destination);
+           // pidTurn(destination);
+           turnTo(destination);
         }
     }
 
@@ -50,13 +52,13 @@ public abstract class Unit extends Entity
     @Override
     public int getMaxSpeedBase()
     {
-        return 2;
+        return 6;
     }
 
     @Override
     public int getAccelerationBase()
     {
-        return 4;
+        return 6;
     }
 
     public void renderShapes()
