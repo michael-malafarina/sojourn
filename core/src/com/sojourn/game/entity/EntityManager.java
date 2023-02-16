@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Display;
-import com.sojourn.game.faction.Faction;
+import com.sojourn.game.faction.Team;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -59,26 +59,25 @@ public class EntityManager
         units = tempUnits.stream().map(e-> (Unit) e).toList();
     }
 
-    public static List<Unit> getEnemyUnits(Faction f)
+    public static List<Unit> getEnemyUnits(Team team)
     {
-        return getUnits().stream().filter(u -> u.getFaction().isHostile(f)).toList();
+        return getUnits().stream().filter(u -> u.getTeam().isHostile(team)).toList();
     }
 
-    public void update(float delta)
+    public void update(boolean planning, float delta)
     {
         // Update specific lists
         updateUnits();
 
-        entities.forEach((n)->n.update(delta));
+        entities.forEach((n)->n.update(planning, delta));
 
     }
 
-    public void addUnit(Class<? extends Unit> clazz, Vector2 position, Faction faction)
+    public void addUnit(Class<? extends Unit> clazz, Vector2 position, Team team)
     {
         Unit u = unitFactory(clazz);
         u.setPosition(position);
-        u.setFaction(faction);
-        System.out.println(u.getFaction());
+        u.setTeam(team);
         u.setImage();
         entities.add(u);
     }
@@ -128,7 +127,7 @@ public class EntityManager
 
     public static Unit getNearestEnemyUnit(Unit origin)
     {
-        return (Unit) getNearestEntity(origin, new ArrayList<>(getEnemyUnits(origin.getFaction())));
+        return (Unit) getNearestEntity(origin, new ArrayList<>(getEnemyUnits(origin.getTeam())));
     }
 
 

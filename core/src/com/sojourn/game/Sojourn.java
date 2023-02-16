@@ -6,9 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.entity.EntityManager;
-import com.sojourn.game.faction.EnemyFaction;
-import com.sojourn.game.faction.Faction;
-import com.sojourn.game.faction.PlayerFaction;
+import com.sojourn.game.faction.*;
 import com.sojourn.game.state.State;
 import com.sojourn.game.state.StateGameplay;
 import com.sojourn.game.state.StateTitle;
@@ -25,16 +23,17 @@ public class Sojourn extends Game
 	private EntityManager entityManager;
 
 	// Temporarily in main
-	public static Faction player;
-	public static Faction currentEnemy;
+	public static Team player;
+	public static Team currentEnemy;
 
 	@Override
 	public void create()
 	{
 		Textures.loadImages();
 
-		player = new PlayerFaction();
-		currentEnemy = new EnemyFaction();
+		player = new TeamPlayer(new BlueFaction());
+		currentEnemy = new TeamEnemy(new RedFaction());
+		player.setFaction(new BlueFaction());
 
 		entityManager = new EntityManager();
 

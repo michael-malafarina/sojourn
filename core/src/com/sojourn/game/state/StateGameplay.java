@@ -42,7 +42,7 @@ public class StateGameplay extends State
             return;
         }
 
-        game.getEntityManager().update(delta);
+        game.getEntityManager().update(planning, delta);
 
     }
 
@@ -60,6 +60,17 @@ public class StateGameplay extends State
     protected void renderGameplayShapes()
     {
         EntityManager.getEntities().forEach(Entity::renderShapes);
+
+        // this has to be here to turn off outside of planning phase
+        if(planning) {
+            for (Unit u : EntityManager.getUnits()) {
+                if(u != null && u.getCenterPosition() != null && u.getDestination() != null) {
+                    Shape.getRenderer().setColor(new Color(.2f, .2f, .2f, 1f));
+                    Shape.getRenderer().line(u.getCenterPosition(), u.getDestination());
+                }
+            }
+
+        }
 
         if(selectionBox != null)
         {
@@ -109,7 +120,7 @@ public class StateGameplay extends State
         // Issue orders
 
         // If I have right-clicked on a location, move selected units there
-        if(button == Input.Buttons.RIGHT)
+        if(button == Input.Buttons.RIGHT && planning)
         {
             System.out.println(getAllSelectedUnits());
 
@@ -226,6 +237,11 @@ public class StateGameplay extends State
         if(keycode == Input.Keys.SPACE)
         {
             paused = !paused;
+        }
+
+        if(keycode == Input.Keys.C)
+        {
+            planning = !planning;
         }
 
         // Keys are used for unit groups

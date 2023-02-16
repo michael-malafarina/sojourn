@@ -11,6 +11,7 @@ public abstract class Unit extends Entity
 {
     private Vector2 destination;
     private int lastOrder;
+    boolean retreat;
 
     public Unit()
     {
@@ -52,6 +53,42 @@ public abstract class Unit extends Entity
     public void actionCombat()
     {
 
+
+
+        Vector2 home = new Vector2(0, 0);
+
+
+        Unit u = getNearestEnemyUnit();
+        if(getDistance(u) > 75)
+        {
+            turnTo(u);
+        }
+        else
+        {
+            turnTo(u);
+            turnAround();
+        }
+
+
+        if(getDistance(home) > 500)
+        {
+            retreat = true;
+        }
+
+        if(getDistance(home) < 50)
+        {
+            retreat = false;
+        }
+
+        if(retreat)
+        {
+            turnTo(home);
+        }
+
+
+
+
+        accelerate();
     }
 
 
@@ -113,10 +150,6 @@ public abstract class Unit extends Entity
             return;
         }
 
-        Shape.getRenderer().setColor(new Color(.2f, .2f, .2f, 1f));
-        Shape.getRenderer().line(getCenterPosition(), getDestination());
-
-
         float progress = (getTimer() - lastOrder) / 50f;
         if (progress < 1)
         {
@@ -133,12 +166,17 @@ public abstract class Unit extends Entity
 
     protected List<Unit> getEnemyUnits()
     {
-        return EntityManager.getEnemyUnits(getFaction());
+        return EntityManager.getEnemyUnits(getTeam());
     }
 
     protected Unit getNearestUnit()
     {
         return EntityManager.getNearestUnit(this);
+    }
+
+    protected Unit getNearestEnemyUnit()
+    {
+        return EntityManager.getNearestEnemyUnit(this);
     }
 
 

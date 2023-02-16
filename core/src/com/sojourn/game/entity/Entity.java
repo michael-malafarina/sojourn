@@ -11,13 +11,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.images.EntityImage;
-import com.sojourn.game.faction.Faction;
+import com.sojourn.game.faction.Team;
 
 
 abstract public class Entity
 {
     private int timer;
-    private Faction faction;
+    private Team team;
     protected Rectangle box;
     private boolean selected;
     protected EntityImage image;
@@ -107,13 +107,13 @@ abstract public class Entity
         return theta;
     }
 
-    public Faction getFaction()
+    public Team getTeam()
     {
-        return faction;
+        return team;
     }
 
-    public void setFaction(Faction faction) {
-        this.faction = faction;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public void setImage()
@@ -131,13 +131,20 @@ abstract public class Entity
         return timer;
     }
 
-    public void update(float delta)
+    public void update(boolean planning, float delta)
     {
         this.delta = delta;
         timer++;
 
         move();
-        actionPlanning();
+        if(planning)
+        {
+            actionPlanning();
+        }
+        else
+        {
+            actionCombat();
+        }
     }
 
     public void render()

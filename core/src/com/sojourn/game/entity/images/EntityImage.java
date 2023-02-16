@@ -40,7 +40,7 @@ public class EntityImage
 
         for(int i = 0; i < owner.getNumLayers(); i++)
         {
-            imageLayers.add(new EntityImageLayer(new TextureRegion(sheet, i * width, 0, width, sheet.getHeight()), owner.getFaction().getColor(i)));
+            imageLayers.add(new EntityImageLayer(new TextureRegion(sheet, i * width, 0, width, sheet.getHeight()), owner.getTeam().getFaction().getColor(i)));
         }
     }
 
