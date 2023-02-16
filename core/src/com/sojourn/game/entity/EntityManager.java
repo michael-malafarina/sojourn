@@ -32,6 +32,19 @@ public class EntityManager
     }
 
 
+    public static ArrayList<Unit> getUnits()
+    {
+        ArrayList<Unit> units = new ArrayList<>();
+        for(Entity e : entities)
+        {
+            if(e instanceof Unit)
+            {
+                units.add((Unit)e);
+            }
+        }
+        return units;
+    }
+
     public void update(float delta)
     {
         entities.forEach((n)->n.update(delta));

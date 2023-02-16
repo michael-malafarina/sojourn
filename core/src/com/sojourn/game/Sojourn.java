@@ -60,11 +60,11 @@ public class Sojourn extends Game
 
 		getScreen().render(Gdx.graphics.getDeltaTime());
 
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1))
+		if (Gdx.input.isKeyPressed(Input.Keys.F1))
 		{
 			setScreen(title);
 		}
-		else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2))
+		else if (Gdx.input.isKeyPressed(Input.Keys.F2))
 		{
 			setScreen(gameplay);
 		}

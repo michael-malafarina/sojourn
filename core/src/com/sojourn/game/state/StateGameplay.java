@@ -12,12 +12,16 @@ import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Camera;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.Unit;
 
+import java.util.List;
+
 public class StateGameplay extends State
 {
+    private ControlGroupSet controlGroups;
     private Rectangle selectionBox;
     private Vector2 selectionBoxOrigin;
     private boolean paused;
@@ -25,6 +29,7 @@ public class StateGameplay extends State
     public StateGameplay(final Sojourn game)
     {
         super(game);
+        controlGroups = new ControlGroupSet();
     }
 
     @Override
@@ -85,16 +90,10 @@ public class StateGameplay extends State
         {
             if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
             {
-                for (Entity e : EntityManager.getEntities()) {
-                    // Clear selections on all entities
-                    e.unselect();
-                }
+                clearSelection();
             }
 
-
-
             for (Entity e : EntityManager.getEntities()) {
-
                 // If I have left-clicked on an entity, let it know and it will determine if it can be selected
                 if (e.getRectangle().contains(mouseProjected.x, mouseProjected.y)) {
                     e.clicked();
@@ -107,16 +106,17 @@ public class StateGameplay extends State
         }
 
         // Issue orders
-        for(Entity e : EntityManager.getEntities())
+
+        // If I have right-clicked on a location, move selected units there
+        if(button == Input.Buttons.RIGHT)
         {
-            // If I have right-clicked on a location, move selected units there
-            if(button == Input.Buttons.RIGHT && e.isSelected() && e instanceof Unit)
-            {
-                ((Unit) e).setDestination(mouseProjected.x, mouseProjected.y);
+            for (Unit u : getAllSelectedUnits()) {
+                u.setDestination(mouseProjected.x, mouseProjected.y);
                 returnValue = true;
             }
-
         }
+
+
 
         return returnValue;
     }
@@ -134,9 +134,7 @@ public class StateGameplay extends State
         {
             // Clear all entities again, in case box got smaller
             if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                for (Entity e : EntityManager.getEntities()) {
-                    e.unselect();
-                }
+                clearSelection();
             }
 
             // Create the selection box
@@ -224,7 +222,35 @@ public class StateGameplay extends State
         {
             paused = !paused;
         }
+
+        // Keys are used for unit groups
+        if(keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9)
+        {
+            // Holding control adds a new group
+            if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+                controlGroups.addGroup(getAllSelectedUnits(), keycode);
+            }
+
+            // Otherwise we activate the corresponding group, if it exists
+            else
+            {
+                clearSelection();
+                controlGroups.activate(keycode);
+            }
+
+        }
+
         return false;
+    }
+
+    public List<Unit> getAllSelectedUnits()
+    {
+        return EntityManager.getUnits().stream().filter(Entity::isSelected).toList();
+    }
+
+    public void clearSelection()
+    {
+        EntityManager.getEntities().forEach(Entity::unselect);
     }
 
 }
