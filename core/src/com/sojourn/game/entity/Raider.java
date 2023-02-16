@@ -13,12 +13,12 @@ public class Raider extends Unit
 
     @Override
     public int getWidth() {
-        return 48;
+        return 32;
     }
 
     @Override
     public int getHeight() {
-        return 48;
+        return 32;
     }
 
     @Override

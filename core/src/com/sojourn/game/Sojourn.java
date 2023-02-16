@@ -18,11 +18,15 @@ public class Sojourn extends Game
 
 	private StateTitle title;
 	private StateGameplay gameplay;
+	private EntityManager entityManager;
 
 	@Override
 	public void create()
 	{
 		Textures.loadImages();
+		entityManager = new EntityManager();
+
+
 		gameplay = new StateGameplay(this);
 		title = new StateTitle(this);
 		display = new Display();
@@ -35,6 +39,11 @@ public class Sojourn extends Game
 	{
 		super.setScreen(state);
 		Gdx.input.setInputProcessor(state);
+	}
+
+	public EntityManager getEntityManager()
+	{
+		return entityManager;
 	}
 
 	@Override

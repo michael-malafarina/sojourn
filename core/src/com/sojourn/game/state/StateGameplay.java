@@ -7,61 +7,25 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.sojourn.game.EntityManager;
 import com.sojourn.game.Sojourn;
-import com.sojourn.game.Utility;
+import com.sojourn.game.display.Camera;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Entity;
-import com.sojourn.game.entity.Raider;
-import com.sojourn.game.entity.Scout;
 import com.sojourn.game.entity.Unit;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
 public class StateGameplay extends State
 {
-    private ArrayList<Entity> entities;
     private Rectangle selectionBox;
     private Vector2 selectionBoxOrigin;
     private boolean paused;
+    private EntityManager em;
 
     public StateGameplay(final Sojourn game)
     {
         super(game);
-
-        entities = new ArrayList<>();
-
-        for(int i = 0; i < 7; i++)
-        {
-            addUnit(Scout.class);
-            addUnit(Raider.class);
-        }
-    }
-
-    public void addUnit(Class<? extends Unit> clazz)
-    {
-        Unit u = unitFactory(clazz);
-        u.setPosition(0, Utility.random(Display.HEIGHT));
-        entities.add(u);
-    }
-
-    public Unit unitFactory(Object o)
-    {
-        Class<? extends Unit> clazz = (Class<? extends Unit>) o;
-
-        Unit u = null;
-
-        try
-        {
-            u = clazz.getDeclaredConstructor().newInstance();
-        }
-        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
-        {
-            e.printStackTrace();
-        }
-
-        return u;
+        em = game.getEntityManager();
     }
 
     @Override
@@ -73,7 +37,8 @@ public class StateGameplay extends State
             return;
         }
 
-        entities.forEach((n)->n.update(delta));
+        em.update(delta);
+
     }
 
     @Override
@@ -84,12 +49,12 @@ public class StateGameplay extends State
     @Override
     protected void renderGameplay(float delta)
     {
-        entities.forEach((n)->n.render());
+        game.getEntityManager().getEntities().forEach(Entity::render);
     }
 
     protected void renderGameplayShapes()
     {
-        entities.forEach((n)->n.renderShapes());
+        game.getEntityManager().getEntities().forEach(Entity::renderShapes);
 
         if(selectionBox != null)
         {
@@ -119,7 +84,7 @@ public class StateGameplay extends State
 
         if (button == Input.Buttons.LEFT)
         {
-            for (Entity e : entities) {
+            for (Entity e : em.getEntities()) {
 
                 // Clear selections on all entities
                 e.unselect();
@@ -136,7 +101,7 @@ public class StateGameplay extends State
         }
 
         // Issue orders
-        for(Entity e : entities)
+        for(Entity e : em.getEntities())
         {
             // If I have right-clicked on a location, move selected units there
             if(button == Input.Buttons.RIGHT && e.isSelected() && e instanceof Unit)
@@ -162,7 +127,7 @@ public class StateGameplay extends State
         if(origin != null)
         {
             // Clear all entities again, in case box got smaller
-            for (Entity e : entities)
+            for (Entity e : em.getEntities())
             {
                 e.unselect();
             }
@@ -207,7 +172,7 @@ public class StateGameplay extends State
 //                selectionBox.x = selectionBox.x -
 //            }
 
-            for (Entity e : entities)
+            for (Entity e : em.getEntities())
             {
                 // Selects all units in the selection box
                 if (selectionBox.overlaps(e.getRectangle())) {
@@ -223,8 +188,6 @@ public class StateGameplay extends State
 
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
-        Vector3 mouseRaw = new Vector3(screenX, screenY, 0);
-        Vector3 mouseProjected = Display.getGameCam().unproject(mouseRaw);
 
         if(selectionBoxOrigin != null)
         {
@@ -240,7 +203,7 @@ public class StateGameplay extends State
         if(amountX != 0 || amountY != 0)
         {
             super.scrolled(amountX, amountY);
-            Display.cameraZoom(amountY);
+            Camera.cameraZoom(amountY);
             return true;
         }
 

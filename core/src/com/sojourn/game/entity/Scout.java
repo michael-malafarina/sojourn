@@ -13,12 +13,12 @@ public class Scout extends Unit
 
     @Override
     public int getWidth() {
-        return 32;
+        return 24;
     }
 
     @Override
     public int getHeight() {
-        return 32;
+        return 24;
     }
 
     @Override

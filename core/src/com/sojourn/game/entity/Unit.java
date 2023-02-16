@@ -43,6 +43,11 @@ public abstract class Unit extends Entity
 
     }
 
+    public void avoidCrowd()
+    {
+
+    }
+
     public void idleMovement()
     {
         turn(1);

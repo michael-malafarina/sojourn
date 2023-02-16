@@ -6,7 +6,7 @@ public class Shape
 {
     private static ShapeRenderer shapeRenderer;
 
-    public Shape()
+    public static void init()
     {
         shapeRenderer = new ShapeRenderer();
         Shape.getRenderer().setAutoShapeType(true);           // may cause performance issues if used carelessly!
