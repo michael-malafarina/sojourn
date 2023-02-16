@@ -3,16 +3,16 @@ package com.sojourn.game.entity.images;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class ImageLayer
+public class EntityImageLayer
 {
     TextureRegion texture;
     Color color;
 
-    ImageLayer(TextureRegion texture)    {
+    EntityImageLayer(TextureRegion texture)    {
         this.texture = texture;
     }
 
-    ImageLayer(TextureRegion texture, Color color)    {
+    EntityImageLayer(TextureRegion texture, Color color)    {
         this.texture = texture;
         this.color = color;
     }

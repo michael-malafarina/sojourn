@@ -12,16 +12,19 @@ import com.sojourn.game.Utility;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Entity;
-import com.sojourn.game.entity.TestUnit;
+import com.sojourn.game.entity.Raider;
+import com.sojourn.game.entity.Scout;
 import com.sojourn.game.entity.Unit;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class StateGameplay extends State
 {
-    ArrayList<Entity> entities;
-    protected Rectangle selectionBox;
-    protected Vector2 selectionBoxOrigin;
+    private ArrayList<Entity> entities;
+    private Rectangle selectionBox;
+    private Vector2 selectionBoxOrigin;
+    private boolean paused;
 
     public StateGameplay(final Sojourn game)
     {
@@ -31,16 +34,45 @@ public class StateGameplay extends State
 
         for(int i = 0; i < 7; i++)
         {
-            Unit u = new TestUnit();
-            u.setPosition(0, Utility.random(Display.HEIGHT));
-            entities.add(u);
+            addUnit(Scout.class);
+            addUnit(Raider.class);
         }
+    }
+
+    public void addUnit(Class<? extends Unit> clazz)
+    {
+        Unit u = unitFactory(clazz);
+        u.setPosition(0, Utility.random(Display.HEIGHT));
+        entities.add(u);
+    }
+
+    public Unit unitFactory(Object o)
+    {
+        Class<? extends Unit> clazz = (Class<? extends Unit>) o;
+
+        Unit u = null;
+
+        try
+        {
+            u = clazz.getDeclaredConstructor().newInstance();
+        }
+        catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e)
+        {
+            e.printStackTrace();
+        }
+
+        return u;
     }
 
     @Override
     public void update(float delta)
     {
         super.update(delta);
+
+        if(paused)  {
+            return;
+        }
+
         entities.forEach((n)->n.update(delta));
     }
 
@@ -205,8 +237,23 @@ public class StateGameplay extends State
     @Override
     public boolean scrolled(float amountX, float amountY)
     {
-        super.scrolled(amountX, amountY);
-        Display.cameraZoom(amountY);
+        if(amountX != 0 || amountY != 0)
+        {
+            super.scrolled(amountX, amountY);
+            Display.cameraZoom(amountY);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode)
+    {
+        if(keycode == Input.Keys.SPACE)
+        {
+            paused = !paused;
+        }
         return false;
     }
 

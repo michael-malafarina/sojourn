@@ -1,6 +1,5 @@
 package com.sojourn.game.entity.images;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.sojourn.game.display.Display;
@@ -8,17 +7,27 @@ import com.sojourn.game.entity.Entity;
 
 import java.util.ArrayList;
 
-public class Image
+public class EntityImage
 {
-    private ArrayList<ImageLayer> imageLayers;
+    private ArrayList<EntityImageLayer> imageLayers;
 
     private Texture sheet;
     private Entity owner;
 
-    public Image(Entity owner)
+    public EntityImage(Entity owner)
     {
         this.owner = owner;
-        sheet = new Texture(Gdx.files.internal("assault0.png"));
+    }
+
+    public EntityImage(Entity owner, Texture sheet)
+    {
+        this(owner);
+        setSpriteSheet(sheet);
+    }
+
+    public void setSpriteSheet(Texture sheet)
+    {
+        this.sheet = sheet;
         sheet.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         loadImage();
     }
@@ -30,7 +39,7 @@ public class Image
 
         for(int i = 0; i < owner.getNumLayers(); i++)
         {
-            imageLayers.add(new ImageLayer(new TextureRegion(sheet, i * width, 0, width, sheet.getHeight()), owner.getFaction().getColor(i)));
+            imageLayers.add(new EntityImageLayer(new TextureRegion(sheet, i * width, 0, width, sheet.getHeight()), owner.getFaction().getColor(i)));
         }
     }
 

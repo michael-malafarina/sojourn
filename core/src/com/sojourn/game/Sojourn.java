@@ -22,6 +22,7 @@ public class Sojourn extends Game
 	@Override
 	public void create()
 	{
+		Textures.loadImages();
 		gameplay = new StateGameplay(this);
 		title = new StateTitle(this);
 		display = new Display();

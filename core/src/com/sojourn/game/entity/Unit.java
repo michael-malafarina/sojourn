@@ -22,13 +22,9 @@ public abstract class Unit extends Entity
 
         if(hasDestination())
         {
-            if(getDistance(destination) < 50)
+            if(getDistance(destination) < 75)
             {
                 destination = null;
-            }
-            else if(getDistance(destination) < 500)
-            {
-                pidTurn(destination);
             }
             else
             {
@@ -88,17 +84,7 @@ public abstract class Unit extends Entity
         return 5;
     }
 
-    @Override
-    public int getMaxSpeedBase()
-    {
-        return 6;
-    }
 
-    @Override
-    public int getAccelerationBase()
-    {
-        return 6;
-    }
 
     public void renderShapes()
     {

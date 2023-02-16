@@ -42,6 +42,8 @@ public class Display
         text = new Text();
         shape = new Shape();
         targetZoom = 1;
+
+
         setupCamera();
     }
 

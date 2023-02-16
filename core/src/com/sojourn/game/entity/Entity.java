@@ -4,12 +4,13 @@ package com.sojourn.game.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Shape;
-import com.sojourn.game.entity.images.Image;
+import com.sojourn.game.entity.images.EntityImage;
 import com.sojourn.game.faction.Faction;
 import com.sojourn.game.faction.PlayerFaction;
 
@@ -18,18 +19,36 @@ abstract public class Entity
 {
     private int timer;
     private Faction faction;
-    private Image image;
     protected Rectangle box;
     private boolean selected;
+    protected EntityImage image;
 
     protected Vector2 speed;
 
     private float theta;
     private float delta;
 
+    abstract public int getWidth();
+    abstract public int getHeight();
     abstract public int getNumLayers();
     abstract public int getMaxSpeedBase();
     abstract public int getAccelerationBase();
+    abstract public Texture getSpriteSheet();
+
+    public Entity()
+    {
+        faction = new PlayerFaction();
+        box = new Rectangle(0,0, getWidth(), getHeight());
+        speed = new Vector2(0, 0);
+        image = new EntityImage(this, getSpriteSheet());
+    }
+
+
+    public EntityImage getImage()
+    {
+        return image;
+    }
+
     abstract public void action();
 
     public float getMaxSpeed()
@@ -45,18 +64,10 @@ abstract public class Entity
     }
 
 
-    public Entity()
-    {
-        faction = new PlayerFaction();
-        image = new Image(this);
-        box = new Rectangle(0,0, 32, 32);
-        speed = new Vector2(0, 0);
-
-    }
 
     public Vector2 getPosition()
     {
-        return new Vector2(box.x, box.y);
+        return new Vector2(box.x+box.width/2, box.y+box.height/2);
     }
 
     public Vector2 getCenterPosition()
@@ -85,17 +96,9 @@ abstract public class Entity
         return box.y + box.height/2;
     }
 
-    public int getWidth() {
-        return Math.round(box.width);
-    }
-
     public boolean isSelected()
     {
         return selected;
-    }
-
-    public int getHeight() {
-        return Math.round(box.height);
     }
 
     public float getTheta() {
@@ -128,7 +131,7 @@ abstract public class Entity
 
     public void render()
     {
-        image.render();
+        getImage().render();
     }
 
     public void renderShapes()
