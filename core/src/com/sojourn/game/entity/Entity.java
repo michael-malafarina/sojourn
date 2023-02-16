@@ -12,7 +12,6 @@ import com.sojourn.game.Utility;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.images.EntityImage;
 import com.sojourn.game.faction.Faction;
-import com.sojourn.game.faction.PlayerFaction;
 
 
 abstract public class Entity
@@ -37,10 +36,8 @@ abstract public class Entity
 
     public Entity()
     {
-        faction = new PlayerFaction();
         box = new Rectangle(0,0, getWidth(), getHeight());
         speed = new Vector2(0, 0);
-        image = new EntityImage(this, getSpriteSheet());
     }
 
     public EntityImage getImage()
@@ -48,7 +45,8 @@ abstract public class Entity
         return image;
     }
 
-    abstract public void action();
+    abstract public void actionPlanning();
+    abstract public void actionCombat();
 
     public float getMaxSpeed()
     {
@@ -80,6 +78,11 @@ abstract public class Entity
         box.y = y;
     }
 
+    public void setPosition(Vector2 position)
+    {
+        setPosition(position.x, position.y);
+    }
+
     public float getX() {
         return box.x;
     }
@@ -109,6 +112,15 @@ abstract public class Entity
         return faction;
     }
 
+    public void setFaction(Faction faction) {
+        this.faction = faction;
+    }
+
+    public void setImage()
+    {
+        image = new EntityImage(this, getSpriteSheet());
+    }
+
     public Rectangle getRectangle()
     {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
@@ -125,7 +137,7 @@ abstract public class Entity
         timer++;
 
         move();
-        action();
+        actionPlanning();
     }
 
     public void render()

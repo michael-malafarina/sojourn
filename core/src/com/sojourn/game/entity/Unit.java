@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Unit extends Entity
 {
@@ -17,7 +17,7 @@ public abstract class Unit extends Entity
         super();
     }
 
-    public void action()
+    public void actionPlanning()
     {
 
         // Planning Phase Movement Rules
@@ -49,24 +49,12 @@ public abstract class Unit extends Entity
 
     }
 
-
-    public final Unit getNearestUnit()
+    public void actionCombat()
     {
-        float nearestDistance = Float.MAX_VALUE;
-        Unit nearestUnit = null;
-        ArrayList<Entity> entities =  EntityManager.getEntities();
 
-        for(Entity u : entities)
-        {
-            if(this != u && this instanceof Unit && getDistance(u) < nearestDistance)
-            {
-                nearestUnit = (Unit) u;
-                nearestDistance = getDistance(u);
-            }
-        }
-
-        return nearestUnit;
     }
+
+
 
     public void avoid(Unit u)
     {
@@ -143,6 +131,15 @@ public abstract class Unit extends Entity
 
     }
 
+    protected List<Unit> getEnemyUnits()
+    {
+        return EntityManager.getEnemyUnits(getFaction());
+    }
+
+    protected Unit getNearestUnit()
+    {
+        return EntityManager.getNearestUnit(this);
+    }
 
 
 }

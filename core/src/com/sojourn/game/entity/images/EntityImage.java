@@ -23,16 +23,17 @@ public class EntityImage
     {
         this(owner);
         setSpriteSheet(sheet);
+        loadImage();
+
     }
 
-    public void setSpriteSheet(Texture sheet)
+    private void setSpriteSheet(Texture sheet)
     {
         this.sheet = sheet;
         sheet.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-        loadImage();
     }
 
-    public void loadImage()
+    private void loadImage()
     {
         imageLayers = new ArrayList<>();
         int width = sheet.getWidth() / owner.getNumLayers();

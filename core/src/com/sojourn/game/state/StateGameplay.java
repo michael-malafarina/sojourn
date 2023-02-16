@@ -25,6 +25,7 @@ public class StateGameplay extends State
     private Rectangle selectionBox;
     private Vector2 selectionBoxOrigin;
     private boolean paused;
+    private boolean planning;
 
     public StateGameplay(final Sojourn game)
     {
@@ -110,10 +111,15 @@ public class StateGameplay extends State
         // If I have right-clicked on a location, move selected units there
         if(button == Input.Buttons.RIGHT)
         {
+            System.out.println(getAllSelectedUnits());
+
+
             for (Unit u : getAllSelectedUnits()) {
+
                 u.setDestination(mouseProjected.x, mouseProjected.y);
                 returnValue = true;
             }
+            System.out.println("Right click");
         }
 
 
@@ -126,56 +132,19 @@ public class StateGameplay extends State
     {
         Vector3 mouseRaw = new Vector3(screenX, screenY, 0);
         Vector3 mouse = Display.getGameCam().unproject(mouseRaw);
-        Vector2 origin = selectionBoxOrigin;
         boolean returnValue = false;
 
         // This means the unit selection box was started
-        if(origin != null)
+        if(selectionBoxOrigin != null)
         {
+
             // Clear all entities again, in case box got smaller
             if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
                 clearSelection();
             }
 
-            // Create the selection box
-            selectionBox = new Rectangle();
+            makeSelectionBox(new Vector2(mouse.x, mouse.y));
 
-            // The mouse is to the right of the origin
-            if(mouse.x > origin.x)
-            {
-                selectionBox.x = origin.x;
-                selectionBox.width = mouse.x - origin.x;
-            }
-
-            // The mouse is to the left of the origin
-            else
-            {
-                selectionBox.x = mouse.x;
-                selectionBox.width = origin.x - mouse.x;
-            }
-
-
-            // The mouse is above the origin
-            if(mouse.y > origin.y)
-            {
-                selectionBox.y = origin.y;
-                selectionBox.height = mouse.y - origin.y;
-            }
-
-            // The mouse is below the origin
-            else
-            {
-                selectionBox.y = mouse.y;
-                selectionBox.height = origin.y - mouse.y;
-            }
-
-
-//            selectionBox.height =  mouseProjected.y - selectionBox.y;
-//
-//            if(selectionBox.width < 0)
-//            {
-//                selectionBox.x = selectionBox.x -
-//            }
 
             for (Entity e : EntityManager.getEntities())
             {
@@ -190,6 +159,42 @@ public class StateGameplay extends State
         return returnValue;
     }
 
+    public void makeSelectionBox(Vector2 mouse)
+    {
+        Vector2 origin = selectionBoxOrigin;
+
+        // Create the selection box
+        selectionBox = new Rectangle();
+
+        // The mouse is to the right of the origin
+        if(mouse.x > origin.x)
+        {
+            selectionBox.x = origin.x;
+            selectionBox.width = mouse.x - origin.x;
+        }
+
+        // The mouse is to the left of the origin
+        else
+        {
+            selectionBox.x = mouse.x;
+            selectionBox.width = origin.x - mouse.x;
+        }
+
+
+        // The mouse is above the origin
+        if(mouse.y > origin.y)
+        {
+            selectionBox.y = origin.y;
+            selectionBox.height = mouse.y - origin.y;
+        }
+
+        // The mouse is below the origin
+        else
+        {
+            selectionBox.y = mouse.y;
+            selectionBox.height = origin.y - mouse.y;
+        }
+    }
 
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
