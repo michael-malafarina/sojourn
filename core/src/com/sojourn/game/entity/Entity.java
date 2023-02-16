@@ -1,7 +1,9 @@
 package com.sojourn.game.entity;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +16,7 @@ import com.sojourn.game.faction.PlayerFaction;
 
 abstract public class Entity
 {
+    private int timer;
     private Faction faction;
     private Image image;
     protected Rectangle box;
@@ -109,9 +112,15 @@ abstract public class Entity
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
+    public int getTimer()
+    {
+        return timer;
+    }
+
     public void update(float delta)
     {
         this.delta = delta;
+        timer++;
 
         move();
         action();
@@ -124,6 +133,9 @@ abstract public class Entity
 
     public void renderShapes()
     {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
         if(isSelected())
         {
             Shape.getRenderer().setColor(Color.WHITE);
@@ -148,38 +160,32 @@ abstract public class Entity
 
     private void move()
     {
-        changeSpeed(getAcceleration() * delta);
 
-        box.x += speed.x;
-        box.y += speed.y;
+//        changeSpeed(getAcceleration() * delta);
+//
+//        box.x += speed.x;
+//        box.y += speed.y;
 
         //System.out.println(xSpeed + " " + ySpeed + " " + currentSpeed + " " + getMaxSpeed());
     }
 
-//    protected void pidTurn(Vector2 p) {
-//        double kD = 0.5 * getMaxSpeed() / getAcceleration();
-//
-//        double xDist = (p.x - getCenterX()) - xSpeed * kD;
-//        double yDist = (p.y - getCenterY()) - ySpeed * kD;
-//        double angle = Math.atan2(yDist, xDist);
-//        turnTo((float) Math.toDegrees(angle));
-//      //  move();
-//    }
+    protected void pidTurn(Vector2 p) {
+        double kD = 0.5 * getMaxSpeed() / getAcceleration();
 
-//    protected boolean slowOnApproach(Vector2 p)
-//    {
-//        getCenterPosition().
-//
-//        float framesToReachTarget = currentSpeed / getCenterPosition().dst(p);
-//        float framesToStop = currentSpeed / getAcceleration();
-//
-//        System.out.println(currentSpeed + " / " + getAcceleration());
-//
-//        System.out.println(framesToReachTarget + " | " + framesToStop);
-//
-//
-//        return framesToReachTarget <= framesToStop;
-//    }
+        double xDist = (p.x - getCenterX()) - speed.x * kD;
+        double yDist = (p.y - getCenterY()) - speed.y * kD;
+        double angle = Math.atan2(yDist, xDist);
+        turnTo((float) Math.toDegrees(angle));
+      //  move();
+   }
+
+    protected void accelerate()
+    {
+        changeSpeed(getAcceleration() * delta);
+
+        box.x += speed.x;
+        box.y += speed.y;
+    }
 
     private void changeSpeed(float amount)
     {
@@ -252,6 +258,12 @@ abstract public class Entity
     {
         turn(180);
     }
+
+    public float getDistance(Vector2 p)
+    {
+        return getPosition().dst(p);
+    }
+
 
 
 

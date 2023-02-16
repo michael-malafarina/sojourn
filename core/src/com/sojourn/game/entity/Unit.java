@@ -1,12 +1,14 @@
 package com.sojourn.game.entity;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
 
 public abstract class Unit extends Entity
 {
     private Vector2 destination;
+    private int lastOrder;
 
     public Unit()
     {
@@ -16,13 +18,49 @@ public abstract class Unit extends Entity
     public void action()
     {
 
+        // Planning Phase Movement Rules
+
         if(hasDestination())
         {
-            //moveTo(destination);
-           // pidTurn(destination);
-           turnTo(destination);
+            if(getDistance(destination) < 50)
+            {
+                destination = null;
+            }
+            else if(getDistance(destination) < 500)
+            {
+                pidTurn(destination);
+            }
+            else
+            {
+                turnTo(destination);
+            }
+
+            accelerate();
+
         }
+        else
+        {
+            idleMovement();
+        }
+
+
+
     }
+
+    public void idleMovement()
+    {
+        turn(1);
+        accelerate();
+        speed.nor().scl(1f);
+    }
+
+    public void render()
+    {
+        super.render();
+      //  Text.draw(""+a, getX(), getY());
+    }
+
+
 
     public Vector2 getDestination()
     {
@@ -37,6 +75,7 @@ public abstract class Unit extends Entity
     public void setDestination(float x, float y)
     {
         destination = new Vector2(x, y);
+        lastOrder = getTimer();
     }
 
     public void setDestination(Vector2 p)
@@ -65,13 +104,25 @@ public abstract class Unit extends Entity
     {
         super.renderShapes();
 
-        // Don't draw the destination if I am close to it based on my own size
-        if(getCenterPosition().dst(getDestination()) > getWidth() + getHeight())
-        {
-            Shape.getRenderer().setColor(new Color(.2f, .2f, .2f, 1f));
-            Shape.getRenderer().line(getCenterPosition(), getDestination());
+        if(!hasDestination()) {
+            return;
         }
 
+        Shape.getRenderer().setColor(new Color(.2f, .2f, .2f, 1f));
+        Shape.getRenderer().line(getCenterPosition(), getDestination());
+
+
+        float progress = (getTimer() - lastOrder) / 50f;
+        if (progress < 1)
+        {
+
+            float alpha = Interpolation.pow2In.apply(1-progress);
+
+            Shape.getRenderer().setColor(new Color(.1f, .9f, .1f, alpha));
+            float radius = alpha * 20;
+            Shape.getRenderer().circle(getDestination().x, getDestination().y, radius);
+
+        }
 
     }
 
