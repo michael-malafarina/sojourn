@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.state.State;
 import com.sojourn.game.state.StateGameplay;
 import com.sojourn.game.state.StateTitle;
@@ -25,7 +26,6 @@ public class Sojourn extends Game
 	{
 		Textures.loadImages();
 		entityManager = new EntityManager();
-
 
 		gameplay = new StateGameplay(this);
 		title = new StateTitle(this);
@@ -84,7 +84,7 @@ public class Sojourn extends Game
 		{
 			case STATE_TITLE_ID -> setScreen(title);
 			case STATE_GAMEPLAY_ID -> setScreen(gameplay);
-		};
+		}
 	}
 
 	@Override

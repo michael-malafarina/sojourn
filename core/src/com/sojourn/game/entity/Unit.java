@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
 
+import java.util.ArrayList;
+
 public abstract class Unit extends Entity
 {
     private Vector2 destination;
@@ -22,6 +24,10 @@ public abstract class Unit extends Entity
 
         if(hasDestination())
         {
+            if(getDistance(getNearestUnit()) < 25)
+            {
+                avoid(getNearestUnit());
+            }
             if(getDistance(destination) < 75)
             {
                 destination = null;
@@ -43,16 +49,36 @@ public abstract class Unit extends Entity
 
     }
 
-    public void avoidCrowd()
-    {
 
+    public final Unit getNearestUnit()
+    {
+        float nearestDistance = Float.MAX_VALUE;
+        Unit nearestUnit = null;
+        ArrayList<Entity> entities =  EntityManager.getEntities();
+
+        for(Entity u : entities)
+        {
+            if(this != u && this instanceof Unit && getDistance(u) < nearestDistance)
+            {
+                nearestUnit = (Unit) u;
+                nearestDistance = getDistance(u);
+            }
+        }
+
+        return nearestUnit;
+    }
+
+    public void avoid(Unit u)
+    {
+        turnTo(u);
+        turnAround();
+        accelerate();
     }
 
     public void idleMovement()
     {
-        turn(1);
-        accelerate();
-        speed.nor().scl(1f);
+        turn(.5f);
+        accelerate(.5f);
     }
 
     public void render()

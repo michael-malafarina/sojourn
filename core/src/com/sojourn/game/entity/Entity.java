@@ -43,7 +43,6 @@ abstract public class Entity
         image = new EntityImage(this, getSpriteSheet());
     }
 
-
     public EntityImage getImage()
     {
         return image;
@@ -184,8 +183,15 @@ abstract public class Entity
 
     protected void accelerate()
     {
-        changeSpeed(getAcceleration() * delta);
+        changeSpeed(getAcceleration() * delta );
+        box.x += speed.x;
+        box.y += speed.y;
+    }
 
+    protected void accelerate(float normScaled)
+    {
+        changeSpeed(getAcceleration() * delta );
+        speed.nor().scl(normScaled);
         box.x += speed.x;
         box.y += speed.y;
     }
@@ -265,6 +271,11 @@ abstract public class Entity
     public float getDistance(Vector2 p)
     {
         return getPosition().dst(p);
+    }
+
+    public float getDistance(Entity e)
+    {
+        return getPosition().dst(e.getCenterPosition());
     }
 
 

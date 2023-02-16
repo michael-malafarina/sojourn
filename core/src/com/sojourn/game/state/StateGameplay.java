@@ -1,5 +1,6 @@
 package com.sojourn.game.state;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -7,12 +8,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.sojourn.game.EntityManager;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Camera;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Entity;
+import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.Unit;
 
 public class StateGameplay extends State
@@ -20,12 +21,10 @@ public class StateGameplay extends State
     private Rectangle selectionBox;
     private Vector2 selectionBoxOrigin;
     private boolean paused;
-    private EntityManager em;
 
     public StateGameplay(final Sojourn game)
     {
         super(game);
-        em = game.getEntityManager();
     }
 
     @Override
@@ -37,7 +36,7 @@ public class StateGameplay extends State
             return;
         }
 
-        em.update(delta);
+        game.getEntityManager().update(delta);
 
     }
 
@@ -49,12 +48,12 @@ public class StateGameplay extends State
     @Override
     protected void renderGameplay(float delta)
     {
-        game.getEntityManager().getEntities().forEach(Entity::render);
+        EntityManager.getEntities().forEach(Entity::render);
     }
 
     protected void renderGameplayShapes()
     {
-        game.getEntityManager().getEntities().forEach(Entity::renderShapes);
+        EntityManager.getEntities().forEach(Entity::renderShapes);
 
         if(selectionBox != null)
         {
@@ -84,10 +83,17 @@ public class StateGameplay extends State
 
         if (button == Input.Buttons.LEFT)
         {
-            for (Entity e : em.getEntities()) {
+            if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
+            {
+                for (Entity e : EntityManager.getEntities()) {
+                    // Clear selections on all entities
+                    e.unselect();
+                }
+            }
 
-                // Clear selections on all entities
-                e.unselect();
+
+
+            for (Entity e : EntityManager.getEntities()) {
 
                 // If I have left-clicked on an entity, let it know and it will determine if it can be selected
                 if (e.getRectangle().contains(mouseProjected.x, mouseProjected.y)) {
@@ -101,7 +107,7 @@ public class StateGameplay extends State
         }
 
         // Issue orders
-        for(Entity e : em.getEntities())
+        for(Entity e : EntityManager.getEntities())
         {
             // If I have right-clicked on a location, move selected units there
             if(button == Input.Buttons.RIGHT && e.isSelected() && e instanceof Unit)
@@ -127,9 +133,10 @@ public class StateGameplay extends State
         if(origin != null)
         {
             // Clear all entities again, in case box got smaller
-            for (Entity e : em.getEntities())
-            {
-                e.unselect();
+            if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                for (Entity e : EntityManager.getEntities()) {
+                    e.unselect();
+                }
             }
 
             // Create the selection box
@@ -172,7 +179,7 @@ public class StateGameplay extends State
 //                selectionBox.x = selectionBox.x -
 //            }
 
-            for (Entity e : em.getEntities())
+            for (Entity e : EntityManager.getEntities())
             {
                 // Selects all units in the selection box
                 if (selectionBox.overlaps(e.getRectangle())) {

@@ -1,20 +1,16 @@
-package com.sojourn.game;
+package com.sojourn.game.entity;
 
+import com.sojourn.game.Utility;
 import com.sojourn.game.display.Display;
-import com.sojourn.game.entity.Entity;
-import com.sojourn.game.entity.Raider;
-import com.sojourn.game.entity.Scout;
-import com.sojourn.game.entity.Unit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class EntityManager
 {
-    private ArrayList<Entity> entities;
+    private static ArrayList<Entity> entities;
 
-
-    EntityManager()
+    public EntityManager()
     {
         newGame();
     }
@@ -30,7 +26,7 @@ public class EntityManager
         }
     }
 
-    public  ArrayList<Entity> getEntities()
+    public static ArrayList<Entity> getEntities()
     {
         return entities;
     }
