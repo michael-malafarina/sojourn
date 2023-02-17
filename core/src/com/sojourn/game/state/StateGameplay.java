@@ -15,6 +15,7 @@ import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
+import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class StateGameplay extends State
 
         // this has to be here to turn off outside of planning phase
         if(planning) {
-            for (Ship u : EntityManager.getUnits()) {
+            for (Ship u : EntityManager.getShips()) {
                 if(u != null && u.getCenterPosition() != null && u.getDestination() != null) {
                     Shape.getRenderer().setColor(new Color(.2f, .2f, .2f, 1f));
                     Shape.getRenderer().line(u.getCenterPosition(), u.getDestination());
@@ -125,11 +126,12 @@ public class StateGameplay extends State
         {
             System.out.println(getAllSelectedUnits());
 
+            for (Unit u : getAllSelectedUnits()) {
 
-            for (Ship u : getAllSelectedUnits()) {
-
-                u.setDestination(mouseProjected.x, mouseProjected.y);
-                returnValue = true;
+                if(u instanceof Ship) {
+                    ((Ship)u).setDestination(mouseProjected.x, mouseProjected.y);
+                    returnValue = true;
+                }
             }
             System.out.println("Right click");
         }
@@ -265,7 +267,7 @@ public class StateGameplay extends State
         return false;
     }
 
-    public List<Ship> getAllSelectedUnits()
+    public List<Unit> getAllSelectedUnits()
     {
         return EntityManager.getUnits().stream().filter(Entity::isSelected).toList();
     }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
 
@@ -54,13 +55,9 @@ public abstract class Ship extends Unit
 
     public void actionCombat()
     {
-
-
-
         Vector2 home = new Vector2(0, 0);
 
-
-        Ship u = getNearestEnemyUnit();
+        Unit u = getNearestEnemyUnit();
         if(getDistance(u) > 75)
         {
             turnTo(u);
@@ -95,9 +92,9 @@ public abstract class Ship extends Unit
 
 
 
-    public void avoid(Ship u)
+    public void avoid(Entity e)
     {
-        turnTo(u);
+        turnTo(e);
         turnAround();
         accelerate();
     }
@@ -164,17 +161,17 @@ public abstract class Ship extends Unit
 
     }
 
-    protected List<Ship> getEnemyUnits()
+    protected List<Unit> getEnemyUnits()
     {
         return EntityManager.getEnemyUnits(getTeam());
     }
 
-    protected Ship getNearestUnit()
+    protected Unit getNearestUnit()
     {
-        return EntityManager.getNearestShip(this);
+        return EntityManager.getNearestUnit(this);
     }
 
-    protected Ship getNearestEnemyUnit()
+    protected Unit getNearestEnemyUnit()
     {
         return EntityManager.getNearestEnemyShip(this);
     }

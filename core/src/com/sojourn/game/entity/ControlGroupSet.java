@@ -1,6 +1,6 @@
 package com.sojourn.game.entity;
 
-import com.sojourn.game.entity.unit.ship.Ship;
+import com.sojourn.game.entity.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class ControlGroupSet
         groups = new ArrayList<>();
     }
 
-    public void addGroup(List<Ship> ships, int key)
+    public void addGroup(List<Unit> ships, int key)
     {
         for(int i = 0; i < groups.size(); i++)
         {

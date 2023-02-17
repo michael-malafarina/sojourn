@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
@@ -16,6 +17,7 @@ import java.util.List;
 public class EntityManager
 {
     private static List<Entity> entities;
+    private static List<Unit> units;
     private static List<Ship> ships;
 
     public EntityManager()
@@ -26,7 +28,7 @@ public class EntityManager
     public void newGame()
     {
         entities = new ArrayList<>();
-        ships = new ArrayList<>();
+        units = new ArrayList<>();
 
         for(int i = 0; i < 4; i++)
         {
@@ -49,20 +51,27 @@ public class EntityManager
         return entities;
     }
 
-    public static List<Ship> getUnits()    {
+    public static List<Unit> getUnits()    {
+        return units;
+    }
+
+    public static List<Ship> getShips()    {
         return ships;
     }
 
     private static void updateUnits()
     {
         // Filter out units from the list of entities
-        List<Entity> tempUnits = entities.stream().filter(e -> e instanceof Ship).toList();
+        List<Entity> tempUnits = entities.stream().filter(e -> e instanceof Unit).toList();
+        List<Entity> tempShips = tempUnits.stream().filter(e -> e instanceof Ship).toList();
 
         // Cast the entities to a list of units
-        ships = tempUnits.stream().map(e-> (Ship) e).toList();
+        units = tempUnits.stream().map(e-> (Unit) e).toList();
+        ships = tempShips.stream().map(e-> (Ship) e).toList();
+
     }
 
-    public static List<Ship> getEnemyUnits(Team team)
+    public static List<Unit> getEnemyUnits(Team team)
     {
         return getUnits().stream().filter(u -> u.getTeam().isHostile(team)).toList();
     }
@@ -76,20 +85,20 @@ public class EntityManager
 
     }
 
-    public void addUnit(Class<? extends Ship> clazz, Vector2 position, Team team)
+    public void addUnit(Class<? extends Unit> clazz, Vector2 position, Team team)
     {
-        Ship u = unitFactory(clazz);
+        Unit u = unitFactory(clazz);
         u.setPosition(position);
         u.setTeam(team);
         u.setImage();
         entities.add(u);
     }
 
-    public Ship unitFactory(Object o)
+    public Unit unitFactory(Object o)
     {
-        Class<? extends Ship> clazz = (Class<? extends Ship>) o;
+        Class<? extends Unit> clazz = (Class<? extends Unit>) o;
 
-        Ship u = null;
+        Unit u = null;
 
         try
         {
@@ -123,15 +132,16 @@ public class EntityManager
 
     // Concern:  Copying the Arraylist makes this run in 2n time rather than n time.
     // The naieve version where I largely rewrite getNearest is faster by 2x
-    public static Ship getNearestShip(Ship origin)
+    public static Unit getNearestUnit(Entity origin)
     {
-        return (Ship) getNearestEntity(origin, new ArrayList<>(getUnits()));
+        return (Unit) getNearestEntity(origin, new ArrayList<>(getUnits()));
     }
 
-    public static Ship getNearestEnemyShip(Ship origin)
+    public static Unit getNearestEnemyShip(Entity origin)
     {
-        return (Ship) getNearestEntity(origin, new ArrayList<>(getEnemyUnits(origin.getTeam())));
+        return (Unit) getNearestEntity(origin, new ArrayList<>(getEnemyUnits(origin.getTeam())));
     }
+
 
 
 }
