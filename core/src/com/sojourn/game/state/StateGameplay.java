@@ -56,7 +56,8 @@ public class StateGameplay extends State
     @Override
     protected void renderGameplay(float delta)
     {
-        EntityManager.getEntities().forEach(Entity::render);
+        EntityManager.getCivilians().forEach(Entity::render);
+        EntityManager.getShips().forEach(Entity::render);
     }
 
     protected void renderGameplayShapes()
@@ -160,11 +161,11 @@ public class StateGameplay extends State
             makeSelectionBox(new Vector2(mouse.x, mouse.y));
 
 
-            for (Entity e : EntityManager.getEntities())
+            for (Ship s : EntityManager.getShips())
             {
                 // Selects all units in the selection box
-                if (selectionBox.overlaps(e.getRectangle())) {
-                    e.clicked();
+                if (selectionBox.overlaps(s.getRectangle())) {
+                    s.clicked();
                     returnValue = true;
                 }
             }

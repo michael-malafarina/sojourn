@@ -5,6 +5,8 @@ import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.entity.unit.Unit;
+import com.sojourn.game.entity.unit.civilian.Carrier;
+import com.sojourn.game.entity.unit.civilian.Civilian;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
@@ -19,6 +21,7 @@ public class EntityManager
     private static List<Entity> entities;
     private static List<Unit> units;
     private static List<Ship> ships;
+    private static List<Civilian> civilians;
 
     public EntityManager()
     {
@@ -28,7 +31,8 @@ public class EntityManager
     public void newGame()
     {
         entities = new ArrayList<>();
-        units = new ArrayList<>();
+//        units = new ArrayList<>();
+//        ships = new ArrayList<>();
 
         for(int i = 0; i < 4; i++)
         {
@@ -42,6 +46,8 @@ public class EntityManager
             pos = new Vector2(Utility.random(Display.WIDTH/2, Display.WIDTH), Utility.random(Display.HEIGHT));
             addUnit(Raider.class, pos, Sojourn.currentEnemy);
         }
+
+        addUnit(Carrier.class, new Vector2(200, 200), Sojourn.player);
 
         updateUnits();
 
@@ -59,15 +65,21 @@ public class EntityManager
         return ships;
     }
 
+    public static List<Civilian> getCivilians()    {
+        return civilians;
+    }
+
     private static void updateUnits()
     {
         // Filter out units from the list of entities
         List<Entity> tempUnits = entities.stream().filter(e -> e instanceof Unit).toList();
         List<Entity> tempShips = tempUnits.stream().filter(e -> e instanceof Ship).toList();
+        List<Entity> tempCivs = tempUnits.stream().filter(e -> e instanceof Civilian).toList();
 
         // Cast the entities to a list of units
         units = tempUnits.stream().map(e-> (Unit) e).toList();
         ships = tempShips.stream().map(e-> (Ship) e).toList();
+        civilians = tempCivs.stream().map(e-> (Civilian) e).toList();
 
     }
 

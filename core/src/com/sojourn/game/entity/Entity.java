@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.images.EntityImage;
 import com.sojourn.game.state.faction.Team;
 
@@ -23,6 +24,8 @@ abstract public class Entity
     protected EntityImage image;
 
     protected Vector2 speed;
+
+    protected Attribute health;
 
     private float theta;
     private float delta;
@@ -38,6 +41,8 @@ abstract public class Entity
     {
         box = new Rectangle(0,0, getWidth(), getHeight());
         speed = new Vector2(0, 0);
+
+        health = new Attribute(1);
     }
 
     public EntityImage getImage()
@@ -136,6 +141,8 @@ abstract public class Entity
         this.delta = delta;
         timer++;
 
+        health.update();
+
         move();
         if(planning)
         {
@@ -147,8 +154,15 @@ abstract public class Entity
         }
     }
 
+    public void takeDamage(float amount, Entity source)
+    {
+        health.decrease(amount);
+    }
+
     public void render()
     {
+        System.out.println(health.getCurrent());
+        Text.draw(""+health.getCurrent(), getCenterX(), getY() + getHeight());
         getImage().render();
     }
 
@@ -159,9 +173,11 @@ abstract public class Entity
 
         if(isSelected())
         {
+            final int SPACE = 10;
             Shape.getRenderer().setColor(Color.WHITE);
             Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
-            Shape.getRenderer().rect(getX() - getWidth() * .25f, getY() - getHeight() * .25f,getWidth() * 1.5f, getHeight() * 1.5f);
+            Shape.getRenderer().rect(getX() - SPACE/2, getY() - SPACE/2,
+                    getWidth() + SPACE, getHeight() + SPACE);
         }
     }
 

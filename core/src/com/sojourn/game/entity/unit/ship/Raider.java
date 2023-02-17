@@ -2,9 +2,16 @@ package com.sojourn.game.entity.unit.ship;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
+import com.sojourn.game.entity.Attribute;
 
 public class Raider extends Ship
 {
+    public Raider()
+    {
+        super();
+        health = new Attribute(120);
+    }
+
     @Override
     public Texture getSpriteSheet()
     {
