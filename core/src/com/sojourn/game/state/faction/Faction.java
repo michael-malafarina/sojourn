@@ -1,4 +1,4 @@
-package com.sojourn.game.faction;
+package com.sojourn.game.state.faction;
 
 import com.badlogic.gdx.graphics.Color;
 

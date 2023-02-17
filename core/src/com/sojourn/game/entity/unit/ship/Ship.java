@@ -1,19 +1,21 @@
-package com.sojourn.game.entity;
+package com.sojourn.game.entity.unit.ship;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.entity.EntityManager;
+import com.sojourn.game.entity.unit.Unit;
 
 import java.util.List;
 
-public abstract class Unit extends Entity
+public abstract class Ship extends Unit
 {
     private Vector2 destination;
     private int lastOrder;
     boolean retreat;
 
-    public Unit()
+    public Ship()
     {
         super();
     }
@@ -58,7 +60,7 @@ public abstract class Unit extends Entity
         Vector2 home = new Vector2(0, 0);
 
 
-        Unit u = getNearestEnemyUnit();
+        Ship u = getNearestEnemyUnit();
         if(getDistance(u) > 75)
         {
             turnTo(u);
@@ -93,7 +95,7 @@ public abstract class Unit extends Entity
 
 
 
-    public void avoid(Unit u)
+    public void avoid(Ship u)
     {
         turnTo(u);
         turnAround();
@@ -111,8 +113,6 @@ public abstract class Unit extends Entity
         super.render();
       //  Text.draw(""+a, getX(), getY());
     }
-
-
 
     public Vector2 getDestination()
     {
@@ -164,19 +164,19 @@ public abstract class Unit extends Entity
 
     }
 
-    protected List<Unit> getEnemyUnits()
+    protected List<Ship> getEnemyUnits()
     {
         return EntityManager.getEnemyUnits(getTeam());
     }
 
-    protected Unit getNearestUnit()
+    protected Ship getNearestUnit()
     {
-        return EntityManager.getNearestUnit(this);
+        return EntityManager.getNearestShip(this);
     }
 
-    protected Unit getNearestEnemyUnit()
+    protected Ship getNearestEnemyUnit()
     {
-        return EntityManager.getNearestEnemyUnit(this);
+        return EntityManager.getNearestEnemyShip(this);
     }
 
 

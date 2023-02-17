@@ -1,15 +1,17 @@
 package com.sojourn.game.entity;
 
+import com.sojourn.game.entity.unit.ship.Ship;
+
 import java.util.List;
 
 public class ControlGroup
 {
-    List<Unit> units;
+    List<Ship> ships;
     int key;
 
-    ControlGroup(List<Unit> units, int key)
+    ControlGroup(List<Ship> ships, int key)
     {
-        this.units = units;
+        this.ships = ships;
         this.key = key;
     }
 
@@ -19,6 +21,6 @@ public class ControlGroup
 
     public void activate()
     {
-        units.forEach(Entity::clicked);
+        ships.forEach(Entity::clicked);
     }
 }

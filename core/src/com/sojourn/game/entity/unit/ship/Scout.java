@@ -1,35 +1,35 @@
-package com.sojourn.game.entity;
+package com.sojourn.game.entity.unit.ship;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 
-public class Raider extends Unit
+public class Scout extends Ship
 {
     @Override
     public Texture getSpriteSheet()
     {
-        return Textures.raider;
+        return Textures.scout;
     }
 
     @Override
     public int getWidth() {
-        return 32;
+        return 24;
     }
 
     @Override
     public int getHeight() {
-        return 32;
+        return 24;
     }
 
     @Override
     public int getMaxSpeedBase()
     {
-        return 3;
+        return 6;
     }
 
     @Override
     public int getAccelerationBase()
     {
-        return 10;
+        return 20;
     }
 }

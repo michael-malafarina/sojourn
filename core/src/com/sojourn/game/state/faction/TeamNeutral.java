@@ -1,4 +1,4 @@
-package com.sojourn.game.faction;
+package com.sojourn.game.state.faction;
 
 public class TeamNeutral extends Team
 {

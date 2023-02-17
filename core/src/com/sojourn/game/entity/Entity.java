@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.images.EntityImage;
-import com.sojourn.game.faction.Team;
+import com.sojourn.game.state.faction.Team;
 
 
 abstract public class Entity
