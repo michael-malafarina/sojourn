@@ -12,6 +12,18 @@ public class Scout extends Ship
         health = new Attribute(50);
     }
 
+    public void actionCombat()
+    {
+        super.actionCombat();
+
+        if(getDistance(getNearestEnemyUnit()) < 120)
+        {
+            takeDamage(1, getNearestEnemyUnit());
+        }
+
+    }
+
+
     @Override
     public Texture getSpriteSheet()
     {

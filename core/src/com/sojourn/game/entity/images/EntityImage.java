@@ -3,7 +3,9 @@ package com.sojourn.game.entity.images;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.display.HealthBar;
 import com.sojourn.game.entity.Entity;
+import com.sojourn.game.entity.unit.civilian.Civilian;
 
 import java.util.ArrayList;
 
@@ -13,6 +15,7 @@ public class EntityImage
 
     private Texture sheet;
     private Entity owner;
+    private HealthBar healthbar;
 
     public EntityImage(Entity owner)
     {
@@ -24,6 +27,7 @@ public class EntityImage
         this(owner);
         setSpriteSheet(sheet);
         loadImage();
+        healthbar = new HealthBar(owner.getHealth());
 
     }
 
@@ -47,5 +51,13 @@ public class EntityImage
     public void render()
     {
         imageLayers.forEach(n -> Display.draw(n.getTexture(), n.getColor(), owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
+
+        if(!(owner instanceof Civilian))
+        {
+            healthbar.render(owner.getX(), owner.getY() + owner.getHeight() + 4, owner.getWidth(), 4);
+        }
+
     }
+
+
 }

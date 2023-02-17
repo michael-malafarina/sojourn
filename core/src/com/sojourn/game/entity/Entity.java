@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Shape;
-import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.images.EntityImage;
 import com.sojourn.game.state.faction.Team;
 
@@ -52,6 +51,11 @@ abstract public class Entity
 
     abstract public void actionPlanning();
     abstract public void actionCombat();
+
+    public Attribute getHealth()
+    {
+        return health;
+    }
 
     public float getMaxSpeed()
     {
@@ -161,8 +165,6 @@ abstract public class Entity
 
     public void render()
     {
-        System.out.println(health.getCurrent());
-        Text.draw(""+health.getCurrent(), getCenterX(), getY() + getHeight());
         getImage().render();
     }
 

@@ -33,6 +33,10 @@ public class Attribute
         return regeneration;
     }
 
+    public float getPercent()    {
+        return current / maximum;
+    }
+
     /************ MUTATORS *************/
 
     public void update()
