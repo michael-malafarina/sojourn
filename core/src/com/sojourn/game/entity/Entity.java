@@ -23,7 +23,7 @@ abstract public class Entity
     protected EntityImage image;
 
     protected Vector2 speed;
-
+    protected boolean isExpired;
     protected Attribute health;
 
     private float theta;
@@ -32,8 +32,8 @@ abstract public class Entity
     abstract public int getWidth();
     abstract public int getHeight();
     abstract public int getNumLayers();
-    abstract public int getMaxSpeedBase();
-    abstract public int getAccelerationBase();
+    abstract public float getMaxSpeedBase();
+    abstract public float getAccelerationBase();
     abstract public Texture getSpriteSheet();
 
     public Entity()
@@ -85,6 +85,11 @@ abstract public class Entity
     {
         box.x = x;
         box.y = y;
+    }
+
+    public void setExpired()
+    {
+        isExpired = true;
     }
 
     public void setPosition(Vector2 position)
@@ -156,6 +161,12 @@ abstract public class Entity
         {
             actionCombat();
         }
+
+        if(health.getCurrent() <= 0)
+        {
+            setExpired();
+        }
+
     }
 
     public void takeDamage(float amount, Entity source)
@@ -193,6 +204,7 @@ abstract public class Entity
         selected = false;
     }
 
+    public boolean isExpired() { return isExpired; }
 
     /********************* MOVEMENT *********************/
 
@@ -220,17 +232,19 @@ abstract public class Entity
 
     protected void accelerate()
     {
-        changeSpeed(getAcceleration() * delta );
-        box.x += speed.x;
-        box.y += speed.y;
+        changeSpeed(getAcceleration()  );
+        box.x += speed.x * delta;
+        box.y += speed.y * delta;
+
+//        System.out.println(delta);
     }
 
     protected void accelerate(float normScaled)
     {
-        changeSpeed(getAcceleration() * delta );
-        speed.nor().scl(normScaled);
-        box.x += speed.x;
-        box.y += speed.y;
+        changeSpeed(getAcceleration());
+        speed.nor().scl(normScaled );
+        box.x += speed.x * delta;
+        box.y += speed.y * delta;
     }
 
     private void changeSpeed(float amount)
@@ -312,7 +326,10 @@ abstract public class Entity
 
     public float getDistance(Entity e)
     {
-        return getPosition().dst(e.getCenterPosition());
+        if(e != null)
+            return getPosition().dst(e.getCenterPosition());
+        else
+            return 0;
     }
 
 

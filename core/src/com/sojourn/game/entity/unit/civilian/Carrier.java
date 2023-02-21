@@ -7,12 +7,12 @@ public class Carrier extends Civilian
 {
     @Override
     public int getWidth() {
-        return 256;
+        return 256*2;
     }
 
     @Override
     public int getHeight() {
-        return 256;
+        return 256*2;
     }
 
     @Override
@@ -21,12 +21,12 @@ public class Carrier extends Civilian
     }
 
     @Override
-    public int getMaxSpeedBase() {
+    public float getMaxSpeedBase() {
         return 0;
     }
 
     @Override
-    public int getAccelerationBase() {
+    public float getAccelerationBase() {
         return 0;
     }
 

@@ -15,5 +15,16 @@ public class BlueFaction extends Faction
         };
     }
 
+    public Color getColorAlternate(int layerNum)
+    {
+        return switch(layerNum)
+        {
+            case 0 -> Color.GRAY;
+            case 1 -> Color.GRAY;
+            default -> new Color(.2f, .4f, .6f, 1f);
+        };
+    }
+
+
 
 }

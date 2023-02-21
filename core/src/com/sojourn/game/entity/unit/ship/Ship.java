@@ -101,8 +101,8 @@ public abstract class Ship extends Unit
 
     public void idleMovement()
     {
-        turn(.5f);
-        accelerate(.5f);
+        turn(.75f);
+        accelerate(25f);
     }
 
     public void render()

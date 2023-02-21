@@ -3,6 +3,7 @@ package com.sojourn.game.entity.unit.ship;
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.Attribute;
+import com.sojourn.game.entity.component.weapon.Laser;
 
 public class Raider extends Ship
 {
@@ -10,6 +11,16 @@ public class Raider extends Ship
     {
         super();
         health = new Attribute(120);
+
+        weapons.add(new Laser(this));
+
+    }
+
+    public void actionCombat()
+    {
+        super.actionCombat();
+        weapons.getWeapons().get(0).use(getNearestEnemyUnit());
+
     }
 
     @Override
@@ -29,14 +40,14 @@ public class Raider extends Ship
     }
 
     @Override
-    public int getMaxSpeedBase()
+    public float getMaxSpeedBase()
     {
-        return 3;
+        return 150;
     }
 
     @Override
-    public int getAccelerationBase()
+    public float getAccelerationBase()
     {
-        return 10;
+        return 4;
     }
 }

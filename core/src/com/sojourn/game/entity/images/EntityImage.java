@@ -1,5 +1,6 @@
 package com.sojourn.game.entity.images;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.sojourn.game.display.Display;
@@ -33,23 +34,42 @@ public class EntityImage
 
     private void setSpriteSheet(Texture sheet)
     {
-        this.sheet = sheet;
-        sheet.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        if(sheet != null) {
+            this.sheet = sheet;
+            sheet.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        }
     }
 
     private void loadImage()
     {
+        if(sheet == null)
+        {
+            return;
+        }
+
         imageLayers = new ArrayList<>();
         int width = sheet.getWidth() / owner.getNumLayers();
 
         for(int i = 0; i < owner.getNumLayers(); i++)
         {
-            imageLayers.add(new EntityImageLayer(new TextureRegion(sheet, i * width, 0, width, sheet.getHeight()), owner.getTeam().getFaction().getColor(i)));
+            Color color =  owner.getTeam().getFaction().getColor(i);
+
+            if(owner instanceof Civilian)
+            {
+                color = owner.getTeam().getFaction().getColorAlternate(i);
+            }
+
+            imageLayers.add(new EntityImageLayer(new TextureRegion(sheet, i * width, 0, width, sheet.getHeight()),color));
         }
     }
 
     public void render()
     {
+        if(imageLayers == null)
+        {
+            return;
+        }
+
         imageLayers.forEach(n -> Display.draw(n.getTexture(), n.getColor(), owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
 
         if(!(owner instanceof Civilian))

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.entity.projectile.Projectile;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.civilian.Carrier;
 import com.sojourn.game.entity.unit.civilian.Civilian;
@@ -22,6 +23,9 @@ public class EntityManager
     private static List<Unit> units;
     private static List<Ship> ships;
     private static List<Civilian> civilians;
+    private static List<Projectile> projectiles;
+
+    private static List<Entity> newEntities;
 
     public EntityManager()
     {
@@ -31,6 +35,7 @@ public class EntityManager
     public void newGame()
     {
         entities = new ArrayList<>();
+        newEntities = new ArrayList<>();
 //        units = new ArrayList<>();
 //        ships = new ArrayList<>();
 
@@ -49,7 +54,7 @@ public class EntityManager
 
         addUnit(Carrier.class, new Vector2(200, 200), Sojourn.player);
 
-        updateUnits();
+        updateUnitLists();
 
     }
 
@@ -69,17 +74,22 @@ public class EntityManager
         return civilians;
     }
 
-    private static void updateUnits()
+    public static List<Projectile> getProjectiles()    {
+        return projectiles;
+    }
+    private static void updateUnitLists()
     {
         // Filter out units from the list of entities
         List<Entity> tempUnits = entities.stream().filter(e -> e instanceof Unit).toList();
         List<Entity> tempShips = tempUnits.stream().filter(e -> e instanceof Ship).toList();
         List<Entity> tempCivs = tempUnits.stream().filter(e -> e instanceof Civilian).toList();
+        List<Entity> tempProj = entities.stream().filter(e -> e instanceof Projectile).toList();
 
         // Cast the entities to a list of units
         units = tempUnits.stream().map(e-> (Unit) e).toList();
         ships = tempShips.stream().map(e-> (Ship) e).toList();
         civilians = tempCivs.stream().map(e-> (Civilian) e).toList();
+        projectiles = tempProj.stream().map(e-> (Projectile) e).toList();
 
     }
 
@@ -90,11 +100,35 @@ public class EntityManager
 
     public void update(boolean planning, float delta)
     {
-        // Update specific lists
-        updateUnits();
+        // Add new entities created this frame
+        entities.addAll(newEntities);
+        newEntities.clear();
 
+        // Removing expired entities
+        for(int i = 0; i < entities.size(); i++)
+        {
+            if(entities.get(i).isExpired())
+            {
+                entities.remove(i);
+                i--;
+            }
+        }
+
+        // Update specific lists
+        updateUnitLists();
+
+        // Tell each entity to update itself
         entities.forEach((n)->n.update(planning, delta));
 
+
+
+
+    }
+
+
+    public static void addEntity(Entity e)
+    {
+        newEntities.add(e);
     }
 
     public void addUnit(Class<? extends Unit> clazz, Vector2 position, Team team)

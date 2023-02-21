@@ -16,10 +16,10 @@ public class Scout extends Ship
     {
         super.actionCombat();
 
-        if(getDistance(getNearestEnemyUnit()) < 120)
-        {
-            takeDamage(1, getNearestEnemyUnit());
-        }
+//        if(getDistance(getNearestEnemyUnit()) < 120)
+//        {
+//            takeDamage(1, getNearestEnemyUnit());
+//        }
 
     }
 
@@ -41,14 +41,14 @@ public class Scout extends Ship
     }
 
     @Override
-    public int getMaxSpeedBase()
+    public float getMaxSpeedBase()
     {
-        return 6;
+        return 300;
     }
 
     @Override
-    public int getAccelerationBase()
+    public float getAccelerationBase()
     {
-        return 20;
+        return 12;
     }
 }

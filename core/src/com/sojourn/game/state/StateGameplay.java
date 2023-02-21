@@ -58,6 +58,8 @@ public class StateGameplay extends State
     {
         EntityManager.getCivilians().forEach(Entity::render);
         EntityManager.getShips().forEach(Entity::render);
+        EntityManager.getProjectiles().forEach(Entity::render);
+
     }
 
     protected void renderGameplayShapes()
@@ -108,7 +110,7 @@ public class StateGameplay extends State
                 clearSelection();
             }
 
-            for (Entity e : EntityManager.getEntities()) {
+            for (Entity e : EntityManager.getShips()) {
                 // If I have left-clicked on an entity, let it know and it will determine if it can be selected
                 if (e.getRectangle().contains(mouseProjected.x, mouseProjected.y)) {
                     e.clicked();
@@ -125,8 +127,6 @@ public class StateGameplay extends State
         // If I have right-clicked on a location, move selected units there
         if(button == Input.Buttons.RIGHT && planning)
         {
-            System.out.println(getAllSelectedUnits());
-
             for (Unit u : getAllSelectedUnits()) {
 
                 if(u instanceof Ship) {
@@ -134,10 +134,7 @@ public class StateGameplay extends State
                     returnValue = true;
                 }
             }
-            System.out.println("Right click");
         }
-
-
 
         return returnValue;
     }
