@@ -5,10 +5,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Entity;
-import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
-
-import java.util.List;
 
 public abstract class Ship extends Unit
 {
@@ -28,10 +25,9 @@ public abstract class Ship extends Unit
 
         if(hasDestination())
         {
-            if(getDistance(getNearestUnit()) < 25)
-            {
-                avoid(getNearestUnit());
-            }
+            avoidNearby();
+
+
             if(getDistance(destination) < 75)
             {
                 destination = null;
@@ -41,7 +37,7 @@ public abstract class Ship extends Unit
                 turnTo(destination);
             }
 
-            accelerate();
+            move();
 
         }
         else
@@ -55,54 +51,46 @@ public abstract class Ship extends Unit
 
     public void actionCombat()
     {
-        Vector2 home = new Vector2(0, 0);
+        avoidNearby();
 
-        Unit u = getNearestEnemyUnit();
-        if(getDistance(u) > 75)
+
+        Unit u = getNearestEnemyShip();
+
+        if(!inRangeShortest(u))
         {
             turnTo(u);
         }
         else
         {
-            turnTo(u);
-            turnAround();
+            turnTo(getTeam().getHomePoint());
         }
 
 
-        if(getDistance(home) > 500)
-        {
-            retreat = true;
-        }
+        weapons.useAllSingleTargetWeapons(u);
 
-        if(getDistance(home) < 50)
-        {
-            retreat = false;
-        }
-
-        if(retreat)
-        {
-            turnTo(home);
-        }
-
-
-
-
-        accelerate();
+        move();
     }
 
-
+    private void avoidNearby()
+    {
+        Ship s = getNearestShip();
+        if(getDistance(s) < 25)
+        {
+            avoid(s);
+        }
+    }
 
     public void avoid(Entity e)
     {
         turnTo(e);
         turnAround();
-        accelerate();
+        move();
     }
 
     public void idleMovement()
     {
         turn(.75f);
-        accelerate(25f);
+        move(25f);
     }
 
     public void render()
@@ -159,21 +147,6 @@ public abstract class Ship extends Unit
 
         }
 
-    }
-
-    protected List<Unit> getEnemyUnits()
-    {
-        return EntityManager.getEnemyUnits(getTeam());
-    }
-
-    protected Unit getNearestUnit()
-    {
-        return EntityManager.getNearestUnit(this);
-    }
-
-    protected Unit getNearestEnemyUnit()
-    {
-        return EntityManager.getNearestEnemyShip(this);
     }
 
 

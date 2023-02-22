@@ -6,10 +6,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.entity.EntityManager;
+import com.sojourn.game.faction.*;
 import com.sojourn.game.state.State;
 import com.sojourn.game.state.StateGameplay;
 import com.sojourn.game.state.StateTitle;
-import com.sojourn.game.state.faction.*;
 
 public class Sojourn extends Game
 {

@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.images.EntityImage;
-import com.sojourn.game.state.faction.Team;
+import com.sojourn.game.faction.Team;
 
 
 abstract public class Entity
@@ -28,6 +28,7 @@ abstract public class Entity
 
     private float theta;
     private float delta;
+    private boolean hasMoved;
 
     abstract public int getWidth();
     abstract public int getHeight();
@@ -35,6 +36,11 @@ abstract public class Entity
     abstract public float getMaxSpeedBase();
     abstract public float getAccelerationBase();
     abstract public Texture getSpriteSheet();
+
+    public boolean canMove()
+    {
+        return !hasMoved;
+    }
 
     public Entity()
     {
@@ -150,9 +156,10 @@ abstract public class Entity
         this.delta = delta;
         timer++;
 
+        hasMoved = false;
+
         health.update();
 
-        move();
         if(planning)
         {
             actionPlanning();
@@ -209,15 +216,22 @@ abstract public class Entity
     /********************* MOVEMENT *********************/
 
 
-    private void move()
+    protected void move()
     {
+        if(canMove())
+        {
+            accelerate();
+        }
 
-//        changeSpeed(getAcceleration() * delta);
-//
-//        box.x += speed.x;
-//        box.y += speed.y;
+    }
 
-        //System.out.println(xSpeed + " " + ySpeed + " " + currentSpeed + " " + getMaxSpeed());
+    protected void move(float normScaled)
+    {
+        if(canMove())
+        {
+            accelerate(normScaled);
+        }
+
     }
 
     protected void pidTurn(Vector2 p) {
@@ -230,21 +244,21 @@ abstract public class Entity
       //  move();
    }
 
-    protected void accelerate()
+    private void accelerate()
     {
         changeSpeed(getAcceleration()  );
         box.x += speed.x * delta;
         box.y += speed.y * delta;
-
-//        System.out.println(delta);
+        hasMoved = true;
     }
 
-    protected void accelerate(float normScaled)
+    private void accelerate(float normScaled)
     {
         changeSpeed(getAcceleration());
         speed.nor().scl(normScaled );
         box.x += speed.x * delta;
         box.y += speed.y * delta;
+        hasMoved = true;
     }
 
     private void changeSpeed(float amount)
@@ -298,7 +312,9 @@ abstract public class Entity
 
     public final void turnTo(Vector2 p)
     {
-        turnTo(p.x, p.y);
+        if(p != null) {
+            turnTo(p.x, p.y);
+        }
     }
 
     public final void turnTo(Entity e)

@@ -1,4 +1,4 @@
-package com.sojourn.game.state.faction;
+package com.sojourn.game.faction;
 
 public class TeamNeutral extends Team
 {
@@ -9,6 +9,6 @@ public class TeamNeutral extends Team
 
     @Override
     public int getTeamID() {
-        return Team.ID_NEUTRAL;
+        return ID_NEUTRAL;
     }
 }

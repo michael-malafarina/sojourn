@@ -3,12 +3,13 @@ package com.sojourn.game.entity.projectile;
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.Entity;
+import com.sojourn.game.entity.component.weapon.Weapon;
 
 public class Bullet extends Projectile
 {
 
-    Bullet(Entity owner, Entity target) {
-        super(owner, target);
+    Bullet(Entity owner, Entity target, Weapon weapon) {
+        super(owner, target, weapon);
     }
 
     @Override

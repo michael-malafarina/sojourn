@@ -11,7 +11,7 @@ import com.sojourn.game.entity.unit.civilian.Civilian;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
-import com.sojourn.game.state.faction.Team;
+import com.sojourn.game.faction.Team;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -96,6 +96,11 @@ public class EntityManager
     public static List<Unit> getEnemyUnits(Team team)
     {
         return getUnits().stream().filter(u -> u.getTeam().isHostile(team)).toList();
+    }
+
+    public static List<Ship> getEnemyShips(Team team)
+    {
+        return getShips().stream().filter(u -> u.getTeam().isHostile(team)).toList();
     }
 
     public void update(boolean planning, float delta)
@@ -183,10 +188,21 @@ public class EntityManager
         return (Unit) getNearestEntity(origin, new ArrayList<>(getUnits()));
     }
 
-    public static Unit getNearestEnemyShip(Entity origin)
+    public static Ship getNearestShip(Entity origin)
+    {
+        return (Ship) getNearestEntity(origin, new ArrayList<>(getShips()));
+    }
+
+    public static Unit getNearestEnemyUnit(Entity origin)
     {
         return (Unit) getNearestEntity(origin, new ArrayList<>(getEnemyUnits(origin.getTeam())));
     }
+
+    public static Ship getNearestEnemyShip(Entity origin)
+    {
+        return (Ship) getNearestEntity(origin, new ArrayList<>(getEnemyShips(origin.getTeam())));
+    }
+
 
 
 

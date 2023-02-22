@@ -7,14 +7,20 @@ import com.sojourn.game.entity.projectile.Beam;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Laser extends Weapon
+abstract public class WeaponLaser extends Weapon
 {
     List<Beam> beams;
-    /******** Use and Activation  ********/
 
-    public Laser(Entity owner) {
+    public WeaponLaser(Entity owner) {
         super(owner);
     }
+
+    abstract public int getAnimationWidth();
+
+    abstract public float getAnimationAlpha();
+
+    abstract public boolean getAnimationBurst();
+
 
     public void activationBegin()
     {
@@ -22,40 +28,29 @@ public class Laser extends Weapon
 
         for(Entity e : targets.getTargets())
         {
-            Beam b = new Beam(owner, e);
+            Beam b = new Beam(owner, e, this);
+            b.setWidth(getAnimationWidth());
+            b.setAlpha(getAnimationAlpha());
+            b.setBurst(getAnimationBurst());
             beams.add(b);
             EntityManager.addEntity(b);
         }
 
-        targets.getTargets().forEach(n -> n.takeDamage(5, owner));
     }
-
 
     public void activationEnd()
     {
         for(Beam b : beams)
         {
-            b.setExpired();
+            b.end();
         }
+
         beams.clear();
 
-        targets.getTargets().forEach(n -> n.takeDamage(5, owner));
+//        targets.getTargets().forEach(n -> n.takeDamage(15, owner));
     }
 
-    @Override
-    public int getPreparationTime() {
-        return 60;
-    }
 
-    @Override
-    public int getActivationTime() {
-        return 30;
-    }
-
-    @Override
-    public int getRecoveryTime() {
-        return 120;
-    }
 
     @Override
     public boolean targetsSelf() {

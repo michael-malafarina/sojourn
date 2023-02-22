@@ -1,10 +1,13 @@
-package com.sojourn.game.state.faction;
+package com.sojourn.game.faction;
+
+import com.badlogic.gdx.math.Vector2;
 
 public class TeamPlayer extends Team
 {
     public TeamPlayer(Faction faction)
     {
         super(faction);
+        setHomePoint(new Vector2(-500, 0));
     }
 
     @Override

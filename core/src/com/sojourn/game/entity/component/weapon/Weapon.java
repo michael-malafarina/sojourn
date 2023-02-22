@@ -7,25 +7,73 @@ package com.sojourn.game.entity.component.weapon;
 
 //
 
+import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.entity.Entity;
 
 import java.util.List;
 
-abstract public class Weapon {
+abstract public class Weapon
+{
+    // Data
+
     protected Entity owner;
     protected TargetSet targets;
     private int useTimer;
 
-
-    /******** Use and Activation ********/
+    // Constructor
 
     public Weapon(Entity owner) {
         this.owner = owner;
     }
 
+    // Abstract Methods
+
+    abstract public int getRangeBase();
+    abstract public int getPreparationTime();
+    abstract public int getActivationTime();
+    abstract public int getRecoveryTime();
+    abstract public boolean targetsSelf();
+    abstract public void effect(Entity owner, Entity target);
+
+    public int getNumTargets()
+    {
+        return 1;
+    }
+
+    // Accessors
+
     public boolean canUse() {
         return useTimer == 0;
     }
+    public boolean canUse(Entity e) {
+        return  canUse() &&
+                inRange(e) &&
+                (targetsSelf() || e != owner) ;
+    }
+
+    public int getTotalTime() {
+        return getPreparationTime() + getActivationTime() + getRecoveryTime();
+    }
+
+    public int getRange()    {
+        return getRangeBase();
+    }
+
+    public boolean inRange(Entity e)
+    {
+        if(e == null) return false;
+        return owner.getCenterPosition().dst(e.getCenterPosition()) < getRange();
+    }
+
+    public boolean inRange(Vector2 p)    {
+       if(p == null) return false;
+        return owner.getCenterPosition().dst(p) < getRange();
+    }
+
+    // Mutators
+
+
+
 
     public void use() {
         if (canUse()) {
@@ -43,26 +91,36 @@ abstract public class Weapon {
     }
 
     public void use(Entity e) {
-        if (canUse()) {
+        if (canUse(e)) {
             use();
             targets = new TargetSet(e);
         }
     }
 
-    public void use(List<Entity> entities) {
-        if (canUse()) {
-            use();
-            targets = new TargetSet(entities);
+    public void use(List<Entity> entities)
+    {
+        for(Entity e : entities) {
+            if (canUse(e)) {
+                use();
+                targets = new TargetSet(entities);
+            }
         }
     }
 
-    public void update() {
+    public void update()
+    {
+        if(owner == null)
+        {
+            return;
+        }
 
         // Update targets
         if(targets != null)
         {
             targets.update();
         }
+
+
 
 
         // Trigger start of preparation
@@ -107,7 +165,9 @@ abstract public class Weapon {
 
     public void preparationBegin()
     {
-        owner.turnTo(targets.getCenter());
+
+            owner.turnTo(targets.getCenter());
+
     }
 
     public void preparationEnd()
@@ -145,13 +205,7 @@ abstract public class Weapon {
 
     }
 
-    abstract public int getPreparationTime();
-    abstract public int getActivationTime();
-    abstract public int getRecoveryTime();
-    abstract public boolean targetsSelf();
 
-    public int getTotalTime() {
-        return getPreparationTime() + getActivationTime() + getRecoveryTime();
-    }
+
 
 }

@@ -3,7 +3,7 @@ package com.sojourn.game.entity.unit.ship;
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.Attribute;
-import com.sojourn.game.entity.component.weapon.Laser;
+import com.sojourn.game.entity.component.weapon.LargeLaser;
 
 public class Raider extends Ship
 {
@@ -12,14 +12,12 @@ public class Raider extends Ship
         super();
         health = new Attribute(120);
 
-        weapons.add(new Laser(this));
-
+        weapons.add(new LargeLaser(this));
     }
 
     public void actionCombat()
     {
         super.actionCombat();
-        weapons.getWeapons().get(0).use(getNearestEnemyUnit());
 
     }
 

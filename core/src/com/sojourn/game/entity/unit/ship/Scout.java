@@ -3,6 +3,7 @@ package com.sojourn.game.entity.unit.ship;
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.Attribute;
+import com.sojourn.game.entity.component.weapon.SmallLaser;
 
 public class Scout extends Ship
 {
@@ -10,6 +11,9 @@ public class Scout extends Ship
     {
         super();
         health = new Attribute(50);
+
+        weapons.add(new SmallLaser(this));
+
     }
 
     public void actionCombat()
