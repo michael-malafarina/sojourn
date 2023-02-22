@@ -27,6 +27,8 @@ abstract public class Projectile extends Entity
         setImage();
     }
 
+    abstract public float getPercentProgress();
+
     @Override
     public int getNumLayers() {
         return 1;

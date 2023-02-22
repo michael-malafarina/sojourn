@@ -16,6 +16,7 @@ public class Beam extends Projectile
     int width;
     float alpha;
     boolean burst;
+    boolean triggeredDamage;
 
     public Beam(Entity owner, Entity target, Weapon weapon) {
         super(owner, target, weapon);
@@ -23,7 +24,7 @@ public class Beam extends Projectile
         setPosition(owner.getPosition());
         width = 1;
         alpha = .5f;
-        burst = false;
+        burst = true;
     }
 
     public void setWidth (int width)
@@ -89,6 +90,12 @@ public class Beam extends Projectile
     @Override
     public void actionCombat()
     {
+        // Always deals damage at midpoint of usage
+        if(getPercentProgress() > .5f && !triggeredDamage)
+        {
+            weapon.effect(owner, target);
+            triggeredDamage = true;
+        }
 
     }
 

@@ -46,4 +46,10 @@ public class Bullet extends Projectile
     public void actionCombat() {
 
     }
+
+    public float getPercentProgress()
+    {
+        return ((float) getTimer()) / ((float) weapon.getActivationTime());
+    }
+
 }
