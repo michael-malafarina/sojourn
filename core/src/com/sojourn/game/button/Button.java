@@ -78,7 +78,7 @@ public class Button
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
         Vector3 tp = new Vector3();
-        Display.getHUDCamera().unproject(tp.set(screenX, screenY, 0));
+        Display.getHUDCam().unproject(tp.set(screenX, screenY, 0));
 
         if(box.contains(tp.x, tp.y)) {
             clicked(clickEvent);
@@ -98,7 +98,7 @@ public class Button
     public boolean mouseMoved(int screenX, int screenY)
     {
         Vector3 tp = new Vector3();
-        Display.getHUDCamera().unproject(tp.set(screenX, screenY, 0));
+        Display.getHUDCam().unproject(tp.set(screenX, screenY, 0));
 
         if(box.contains(tp.x, tp.y)) {
             image = buttonMouseover;

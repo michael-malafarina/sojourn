@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Camera;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.display.Minimap;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
@@ -27,12 +28,18 @@ public class StateGameplay extends State
     private Vector2 selectionBoxOrigin;
     private boolean paused;
     private boolean planning;
+    private boolean gridlines;
+
+
+    private static Minimap minimap;
 
     public StateGameplay(final Sojourn game)
     {
         super(game);
         controlGroups = new ControlGroupSet();
         planning = true;
+        minimap = new Minimap(2, 2, 192*1.7f, 108*1.7f);
+
     }
 
     @Override
@@ -77,11 +84,21 @@ public class StateGameplay extends State
 
         }
 
+        // Draw selection box shape
         if(selectionBox != null)
         {
             Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
             Shape.getRenderer().setColor(Color.WHITE);
             Shape.getRenderer().rect(selectionBox.x, selectionBox.y, selectionBox.getWidth(), selectionBox.getHeight());
+        }
+
+        // Draw gridlines
+        if(gridlines)
+        {
+            Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+            Shape.getRenderer().setColor(new Color(50, 20, 50, 150));
+            Shape.getRenderer().line(-5000, 0, 5000, 0);
+            Shape.getRenderer().line(0, -5000, 0, 5000);
         }
     }
 
@@ -89,6 +106,11 @@ public class StateGameplay extends State
     @Override
     protected void renderHud(float delta)    {
         super.renderHud(delta);
+    }
+
+    protected void renderHudShapes()
+    {
+        minimap.renderShapes();
     }
 
     public String toString()    {
@@ -110,8 +132,8 @@ public class StateGameplay extends State
                 clearSelection();
             }
 
-            for (Entity e : EntityManager.getShips()) {
-                // If I have left-clicked on an entity, let it know and it will determine if it can be selected
+            // If I have left-clicked on an entity, let it know and it will determine if it can be selected
+            for (Entity e : EntityManager.getPlayerShips()) {
                 if (e.getRectangle().contains(mouseProjected.x, mouseProjected.y)) {
                     e.clicked();
                     return true;
@@ -157,10 +179,9 @@ public class StateGameplay extends State
 
             makeSelectionBox(new Vector2(mouse.x, mouse.y));
 
-
-            for (Ship s : EntityManager.getShips())
+            // Selects all player ships in the selection box
+            for (Ship s : EntityManager.getPlayerShips())
             {
-                // Selects all units in the selection box
                 if (selectionBox.overlaps(s.getRectangle())) {
                     s.clicked();
                     returnValue = true;
@@ -235,17 +256,26 @@ public class StateGameplay extends State
     @Override
     public boolean keyDown(int keycode)
     {
+        // Toggle pause
         if(keycode == Input.Keys.SPACE)
         {
             paused = !paused;
         }
 
+        // Toggle gridlines
+        if(keycode == Input.Keys.G)
+        {
+            gridlines = !gridlines;
+        }
+
+
+        // End planning phase (temporary)
         if(keycode == Input.Keys.C)
         {
             planning = !planning;
         }
 
-        // Keys are used for unit groups
+        // Number keys are used for unit groups
         if(keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9)
         {
             // Holding control adds a new group

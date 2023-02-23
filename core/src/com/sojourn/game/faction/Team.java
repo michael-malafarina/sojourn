@@ -1,6 +1,7 @@
 package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.Utility;
 
 abstract public class Team
 {
@@ -12,6 +13,9 @@ abstract public class Team
     final public static int ID_PLAYER = 1;
     final public static int ID_ENEMY = 2;
     final public static int ID_HOSTILE = 3;
+
+    final private int SPAWN_X_WIDTH = 200;
+    final private int SPAWN_Y_HEIGHT = 100;
 
     // Abstract
 
@@ -35,6 +39,11 @@ abstract public class Team
     public Vector2 getHomePoint()
     {
         return homePoint;
+    }
+
+    public Vector2 getSpawnPoint()
+    {
+        return new Vector2(homePoint.x + Utility.random(-SPAWN_X_WIDTH, SPAWN_X_WIDTH), homePoint.y + Utility.random(-SPAWN_Y_HEIGHT, SPAWN_Y_HEIGHT));
     }
 
     public void setFaction(Faction faction)

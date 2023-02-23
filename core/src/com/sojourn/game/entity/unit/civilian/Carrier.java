@@ -9,6 +9,8 @@ public class Carrier extends Civilian
     public Carrier()
     {
         health = new Attribute(1000);
+//       setPosition(getX() - getWidth()/2, getY() - getHeight()/2);
+
     }
 
     @Override

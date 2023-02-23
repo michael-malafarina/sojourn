@@ -2,8 +2,6 @@ package com.sojourn.game.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Sojourn;
-import com.sojourn.game.Utility;
-import com.sojourn.game.display.Display;
 import com.sojourn.game.entity.projectile.Projectile;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.civilian.Carrier;
@@ -12,6 +10,7 @@ import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Team;
+import com.sojourn.game.faction.TeamPlayer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -39,20 +38,27 @@ public class EntityManager
 //        units = new ArrayList<>();
 //        ships = new ArrayList<>();
 
-        for(int i = 0; i < 4; i++)
-        {
-            Vector2 pos = new Vector2(Utility.random(Display.WIDTH/2), Utility.random(Display.HEIGHT));
-            addUnit(Scout.class, pos, Sojourn.player);
-            pos = new Vector2(Utility.random(Display.WIDTH/2), Utility.random(Display.HEIGHT));
-            addUnit(Raider.class, pos, Sojourn.player);
 
-            pos = new Vector2(Utility.random(Display.WIDTH/2, Display.WIDTH), Utility.random(Display.HEIGHT));
-            addUnit(Scout.class, pos, Sojourn.currentEnemy);
-            pos = new Vector2(Utility.random(Display.WIDTH/2, Display.WIDTH), Utility.random(Display.HEIGHT));
-            addUnit(Raider.class, pos, Sojourn.currentEnemy);
+
+        // Human Player
+        Team human = Sojourn.player;
+        addUnit(Carrier.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human);
+
+        for(int i = 0; i < 4; i++) {
+            addUnit(Scout.class, human.getSpawnPoint(), human);
+            addUnit(Raider.class, human.getSpawnPoint(), human);
         }
 
-        addUnit(Carrier.class, new Vector2(200, 200), Sojourn.player);
+        // Computer Player (Hostile)
+        Team cpu = Sojourn.currentEnemy;
+        addUnit(Carrier.class, new Vector2(cpu.getHomePoint().x, cpu.getHomePoint().y), cpu);
+
+        for(int i = 0; i < 4; i++)
+        {
+            addUnit(Scout.class, cpu.getSpawnPoint(), cpu);
+            addUnit(Raider.class, cpu.getSpawnPoint(), cpu);
+        }
+
 
         updateUnitLists();
 
@@ -69,6 +75,9 @@ public class EntityManager
     public static List<Ship> getShips()    {
         return ships;
     }
+
+
+
 
     public static List<Civilian> getCivilians()    {
         return civilians;
@@ -101,6 +110,10 @@ public class EntityManager
     public static List<Ship> getEnemyShips(Team team)
     {
         return getShips().stream().filter(u -> u.getTeam().isHostile(team)).toList();
+    }
+
+    public static List<Ship> getPlayerShips()    {
+        return getShips().stream().filter(u -> u.getTeam() instanceof TeamPlayer).toList();
     }
 
     public void update(boolean planning, float delta)
@@ -139,7 +152,7 @@ public class EntityManager
     public void addUnit(Class<? extends Unit> clazz, Vector2 position, Team team)
     {
         Unit u = unitFactory(clazz);
-        u.setPosition(position);
+        u.setPosition(position.x - u.getWidth()/2, position.y - u.getHeight()/2);
         u.setTeam(team);
         u.setImage();
         entities.add(u);

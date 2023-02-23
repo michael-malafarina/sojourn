@@ -7,7 +7,7 @@ public class TeamPlayer extends Team
     public TeamPlayer(Faction faction)
     {
         super(faction);
-        setHomePoint(new Vector2(-500, 0));
+        setHomePoint(new Vector2(0, 0));
     }
 
     @Override

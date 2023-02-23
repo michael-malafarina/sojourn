@@ -32,6 +32,7 @@ abstract public class State implements Screen, InputProcessor
     abstract protected void renderBackground(float delta);
     abstract protected void renderGameplay(float delta);
     abstract protected void renderGameplayShapes();
+    abstract protected void renderHudShapes();
 
     protected void renderHud(float delta)
     {
@@ -72,6 +73,9 @@ abstract public class State implements Screen, InputProcessor
         Display.beginBatchHUD();
         renderHud(delta);
         Display.endBatch();
+        Shape.beginShapeHud();
+        renderHudShapes();
+        Shape.endShape();
     }
 
     @Override

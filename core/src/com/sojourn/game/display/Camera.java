@@ -17,9 +17,9 @@ public class Camera
     private static float targetZoom;
 
 
-    public static final float ZOOM_DISTANT = 4f;
-    public static final float ZOOM_MEDIUM = 2f;
-    public static final float ZOOM_CLOSE = 1;
+    public static final float ZOOM_DISTANT = 2f;
+    public static final float ZOOM_MEDIUM = 1f;
+    public static final float ZOOM_CLOSE = .5f;
 
     public Camera()
     {
@@ -40,7 +40,7 @@ public class Camera
     gameCam = new OrthographicCamera(Display.WIDTH, Display.HEIGHT);
     gamePort = new StretchViewport(Display.WIDTH, Display.HEIGHT, gameCam);
     gameCam.setToOrtho(false);
-    gameCam.position.set(gamePort.getWorldWidth()/2, gamePort.getWorldHeight()/2, 0);
+    gameCam.position.set(0, 0, 0);
 
     // Create the camera and port for USER INTERFACE objects
     hudCam = new OrthographicCamera(Display.WIDTH, Display.HEIGHT);
@@ -48,7 +48,8 @@ public class Camera
     hudCam.setToOrtho(false);
     hudCam.position.set(hudPort.getWorldWidth()/2, hudPort.getWorldHeight()/2, 0);
 
-    // Need to wait to go to fullscreen until after start to make scaling work
+
+        // Need to wait to go to fullscreen until after start to make scaling work
     Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 
 }

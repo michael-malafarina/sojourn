@@ -18,6 +18,12 @@ public class Shape
         shapeRenderer.begin();
     }
 
+    public static void beginShapeHud()
+    {
+        shapeRenderer.setProjectionMatrix(Display.getHUDCam().combined);
+        shapeRenderer.begin();
+    }
+
     public static void endShape() {
         shapeRenderer.end();
     }

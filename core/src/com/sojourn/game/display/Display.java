@@ -9,16 +9,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Display
 {
-    public static final int WIDTH = 480*2;
-    public static final int HEIGHT = 270*2;
+    public static final int WIDTH = 1920;//480*2;
+    public static final int HEIGHT = 1080;//270*2;
 
 
     private static SpriteBatch batch;
     private static Text text;
     private static Camera camera;
-
-
-
 
 
     public Display()
@@ -34,7 +31,7 @@ public class Display
     {
         return Camera.gameCam;
     }
-    public static OrthographicCamera getHUDCamera() {
+    public static OrthographicCamera getHUDCam() {
         return Camera.hudCam;
     }
 
