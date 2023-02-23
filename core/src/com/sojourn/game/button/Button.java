@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
+import com.sojourn.game.display.Fonts;
 import com.sojourn.game.display.Text;
 
 
@@ -30,7 +31,7 @@ public class Button
         this.game = game;
         buttonBase = new Texture(Gdx.files.internal("ui/button/button.png"));
         buttonMouseover = new Texture(Gdx.files.internal("ui/button/buttonOver.png"));
-        box = new Rectangle(0, 0, Display.WIDTH * .15f, Display.HEIGHT * .15f * .25f);
+        box = new Rectangle(0, 0, Display.WIDTH * .15f, Display.WIDTH * .15f * .25f);
 
         image = buttonBase;
         label = "";
@@ -70,6 +71,7 @@ public class Button
 
     public void render() {
         Display.draw(image, box.x, box.y, box.width, box.height);
+        Text.setFont(Fonts.title);
         Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
         Text.draw(label, box.x+box.width/2, box.y+box.height/2);
     }

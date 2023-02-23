@@ -17,9 +17,9 @@ public class Camera
     private static float targetZoom;
 
 
-    public static final float ZOOM_DISTANT = 2f;
-    public static final float ZOOM_MEDIUM = 1f;
-    public static final float ZOOM_CLOSE = .5f;
+    public static final float ZOOM_DISTANT = 3f;
+    public static final float ZOOM_MEDIUM = 2f;
+    public static final float ZOOM_CLOSE = 1f;
 
     public Camera()
     {

@@ -1,8 +1,11 @@
 package com.sojourn.game.display;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
+import com.sojourn.game.entity.unit.civilian.Civilian;
+import com.sojourn.game.entity.unit.ship.Ship;
 
 import java.util.List;
 
@@ -26,13 +29,42 @@ public class Minimap extends HudElement
 		
 //		renderNodes(g);
 //		renderResources(g);
+		renderCivilians();
 		renderUnits();
 //		renderCamera(g);
 	}
 
+
+	public void renderCivilians()
+	{
+		List<Civilian> entities = EntityManager.getCivilians();
+
+		for(Entity e : entities)
+		{
+				float xPos = e.getCenterX() / (float) 5000 * width + width/2;
+				float yPos = e.getCenterY() / (float) 5000 * height + y + height/2;
+
+				int w = e.getWidth() / 40;
+				int h = e.getHeight() / 40;
+
+				Color inner = new Color(.2f, .2f, .2f, 1f);
+				Color outer = e.getTeam().getFaction().getColor(0);
+
+				Shape.getRenderer().setColor(inner);
+				Shape.getRenderer().set(ShapeRenderer.ShapeType.Filled);
+				Shape.getRenderer().rect(xPos-w/2, yPos-h/2, w, h);
+
+				Shape.getRenderer().setColor(outer);
+				Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+				Shape.getRenderer().rect(xPos-w/2, yPos-h/2, w, h);
+
+		}
+
+	}
+
 	public void renderUnits()
 	{
-		List<Entity> entities = EntityManager.getEntities();
+		List<Ship> entities = EntityManager.getShips();
 
 		for(Entity e : entities)
 		{
@@ -42,30 +74,28 @@ public class Minimap extends HudElement
 //				float yPos = e.getY() / (float) Values.PLAYFIELD_HEIGHT * height + y + height/2;
 
 
-				float xPos = e.getX() / (float) 5000 * width + width/2;
-				float yPos = e.getY() / (float) 5000 * height + y + height/2;
+				float xPos = e.getCenterX() / (float) 5000 * width + width/2;
+				float yPos = e.getCenterY() / (float) 5000 * height + y + height/2;
 
-//				if(u instanceof BaseShip)
-//				{
-//					int width = 20;
-//					int height = 10;
-//					g.setColor(u.getColorPrimary().darker().darker());
-//					g.fillRect(xPos-width/2, yPos-height/2, width, height);
-//					g.setLineWidth(1);
-//					g.setColor(u.getColorPrimary().darker());
-//					g.drawRect(xPos-width/2, yPos-height/2, width, height);
-//
-//				}
-//				else
-				{
-					int size = 4;//u.getFrame().getImageSize() / 12;
+				int w = e.getWidth() / 12;
+				int h = e.getHeight() / 12;
 
-					Shape.getRenderer().setColor(e.getTeam().getFaction().getColor(0));
-					Shape.getRenderer().set(ShapeRenderer.ShapeType.Filled);
-					Shape.getRenderer().ellipse(xPos-size/2, yPos-size/2, size, size);
+				Color inner = null;
+				Color outer = null;
 
 
-				}
+				inner = e.getTeam().getFaction().getColor(0);
+//				outer = Color.GRAY;
+
+
+				Shape.getRenderer().setColor(inner);
+				Shape.getRenderer().set(ShapeRenderer.ShapeType.Filled);
+				Shape.getRenderer().ellipse(xPos-w/2, yPos-h/2, w, h);
+
+//				Shape.getRenderer().setColor(outer);
+//				Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+//				Shape.getRenderer().ellipse(xPos-w/2, yPos-h/2, w, h);
+
 			}
 		}
 

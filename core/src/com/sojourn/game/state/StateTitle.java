@@ -10,7 +10,7 @@ public class StateTitle extends State {
     {
         super(game);
         Button startButton = new Button(game);
-        startButton.setPosition(10, 40);
+        startButton.setPosition(10, 110);
         startButton.setLabel("Play");
         startButton.setClickEvent(() -> game.setState(Sojourn.STATE_GAMEPLAY_ID));
         buttons.add(startButton);

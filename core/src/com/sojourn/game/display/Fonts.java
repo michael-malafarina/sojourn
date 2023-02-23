@@ -8,9 +8,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Fonts
 {
-    public static final BitmapFont title = createFont("TCM", 22, Color.WHITE, Color.BLACK, 1);
-    public static final BitmapFont small = createFont("TCM", 10, Color.WHITE, Color.BLACK, 0);
-    public static final BitmapFont tiny = createFont("TCM", 8, Color.WHITE, Color.BLACK, 0);
+    public static final BitmapFont title = createFont("TCM", 28, Color.WHITE, Color.BLACK, 1);
+    public static final BitmapFont small = createFont("TCM", 14, Color.WHITE, Color.BLACK, 0);
 
     public static BitmapFont createFont(String name, int size, Color color, Color borderColor, int borderWidth)
     {

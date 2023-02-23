@@ -6,10 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.button.Button;
-import com.sojourn.game.display.Alignment;
-import com.sojourn.game.display.Display;
-import com.sojourn.game.display.Shape;
-import com.sojourn.game.display.Text;
+import com.sojourn.game.display.*;
 
 import java.util.ArrayList;
 
@@ -36,6 +33,7 @@ abstract public class State implements Screen, InputProcessor
 
     protected void renderHud(float delta)
     {
+        Text.setFont(Fonts.small);
         Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
         Text.draw(this + " FPS: " + Gdx.graphics.getFramesPerSecond(), 5, Display.HEIGHT-5);
 
