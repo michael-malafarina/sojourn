@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.Attribute;
 
-public class Carrier extends Civilian
+public class Base extends Civilian
 {
-    public Carrier()
+    public Base()
     {
         health = new Attribute(1000);
 //       setPosition(getX() - getWidth()/2, getY() - getHeight()/2);
@@ -14,18 +14,18 @@ public class Carrier extends Civilian
     }
 
     public int getValueBase() {
-        return 15;
+        return 25;
     }
 
 
     @Override
     public int getWidth() {
-        return 256;
+        return 256*2;
     }
 
     @Override
     public int getHeight() {
-        return 256;
+        return 256*2;
     }
 
     @Override

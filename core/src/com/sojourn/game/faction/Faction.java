@@ -8,5 +8,4 @@ public abstract class Faction
     abstract public Color getColorAlternate(int layer);
 
 
-
 }

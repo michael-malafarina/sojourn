@@ -23,4 +23,6 @@ public class RedFaction extends Faction
                     default -> new Color(.9f, .1f, .05f, 1f);
                 };
     }
+
+
 }

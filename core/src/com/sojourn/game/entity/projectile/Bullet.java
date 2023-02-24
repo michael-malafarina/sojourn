@@ -12,6 +12,8 @@ public class Bullet extends Projectile
         super(owner, target, weapon);
     }
 
+
+
     @Override
     public int getWidth() {
         return 10;

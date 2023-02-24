@@ -4,12 +4,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.entity.projectile.Projectile;
 import com.sojourn.game.entity.unit.Unit;
-import com.sojourn.game.entity.unit.civilian.Carrier;
+import com.sojourn.game.entity.unit.civilian.Base;
 import com.sojourn.game.entity.unit.civilian.Civilian;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Team;
+import com.sojourn.game.faction.TeamEnemy;
 import com.sojourn.game.faction.TeamPlayer;
 
 import java.lang.reflect.InvocationTargetException;
@@ -42,23 +43,31 @@ public class EntityManager
 
         // Human Player
         Team human = Sojourn.player;
-        addUnit(Carrier.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human);
+        addUnit(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human);
 
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 18; i++) {
             addUnit(Scout.class, human.getSpawnPoint(), human);
             addUnit(Raider.class, human.getSpawnPoint(), human);
         }
 
         // Computer Player (Hostile)
-        Team cpu = Sojourn.currentEnemy;
-        addUnit(Carrier.class, new Vector2(cpu.getHomePoint().x, cpu.getHomePoint().y), cpu);
 
-        for(int i = 0; i < 4; i++)
-        {
-            addUnit(Scout.class, cpu.getSpawnPoint(), cpu);
-            addUnit(Raider.class, cpu.getSpawnPoint(), cpu);
-        }
 
+
+    }
+
+    public static void spawnEnemyWave()
+    {
+        TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+//        addUnit(Carrier.class, new Vector2(cpu.getHomePoint().x, cpu.getHomePoint().y), cpu);
+
+        cpu.getWave(60);
+
+//        for(int i = 0; i < 4; i++)
+//        {
+//            addUnit(Scout.class, cpu.getSpawnPoint(), cpu);
+//            addUnit(Raider.class, cpu.getSpawnPoint(), cpu);
+//        }
 
         updateUnitLists();
 
@@ -149,16 +158,17 @@ public class EntityManager
         newEntities.add(e);
     }
 
-    public void addUnit(Class<? extends Unit> clazz, Vector2 position, Team team)
+    public static Unit addUnit(Class<? extends Unit> clazz, Vector2 position, Team team)
     {
         Unit u = unitFactory(clazz);
         u.setPosition(position.x - u.getWidth()/2, position.y - u.getHeight()/2);
         u.setTeam(team);
         u.setImage();
         entities.add(u);
+        return u;
     }
 
-    public Unit unitFactory(Object o)
+    public static Unit unitFactory(Object o)
     {
         Class<? extends Unit> clazz = (Class<? extends Unit>) o;
 

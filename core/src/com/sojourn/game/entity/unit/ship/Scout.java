@@ -27,6 +27,10 @@ public class Scout extends Ship
 
     }
 
+    public int getValueBase() {
+        return 3;
+    }
+
 
     @Override
     public Texture getSpriteSheet()

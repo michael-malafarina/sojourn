@@ -12,6 +12,11 @@ abstract public class Projectile extends Entity
     protected Weapon weapon;
     protected Vector2 targetOffset;
 
+    @Override
+    public int getValueBase() {
+        return 0;
+    }
+
     Projectile(Entity owner, Entity target, Weapon weapon)
     {
         this.owner = owner;

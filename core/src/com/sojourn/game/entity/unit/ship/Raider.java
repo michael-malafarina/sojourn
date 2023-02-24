@@ -28,6 +28,11 @@ public class Raider extends Ship
     }
 
     @Override
+    public int getValueBase() {
+        return 7;
+    }
+
+    @Override
     public int getWidth() {
         return 32;
     }

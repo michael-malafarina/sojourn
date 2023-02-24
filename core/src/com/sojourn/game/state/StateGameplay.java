@@ -269,10 +269,16 @@ public class StateGameplay extends State
         }
 
 
-        // End planning phase (temporary)
+        // Toggle planning phase (temporary)
         if(keycode == Input.Keys.C)
         {
             planning = !planning;
+        }
+
+        // Spawn a wave of enemies
+        if(keycode == Input.Keys.E)
+        {
+            EntityManager.spawnEnemyWave();
         }
 
         // Number keys are used for unit groups
