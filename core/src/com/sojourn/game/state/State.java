@@ -34,7 +34,7 @@ abstract public class State implements Screen, InputProcessor
     protected void renderHud(float delta)
     {
         Text.setFont(Fonts.small);
-        Text.setAlignment(Alignment.LEFT, Alignment.BOTTOM);
+        Text.setAlignment(Alignment.LEFT, Alignment.TOP);
         Text.draw(this + " FPS: " + Gdx.graphics.getFramesPerSecond(), 5, Display.HEIGHT-5);
 
         buttons.forEach(Button::render);

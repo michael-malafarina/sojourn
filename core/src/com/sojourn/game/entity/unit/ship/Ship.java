@@ -10,12 +10,26 @@ import com.sojourn.game.entity.unit.Unit;
 public abstract class Ship extends Unit
 {
     private Vector2 destination;
+    private Vector2 anchor;
+    private boolean idle;
+
     private int lastOrder;
+    private float distancing = 25;
+
+    private Vector2 drift;
+
     boolean retreat;
 
     public Ship()
     {
         super();
+        anchor = getPosition();
+        drift = new Vector2(.5f, .5f);
+        drift.setToRandomDirection();
+
+        System.out.println(drift);
+
+        //   drift.setLength(1);
     }
 
     public void actionPlanning()
@@ -23,35 +37,34 @@ public abstract class Ship extends Unit
 
         // Planning Phase Movement Rules
 
-        if(hasDestination())
+
+        drift();
+
+
+        if(nearAnchor(25))
         {
-            avoidNearby();
-
-
-            if(getDistance(destination) < 75)
-            {
-                destination = null;
-            }
-            else
-            {
-                turnTo(destination);
-            }
-
-            move();
-
+            idle = true;
         }
-        else
+        else if(!nearAnchor(250))
+        {
+            idle = false;
+        }
+
+        if(idle)
         {
             idleMovement();
         }
-
-
+        else
+        {
+           // avoidNearby();
+            moveTo(anchor);
+        }
 
     }
 
     public void actionCombat()
     {
-        avoidNearby();
+      //  avoidNearby();
 
 
         Unit u = getNearestEnemyShip();
@@ -71,12 +84,22 @@ public abstract class Ship extends Unit
         move();
     }
 
+
     private void avoidNearby()
     {
         Ship s = getNearestShip();
-        if(getDistance(s) < 25)
+
+        // If another ship is my distance radius, try to move away and increase that radius slightly
+        if(getDistance(s) < distancing)
         {
             avoid(s);
+            distancing += getAcceleration() * .1f;
+        }
+
+        // Otherwise, reset distancing rules back down
+        else if(distancing > 25 && getDistance(s) > 150)
+        {
+            distancing -= getAcceleration() * .25f;
         }
     }
 
@@ -87,21 +110,64 @@ public abstract class Ship extends Unit
         move();
     }
 
+    public void drift()
+    {
+        float dist = getDistance( getNearestShip());
+
+        if(dist < 10)
+        {
+            drift.setLength(.1f);
+            setPosition(getX() + drift.x, getY() + drift.y);
+
+        }
+
+        if(dist < 20)
+        {
+            drift.setLength(.05f);
+            setPosition(getX() + drift.x, getY() + drift.y);
+
+        }
+
+
+
+        //setPosition(getX() + drift.x, getY() + drift.y);
+    }
+
     public void idleMovement()
     {
-        turn(.75f);
-        move(25f);
+//        float percentOrbitLimit = getDistance(anchor) / 75f;
+//        float turnAmount = percentOrbitLimit * .45f + .45f;
+
+//        if(getDistance(getNearestShip()) < (getWidth() + getHeight()) * .5f)
+//        {
+//            turn(Utility.random(0, turnAmount * -1));
+//        }
+
+
+turnTo(anchor);
+turn(90);
+
+
+//        turn(.2f * getDistance(anchor) / 100);
+
+       // turn(.45f);
+        move(10f);
     }
 
     public void render()
     {
         super.render();
-      //  Text.draw(""+a, getX(), getY());
+     //   Text.draw(""+distancing, getX(), getY());
     }
 
     public Vector2 getDestination()
     {
         return destination;
+    }
+
+    public boolean nearAnchor(int amount)
+    {
+        return getDistance(anchor) < amount + distancing;
     }
 
     public boolean hasDestination()
@@ -112,12 +178,14 @@ public abstract class Ship extends Unit
     public void setDestination(float x, float y)
     {
         destination = new Vector2(x, y);
+        anchor = destination;
         lastOrder = getTimer();
+        idle = false;
     }
 
     public void setDestination(Vector2 p)
     {
-        destination = p;
+        setDestination(p.x, p.y);
     }
 
     public int getNumLayers()

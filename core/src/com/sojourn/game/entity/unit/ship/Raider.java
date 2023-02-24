@@ -45,12 +45,12 @@ public class Raider extends Ship
     @Override
     public float getMaxSpeedBase()
     {
-        return 150;
+        return 50;
     }
 
     @Override
     public float getAccelerationBase()
     {
-        return 4;
+        return 50;
     }
 }

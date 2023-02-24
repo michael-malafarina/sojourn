@@ -51,12 +51,12 @@ public class Scout extends Ship
     @Override
     public float getMaxSpeedBase()
     {
-        return 300;
+        return 80;
     }
 
     @Override
     public float getAccelerationBase()
     {
-        return 12;
+        return 80;
     }
 }

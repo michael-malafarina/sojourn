@@ -16,6 +16,11 @@ import com.sojourn.game.faction.Team;
 
 abstract public class Entity
 {
+    final private float SPEED = 1.2f;
+    final private float ACC = .02f;
+
+    // Data
+
     private int timer;
     private Team team;
     protected Rectangle box;
@@ -28,7 +33,10 @@ abstract public class Entity
 
     private float theta;
     private float delta;
-    private boolean hasMoved;
+    private boolean doneMovement;
+    private boolean doneTurning;
+
+    // Abstract Methods
 
     abstract public int getValueBase();
     abstract public int getWidth();
@@ -37,11 +45,11 @@ abstract public class Entity
     abstract public float getMaxSpeedBase();
     abstract public float getAccelerationBase();
     abstract public Texture getSpriteSheet();
+    abstract public void actionPlanning();
+    abstract public void actionCombat();
 
-    public boolean canMove()
-    {
-        return !hasMoved;
-    }
+
+    // Constructor
 
     public Entity()
     {
@@ -51,68 +59,53 @@ abstract public class Entity
         health = new Attribute(1);
     }
 
-    public EntityImage getImage()
-    {
+
+    // Accessors
+
+    public boolean canMove()    {
+        return !doneMovement;
+    }
+
+    public boolean canTurn()    {
+        return !doneTurning;
+    }
+
+    public EntityImage getImage()    {
         return image;
     }
 
-    abstract public void actionPlanning();
-    abstract public void actionCombat();
-
-    public Attribute getHealth()
-    {
+    public Attribute getHealth()    {
         return health;
     }
 
-    public float getValue()
-    {
+    public float getValue()    {
         // Applies additional scalars, such as if it is an elite to the base unit archetype's value
         return getValueBase();
     }
 
-    public float getMaxSpeed()
-    {
-        // Eventually multiply this by speed debuffs and other conditions
-        return getMaxSpeedBase();
+    public float getMaxSpeed()    {
+
+        return getMaxSpeedBase() * SPEED;
     }
 
-    public float getAcceleration()
-    {
+    public float getAcceleration()    {
         // Eventually multiply this by speed debuffs and other conditions
-        return getAccelerationBase();
+        return getAccelerationBase() * ACC;
     }
 
-
-
-    public Vector2 getPosition()
-    {
+    public Vector2 getPosition()    {
         return new Vector2(box.x+box.width/2, box.y+box.height/2);
     }
 
-    public Vector2 getCenterPosition()
-    {
+    public Vector2 getCenterPosition()    {
         return new Vector2(box.x + box.width/2, box.y + box.height/2);
     }
 
-    public void setPosition(float x, float y)
-    {
-        box.x = x;
-        box.y = y;
-    }
-
-    public void setExpired()
-    {
-        isExpired = true;
-    }
-
-    public void setPosition(Vector2 position)
-    {
-        setPosition(position.x, position.y);
-    }
 
     public float getX() {
         return box.x;
     }
+
     public float getY() {
         return box.y;
     }
@@ -139,10 +132,6 @@ abstract public class Entity
         return team;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
     public void setImage()
     {
         image = new EntityImage(this, getSpriteSheet());
@@ -158,15 +147,52 @@ abstract public class Entity
         return timer;
     }
 
+    public boolean isExpired() { return isExpired; }
+    // Mutators
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public void setPosition(float x, float y)    {
+        box.x = x;
+        box.y = y;
+    }
+
+    public void setExpired()
+    {
+        isExpired = true;
+    }
+
+    public void setPosition(Vector2 position)
+    {
+        setPosition(position.x, position.y);
+    }
+
     public void update(boolean planning, float delta)
+    {
+        upkeep(delta);
+        action(planning);
+    }
+
+    protected void upkeep(float delta)
     {
         this.delta = delta;
         timer++;
 
-        hasMoved = false;
+        doneMovement = false;
+        doneTurning = false;
 
         health.update();
 
+        if(health.getCurrent() <= 0)
+        {
+            setExpired();
+        }
+    }
+
+    protected void action(boolean planning)
+    {
         if(planning)
         {
             actionPlanning();
@@ -175,13 +201,9 @@ abstract public class Entity
         {
             actionCombat();
         }
-
-        if(health.getCurrent() <= 0)
-        {
-            setExpired();
-        }
-
     }
+
+
 
     public void takeDamage(float amount, Entity source)
     {
@@ -218,7 +240,7 @@ abstract public class Entity
         selected = false;
     }
 
-    public boolean isExpired() { return isExpired; }
+
 
     /********************* MOVEMENT *********************/
 
@@ -230,6 +252,17 @@ abstract public class Entity
             accelerate();
         }
 
+    }
+
+    protected void moveTo(Vector2 p)
+    {
+        turnTo(p);
+        move();
+    }
+    protected void moveTo(Entity e)
+    {
+        turnTo(e);
+        move();
     }
 
     protected void move(float normScaled)
@@ -256,7 +289,7 @@ abstract public class Entity
         changeSpeed(getAcceleration()  );
         box.x += speed.x * delta;
         box.y += speed.y * delta;
-        hasMoved = true;
+        doneMovement = true;
     }
 
     private void accelerate(float normScaled)
@@ -265,7 +298,7 @@ abstract public class Entity
         speed.nor().scl(normScaled );
         box.x += speed.x * delta;
         box.y += speed.y * delta;
-        hasMoved = true;
+        doneMovement = true;
     }
 
     private void changeSpeed(float amount)
@@ -280,6 +313,11 @@ abstract public class Entity
     }
 
     /********************* TURNING *********************/
+
+    public final void turnLock()
+    {
+        doneTurning = true;
+    }
 
     public final float getAngleToward(float targetX, float targetY)
     {
@@ -296,10 +334,8 @@ abstract public class Entity
         return angle;
     }
 
-    public final void turnTo(float degrees)
+    public final void rotate(float degrees)
     {
-           // if (canMove())
-            //{
         while (degrees > 360)   {
             degrees -= 360;
         }
@@ -308,8 +344,14 @@ abstract public class Entity
         }
 
         theta = degrees;
-              //  thetaOld = theta;
-           // }
+    }
+
+    public final void turnTo(float degrees)
+    {
+        if (canTurn())
+        {
+           rotate(degrees);
+        }
     }
 
     public final void turnTo(float x, float y)

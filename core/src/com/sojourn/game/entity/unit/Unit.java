@@ -20,9 +20,9 @@ abstract public class Unit extends Entity
 
     public void update(boolean planning, float delta)
     {
-        super.update(planning, delta);
+        upkeep(delta);
         weapons.update();
-
+        action(planning);
     }
 
     public boolean inRangeShortest(Entity e)

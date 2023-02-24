@@ -9,10 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
-import com.sojourn.game.display.Camera;
-import com.sojourn.game.display.Display;
-import com.sojourn.game.display.Minimap;
-import com.sojourn.game.display.Shape;
+import com.sojourn.game.display.*;
 import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
@@ -29,17 +26,33 @@ public class StateGameplay extends State
     private boolean paused;
     private boolean planning;
     private boolean gridlines;
+    private int gameSpeed;
 
 
     private static Minimap minimap;
+
+    // Constructor
 
     public StateGameplay(final Sojourn game)
     {
         super(game);
         controlGroups = new ControlGroupSet();
         planning = true;
+        gameSpeed = 2;
         minimap = new Minimap(2, 2, 192*1.7f, 108*1.7f);
 
+    }
+
+    // Accessors
+
+    public boolean inPlanningMode()
+    {
+        return planning;
+    }
+
+    public boolean inCombatMode()
+    {
+        return !planning;
     }
 
     @Override
@@ -51,7 +64,18 @@ public class StateGameplay extends State
             return;
         }
 
-        game.getEntityManager().update(planning, delta);
+        if(inPlanningMode())
+        {
+            for(int i = 0; i < 3; i++) {
+                game.getEntityManager().update(inPlanningMode(), delta);
+            }
+        }
+        else
+        {
+            for(int i = 0; i < gameSpeed; i++) {
+                game.getEntityManager().update(inPlanningMode(), delta);
+            }
+        }
 
     }
 
@@ -106,6 +130,32 @@ public class StateGameplay extends State
     @Override
     protected void renderHud(float delta)    {
         super.renderHud(delta);
+
+        if(inPlanningMode()) {
+            renderHudPlanning();
+        }
+        else {
+            renderHudCombat();
+        }
+
+    }
+
+    protected void renderHudPlanning()
+    {
+        Text.setFont(Fonts.title);
+        Text.setAlignment(Alignment.CENTER, Alignment.TOP);
+        Text.draw("Planning ", Display.WIDTH/2, Display.HEIGHT);
+    }
+
+    protected void renderHudCombat()
+    {
+        Text.setFont(Fonts.small);
+        Text.setAlignment(Alignment.LEFT, Alignment.TOP);
+        Text.draw("Speed " + gameSpeed, 5, Display.HEIGHT - 25);
+
+        Text.setFont(Fonts.title);
+        Text.setAlignment(Alignment.CENTER, Alignment.TOP);
+        Text.draw("Combat ", Display.WIDTH/2, Display.HEIGHT);
     }
 
     protected void renderHudShapes()
@@ -268,7 +318,6 @@ public class StateGameplay extends State
             gridlines = !gridlines;
         }
 
-
         // Toggle planning phase (temporary)
         if(keycode == Input.Keys.C)
         {
@@ -281,6 +330,20 @@ public class StateGameplay extends State
             EntityManager.spawnEnemyWave();
         }
 
+        if(inPlanningMode()) {
+            keyDownPlanning(keycode);
+        }
+        if(inCombatMode())
+        {
+            keyDownCombat(keycode);
+        }
+
+
+        return false;
+    }
+
+    public void keyDownPlanning(int keycode)
+    {
         // Number keys are used for unit groups
         if(keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9)
         {
@@ -297,8 +360,23 @@ public class StateGameplay extends State
             }
 
         }
+    }
 
-        return false;
+    public void keyDownCombat(int keycode)
+    {
+        if(keycode == Input.Keys.NUM_1)
+        {
+            gameSpeed = 1;
+        }
+        else if(keycode == Input.Keys.NUM_2)
+        {
+            gameSpeed = 2;
+        }
+        else if(keycode == Input.Keys.NUM_3)
+        {
+            gameSpeed = 3;
+        }
+
     }
 
     public List<Unit> getAllSelectedUnits()

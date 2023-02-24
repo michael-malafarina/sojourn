@@ -42,7 +42,7 @@ public class Text
 
         return switch(alignVertical)
         {
-            case TOP -> glyphLayout.height;
+            case BOTTOM -> glyphLayout.height;
             case CENTER -> glyphLayout.height/2;
             default -> 0;
         };
