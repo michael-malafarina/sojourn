@@ -14,13 +14,13 @@ public class Shape
 
     public static void beginShapeGameplay()
     {
-        shapeRenderer.setProjectionMatrix(Display.getGameCam().combined);
+        shapeRenderer.setProjectionMatrix(Display.getCamera().getGameCamera().combined);
         shapeRenderer.begin();
     }
 
     public static void beginShapeHud()
     {
-        shapeRenderer.setProjectionMatrix(Display.getHUDCam().combined);
+        shapeRenderer.setProjectionMatrix(Display.getCamera().getHudCamera().combined);
         shapeRenderer.begin();
     }
 

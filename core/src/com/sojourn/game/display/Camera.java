@@ -5,13 +5,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sojourn.game.entity.Entity;
+import com.sojourn.game.entity.EntityManager;
+import com.sojourn.game.entity.unit.Unit;
+
+import java.util.List;
 
 public class Camera
 {
-    public static OrthographicCamera gameCam;
-    public static OrthographicCamera hudCam;
-    private static Viewport gamePort;
-    private static Viewport hudPort;
+    private OrthographicCamera gameCam;
+    private OrthographicCamera hudCam;
+    private Viewport gamePort;
+    private Viewport hudPort;
 
     private static final float ZOOM_RATE = .1f;
     private static float targetZoom;
@@ -25,6 +30,25 @@ public class Camera
     {
         targetZoom = ZOOM_MEDIUM;
         setupCamera();
+    }
+
+    public OrthographicCamera getGameCamera()
+    {
+        return gameCam;
+    }
+    public OrthographicCamera getHudCamera()
+    {
+        return hudCam;
+    }
+
+    public Viewport getGamePort()
+    {
+        return gamePort;
+    }
+
+    public Viewport getHudPort()
+    {
+        return hudPort;
     }
 
     public void update()
@@ -54,7 +78,17 @@ public class Camera
 
 }
 
-    public void controlCamera() {
+    public void controlCamera()
+    {
+        controlCameraKeyboard();
+        List<Unit> units = EntityManager.getUnits();
+        if(units != null && units.stream().filter(Entity::isSelected).toList().isEmpty())
+        {
+            controlCameraMouse();
+        }
+    }
+
+    public void controlCameraKeyboard() {
         int translateSpeed = 50;
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -72,6 +106,17 @@ public class Camera
 
 
         gameCam.update();
+    }
+
+    public void controlCameraMouse()
+    {
+        final float SCALE = 4;
+        if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+        {
+            gameCam.translate(-Gdx.input.getDeltaX() * SCALE, Gdx.input.getDeltaY() * SCALE, 0);
+            gameCam.update();
+        }
+
     }
 
     public void updateZoom()

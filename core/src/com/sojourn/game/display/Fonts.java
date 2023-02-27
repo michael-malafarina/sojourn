@@ -10,7 +10,7 @@ public class Fonts
 {
     public static final BitmapFont title = createFont("TCM", 28, Color.WHITE, Color.BLACK, 1);
     public static final BitmapFont small = createFont("TCM", 14, Color.WHITE, Color.BLACK, 0);
-    public static final BitmapFont floatText = createFont("TCM", 18, Color.WHITE, Color.DARK_GRAY, 1);
+    public static final BitmapFont floatText = createFont("TCM", 24, Color.WHITE, Color.DARK_GRAY, 1);
 
     public static BitmapFont createFont(String name, int size, Color color, Color borderColor, int borderWidth)
     {

@@ -8,12 +8,14 @@ public class FloatText extends EntityMessage
 {
     protected float ySpeed;
     protected float xSpeed;
+    protected float dataScaling;
 
     public FloatText(String message, Entity e) {
         super(message, e);
         xSpeed = Utility.random(-15, 15);
         ySpeed = Utility.random(40, 50);
         myFont = Fonts.floatText;
+        dataScaling = 1;
     }
 
     public void update(float delta)
@@ -26,10 +28,11 @@ public class FloatText extends EntityMessage
 
     public void render()
     {
-        float scaling = Interpolation.exp5In.apply(getPercentLeft());
-        scaling = Utility.scaleBetweenBounded(scaling, .6f, 1, 0, 1);
-        alpha = scaling;
-        myFont.getData().setScale(scaling, scaling);
+        alpha = Interpolation.exp5In.apply(getPercentLeft());
+
+        float timeScaling = Utility.scaleBetweenBounded(alpha, .6f, 1, 0, 1);
+
+        myFont.getData().setScale(timeScaling * dataScaling, timeScaling * dataScaling);
 
         super.render();
 

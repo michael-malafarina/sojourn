@@ -2,7 +2,6 @@ package com.sojourn.game.display;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,12 +24,9 @@ public class Display
         Shape.init();
     }
 
-    public static OrthographicCamera getGameCam()
+    public static Camera getCamera()
     {
-        return Camera.gameCam;
-    }
-    public static OrthographicCamera getHUDCam() {
-        return Camera.hudCam;
+        return camera;
     }
 
     public void update(float delta)
@@ -61,12 +57,12 @@ public class Display
     }
 
     public static void beginBatchGameplay() {
-        batch.setProjectionMatrix(Camera.gameCam.combined);
+        batch.setProjectionMatrix(camera.getGameCamera().combined);
         batch.begin();
     }
 
     public static void beginBatchHUD() {
-        batch.setProjectionMatrix(Camera.hudCam.combined);
+        batch.setProjectionMatrix(camera.getHudCamera().combined);
         batch.begin();
     }
 

@@ -1,6 +1,7 @@
 package com.sojourn.game.display;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
@@ -11,6 +12,11 @@ import java.util.List;
 
 public class Minimap extends HudElement
 {
+	final float WORLD_WIDTH = 1920*5;
+	final float WORLD_HEIGHT = 1080 * 5 ;
+
+
+
 	public Minimap(float x, float y, float w, float h)
 	{
 		super(x, y, w, h);
@@ -31,7 +37,7 @@ public class Minimap extends HudElement
 //		renderResources(g);
 		renderCivilians();
 		renderUnits();
-//		renderCamera(g);
+		renderCamera();
 	}
 
 
@@ -41,8 +47,8 @@ public class Minimap extends HudElement
 
 		for(Entity e : entities)
 		{
-				float xPos = e.getCenterX() / (float) 5000 * width + width/2;
-				float yPos = e.getCenterY() / (float) 5000 * height + y + height/2;
+				float xPos = e.getCenterX() / (float) WORLD_WIDTH * width + width/2;
+				float yPos = e.getCenterY() / (float) WORLD_HEIGHT * height + y + height/2;
 
 				int w = e.getWidth() / 40;
 				int h = e.getHeight() / 40;
@@ -74,8 +80,8 @@ public class Minimap extends HudElement
 //				float yPos = e.getY() / (float) Values.PLAYFIELD_HEIGHT * height + y + height/2;
 
 
-				float xPos = e.getCenterX() / (float) 5000 * width + width/2;
-				float yPos = e.getCenterY() / (float) 5000 * height + y + height/2;
+				float xPos = e.getCenterX() / (float) WORLD_WIDTH * width + width/2;
+				float yPos = e.getCenterY() / (float) WORLD_HEIGHT * height + y + height/2;
 
 				int w = e.getWidth() / 12;
 				int h = e.getHeight() / 12;
@@ -159,19 +165,22 @@ public class Minimap extends HudElement
 //		}
 //	}
 
-//	public void renderCamera(Graphics g)
-//	{
-//		// Maths
-//
-//		float camX = Camera.getX() / ((float) Game.getMapWidth()) * w + x + w / 2;
-//		float camY = Camera.getY() / ((float) Game.getMapHeight()) * h + y + h / 2;
-//		float camW = ((Camera.getViewWidth() / ((float) Game.getMapWidth())) * w);
-//		float camH = ((Camera.getViewHeight() / ((float) Game.getMapHeight())) * h);
-//
+	public void renderCamera()
+	{
+		// Maths
+
+		OrthographicCamera cam = Display.getCamera().getGameCamera();
+
+
+		float camX = cam.position.x / ((float) WORLD_WIDTH) * width + x + width / 2;
+		float camY = cam.position.y / ((float) WORLD_HEIGHT) * height + y + height / 2;
+		float camW = (cam.viewportWidth / ((float) WORLD_WIDTH)) * width;
+		float camH = (cam.viewportHeight / ((float) WORLD_HEIGHT)) * height;
+
 //		// Snap to right
-//		if(camX + camW / 2 > w)
+//		if(camX + camW / 2 > width)
 //		{
-//			camX = w - camW/2;
+//			camX = width - camW/2;
 //		}
 //
 //		// Snap to left
@@ -181,9 +190,9 @@ public class Minimap extends HudElement
 //		}
 //
 //		// Snap to bottom
-//		if(camY + camH / 2 > y + h)
+//		if(camY + camH / 2 > y + height)
 //		{
-//			camY = y + h - camH/2;
+//			camY = y + height - camH/2;
 //		}
 //
 //		// Snap to top
@@ -191,14 +200,18 @@ public class Minimap extends HudElement
 //		{
 //			camY = y + camH / 2;
 //		}
-//
-//		// Display box
+
+		Shape.getRenderer().setColor(Color.WHITE);
+		Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+		Shape.getRenderer().rect(camX - camW / 2, camY - camH / 2, camW, camH);
+
+		// Display box
 //		g.setLineWidth(2);
 //		g.setColor(new Color(200, 200, 200, 10));
 //		g.fillRect(camX - camW / 2, camY - camH / 2, camW, camH);
 //		g.setColor(new Color(200, 200, 200, 45));
 //		g.drawRect(camX - camW / 2, camY - camH / 2, camW, camH);
 //		g.resetLineWidth();
-//	}
+	}
 
 }

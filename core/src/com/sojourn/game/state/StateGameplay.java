@@ -81,7 +81,6 @@ public class StateGameplay extends State
                 game.getEntityManager().update(inPlanningMode(), delta);
             }
         }
-
     }
 
     @Override
@@ -175,7 +174,7 @@ public class StateGameplay extends State
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
         Vector3 mouseRaw = new Vector3(screenX, screenY, 0);
-        Vector3 mouseProjected = Display.getGameCam().unproject(mouseRaw);
+        Vector3 mouseProjected = Display.getCamera().getGameCamera().unproject(mouseRaw);
         boolean returnValue = false;
 
         // Determine which units are selected with this event
@@ -220,7 +219,7 @@ public class StateGameplay extends State
     public boolean touchDragged(int screenX, int screenY, int pointer)
     {
         Vector3 mouseRaw = new Vector3(screenX, screenY, 0);
-        Vector3 mouse = Display.getGameCam().unproject(mouseRaw);
+        Vector3 mouse = Display.getCamera().getGameCamera().unproject(mouseRaw);
         boolean returnValue = false;
 
         // This means the unit selection box was started
@@ -287,11 +286,12 @@ public class StateGameplay extends State
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
 
-        if(selectionBoxOrigin != null)
+        if(button == Input.Buttons.LEFT && selectionBoxOrigin != null)
         {
             selectionBoxOrigin = null;
             selectionBox = null;
         }
+
         return false;
     }
 
@@ -393,5 +393,7 @@ public class StateGameplay extends State
     {
         EntityManager.getEntities().forEach(Entity::unselect);
     }
+
+
 
 }
