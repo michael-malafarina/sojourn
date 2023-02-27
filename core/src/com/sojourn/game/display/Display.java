@@ -12,19 +12,17 @@ public class Display
     public static final int WIDTH = 1920;//480*2;
     public static final int HEIGHT = 1080;//270*2;
 
-
     private static SpriteBatch batch;
     private static Text text;
     private static Camera camera;
 
-
     public Display()
     {
         batch = new SpriteBatch();
+        batch.enableBlending(); // Enable alpha
         text = new Text();
         camera = new Camera();
         Shape.init();
-
     }
 
     public static OrthographicCamera getGameCam()
@@ -35,9 +33,10 @@ public class Display
         return Camera.hudCam;
     }
 
-    public void update()
+    public void update(float delta)
     {
         camera.update();
+
     }
 
     public static float getAverageRatio() {

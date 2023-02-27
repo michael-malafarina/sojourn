@@ -1,5 +1,6 @@
 package com.sojourn.game.display;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
@@ -7,26 +8,43 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 public class Text
 {
     private final Fonts fonts;
-    private static BitmapFont currentFont;
+    private static BitmapFont font;
     private static Alignment alignHorizontal;
     private static Alignment alignVertical;
+    private static Color color;
 
     Text() {
         fonts = new Fonts();
+        color = Color.WHITE;
         setFont(fonts.small);
     }
 
-    public static void setFont(BitmapFont f) {
-        currentFont = f;
+    public static void setFont(BitmapFont font) {
+        Text.font = font;
     }
 
-    public static void draw(String text, float x, float y) {
-        currentFont.draw(Display.getBatch(), text, x - getHorizontalOffset(text), y + getVerticalOffset(text));
+    public static void setColor(Color color) {
+        Text.color = new Color(color);
+    }
+
+    public static void setAlpha(float alpha) {
+        Text.color = new Color(color.r, color.g, color.b, alpha);
+    }
+
+    public static void resetAlpha() {
+        Text.color = new Color(color.r, color.g, color.b, 1);
+    }
+
+
+    public static void draw(String text, float x, float y)
+    {
+        font.setColor(color);
+        font.draw(Display.getBatch(), text, x - getHorizontalOffset(text), y + getVerticalOffset(text));
     }
 
     private static float getHorizontalOffset(String text) {
 
-        GlyphLayout glyphLayout = new GlyphLayout(currentFont, text);
+        GlyphLayout glyphLayout = new GlyphLayout(font, text);
 
         return switch(alignHorizontal)
         {
@@ -38,7 +56,7 @@ public class Text
 
     private static float getVerticalOffset(String text)  {
 
-        GlyphLayout glyphLayout = new GlyphLayout(currentFont, text);
+        GlyphLayout glyphLayout = new GlyphLayout(font, text);
 
         return switch(alignVertical)
         {

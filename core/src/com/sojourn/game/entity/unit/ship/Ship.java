@@ -27,18 +27,18 @@ public abstract class Ship extends Unit
         drift = new Vector2(.5f, .5f);
         drift.setToRandomDirection();
 
-        System.out.println(drift);
+      //  System.out.println(drift);
 
         //   drift.setLength(1);
     }
 
     public void actionPlanning()
     {
+        drift();
 
         // Planning Phase Movement Rules
 
 
-        drift();
 
 
         if(nearAnchor(25))
@@ -56,15 +56,20 @@ public abstract class Ship extends Unit
         }
         else
         {
-           // avoidNearby();
             moveTo(anchor);
+        }
+
+        if(getTimer() % 300 == 0)
+        {
+            drift.setToRandomDirection();
         }
 
     }
 
     public void actionCombat()
     {
-      //  avoidNearby();
+        avoidNearby();
+        //drift();
 
 
         Unit u = getNearestEnemyShip();
@@ -90,17 +95,11 @@ public abstract class Ship extends Unit
         Ship s = getNearestShip();
 
         // If another ship is my distance radius, try to move away and increase that radius slightly
-        if(getDistance(s) < distancing)
+        if(getDistance(s) < 25)
         {
             avoid(s);
-            distancing += getAcceleration() * .1f;
         }
 
-        // Otherwise, reset distancing rules back down
-        else if(distancing > 25 && getDistance(s) > 150)
-        {
-            distancing -= getAcceleration() * .25f;
-        }
     }
 
     public void avoid(Entity e)

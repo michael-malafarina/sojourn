@@ -31,4 +31,15 @@ public class Utility
         delta.setAngleDeg(angle).scl(magnitude);
         return delta;
     }
+
+    public static float scaleBetween(float n, float minOut, float maxOut, float minIn, float maxIn)
+    {
+        return (maxOut - minOut) * (n - minIn) / (maxIn - minIn) + minOut;
+    }
+
+    public static float scaleBetweenBounded(float n, float minOut, float maxOut, float minIn, float maxIn)
+    {
+        float val = scaleBetween(n, minOut, maxOut, minIn, maxIn);
+        return Math.max(Math.min(val,  maxOut), minOut);
+    }
 }

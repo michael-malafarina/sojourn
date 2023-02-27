@@ -20,6 +20,9 @@ import java.util.List;
 
 public class StateGameplay extends State
 {
+
+    private EntityMessageManager messages;
+
     private ControlGroupSet controlGroups;
     private Rectangle selectionBox;
     private Vector2 selectionBoxOrigin;
@@ -40,7 +43,7 @@ public class StateGameplay extends State
         planning = true;
         gameSpeed = 2;
         minimap = new Minimap(2, 2, 192*1.7f, 108*1.7f);
-
+        messages = new EntityMessageManager();
     }
 
     // Accessors
@@ -59,6 +62,8 @@ public class StateGameplay extends State
     public void update(float delta)
     {
         super.update(delta);
+
+        messages.update(delta);
 
         if(paused)  {
             return;
@@ -90,7 +95,7 @@ public class StateGameplay extends State
         EntityManager.getCivilians().forEach(Entity::render);
         EntityManager.getShips().forEach(Entity::render);
         EntityManager.getProjectiles().forEach(Entity::render);
-
+        messages.render();
     }
 
     protected void renderGameplayShapes()

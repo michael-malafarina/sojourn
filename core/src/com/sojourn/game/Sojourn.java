@@ -68,7 +68,7 @@ public class Sojourn extends Game
 
 		//System.out.println(Gdx.graphics.getFramesPerSecond() + " " + Gdx.graphics.getDeltaTime());
 
-		display.update();
+		display.update(Gdx.graphics.getDeltaTime());
 
 		getScreen().render(Gdx.graphics.getDeltaTime());
 

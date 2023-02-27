@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
+import com.sojourn.game.display.DamageText;
+import com.sojourn.game.display.EntityMessage;
+import com.sojourn.game.display.EntityMessageManager;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.images.EntityImage;
 import com.sojourn.game.faction.Team;
@@ -20,6 +23,7 @@ abstract public class Entity
     final private float ACC = .02f;
 
     // Data
+
 
     private int timer;
     private Team team;
@@ -159,6 +163,11 @@ abstract public class Entity
         box.y = y;
     }
 
+    public void addMessage(EntityMessage message)
+    {
+        EntityMessageManager.addMessage(message);
+    }
+
     public void setExpired()
     {
         isExpired = true;
@@ -203,11 +212,10 @@ abstract public class Entity
         }
     }
 
-
-
     public void takeDamage(float amount, Entity source)
     {
         health.decrease(amount);
+        addMessage(new DamageText(Math.round(amount), this));
     }
 
     public void render()
