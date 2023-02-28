@@ -73,7 +73,7 @@ public class StateGameplay extends State
         messages.update(delta);
 
         EntityManager.getSquads().forEach(Squad::update);
-        
+
         if(inPlanningMode())
         {
             for(int i = 0; i < 3; i++) {

@@ -2,9 +2,9 @@ package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
-import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
+import com.sojourn.game.entity.unit.ship.Ship;
 
 public class TeamEnemy extends Team
 {
@@ -30,7 +30,7 @@ public class TeamEnemy extends Team
 
     }
 
-    public Squad getUniformGroup(Class<? extends Unit> type, Vector2 position, float value)
+    public Squad getUniformGroup(Class<? extends Ship> type, Vector2 position, float value)
     {
         Squad group = new Squad(this, position);
         group.buildUnits(type, value);

@@ -1,10 +1,8 @@
 package com.sojourn.game.entity.images;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.HealthBar;
-import com.sojourn.game.display.Shape;
 import com.sojourn.game.faction.Squad;
 
 public class SquadImage
@@ -45,18 +43,18 @@ public class SquadImage
 
     public void render()
     {
-        healthbar.render(position.x-16, position.y + 10, 32, 6);
+//        healthbar.render(position.x-16, position.y + 10, 32, 6);
     }
 
     public void renderShape()
     {
-        int size = 16;
-        Shape.getRenderer().set(ShapeRenderer.ShapeType.Filled);
-        Shape.getRenderer().setColor(owner.getTeam().getFaction().getColor(0));
-        Shape.getRenderer().rect(position.x-size/2, position.y-size/2, size, size);
-        Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
-        Shape.getRenderer().setColor(owner.getTeam().getFaction().getColor(1));
-        Shape.getRenderer().rect(position.x-size/2, position.y-size/2, size, size);
+//        int size = 16;
+//        Shape.getRenderer().set(ShapeRenderer.ShapeType.Filled);
+//        Shape.getRenderer().setColor(owner.getTeam().getFaction().getColor(0));
+//        Shape.getRenderer().rect(position.x-size/2, position.y-size/2, size, size);
+//        Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+//        Shape.getRenderer().setColor(owner.getTeam().getFaction().getColor(1));
+//        Shape.getRenderer().rect(position.x-size/2, position.y-size/2, size, size);
     }
 
 

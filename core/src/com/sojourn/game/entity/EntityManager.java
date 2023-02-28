@@ -183,23 +183,19 @@ public class EntityManager
         Unit u = unitFactory(clazz);
         u.setPosition(position.x - u.getWidth()/2, position.y - u.getHeight()/2);
         u.setTeam(team);
-        u.setGroup(squad);
-        squad.add(u);
+
+        if(u instanceof Ship) {
+            ((Ship)u).setGroup(squad);
+            squad.add((Ship)u);
+        }
         u.setImage();
         entities.add(u);
 
         // Add the group to our list of groups if it has not been added yet
-        System.out.println(squad);
 
         if(!squads.contains(squad))
         {
-            System.out.println("added");
             squads.add(squad);
-        }
-        else
-        {
-            System.out.println("already have it");
-
         }
 
         return u;

@@ -1,20 +1,14 @@
 package com.sojourn.game.entity;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
-import com.sojourn.game.display.Shape;
 import com.sojourn.game.display.message.DamageText;
 import com.sojourn.game.display.message.EntityMessage;
 import com.sojourn.game.display.message.EntityMessageManager;
 import com.sojourn.game.entity.images.EntityImage;
-import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
 
 
@@ -31,7 +25,6 @@ abstract public class Entity
     protected Rectangle box;
     private boolean selected;
     protected EntityImage image;
-    private Squad group;
 
     protected Vector2 speed;
     protected boolean isExpired;
@@ -160,10 +153,6 @@ abstract public class Entity
         this.team = team;
     }
 
-    public void setGroup(Squad group) {
-        this.group = group;
-    }
-
     public void setPosition(float x, float y)    {
         box.x = x;
         box.y = y;
@@ -231,20 +220,15 @@ abstract public class Entity
 
     public void renderShapes()
     {
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        if(isSelected())
-        {
-            final int SPACE = 10;
-            Shape.getRenderer().setColor(Color.WHITE);
-            Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
-            Shape.getRenderer().rect(getX() - SPACE/2, getY() - SPACE/2,
-                    getWidth() + SPACE, getHeight() + SPACE);
-        }
+        getImage().renderShapes();
     }
 
     public void clicked()
+    {
+        selected = true;
+    }
+
+    public void select()
     {
         selected = true;
     }

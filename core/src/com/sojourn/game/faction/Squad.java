@@ -5,21 +5,28 @@ import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.images.SquadImage;
 import com.sojourn.game.entity.unit.Unit;
+import com.sojourn.game.entity.unit.ship.Ship;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Squad
 {
-    List<Unit> units;
+    List<Ship> units;
 
     Vector2 position;
+    private Vector2 anchor;
+
     Team team;
 
     Attribute aggregateHealth;
 
+    private Vector2 destination;
+
+
     SquadImage image;
     private int maxSize;
+    boolean selected = true;
 
     public Squad(Team team, Vector2 position)
     {
@@ -29,9 +36,10 @@ public class Squad
         this.team = team;
         this.position = position;
         aggregateHealth = new Attribute(0);
+        setDestination(position);
     }
 
-    public void add(Unit u)
+    public void add(Ship u)
     {
         units.add(u);
 
@@ -42,26 +50,54 @@ public class Squad
         }
     }
 
-    void add(Class<? extends Unit> clazz)
+    public Vector2 getAnchor()
     {
-        Unit u = EntityManager.addUnit(clazz, position, team, this);
-        add(u);
+        return anchor;
     }
 
-    void buildUnits(Class<? extends Unit> clazz, float totalValue)
+    public Vector2 getDestination()
+    {
+        return destination;
+    }
+
+    public boolean hasDestination()
+    {
+        return destination != null;
+    }
+
+    public void setDestination(Vector2 destination)
+    {
+        this.destination = destination;
+        anchor = destination;
+
+    }
+
+    public void setDestination(float x, float y)
+    {
+        setDestination(new Vector2(x, y));
+
+    }
+
+    void add(Class<? extends Ship> clazz)
+    {
+        Ship ship = (Ship) EntityManager.addUnit(clazz, position, team, this);
+        add(ship);
+    }
+
+    void buildUnits(Class<? extends Ship> clazz, float totalValue)
     {
        // Create a prototype unit
-       Unit u = EntityManager.addUnit(clazz, position, team, this);
+        Ship ship = (Ship) EntityManager.addUnit(clazz, position, team, this);
 
        // If you can afford it, add it to the list and "spend" value
-       if(totalValue >= u.getValue())
+       if(totalValue >= ship.getValue())
        {
-         add(u);
-         totalValue -= u.getValue();
+         add(ship);
+         totalValue -= ship.getValue();
        }
 
         // Keep going as long as you have money left to make more
-       if(totalValue >= u.getValue())
+       if(totalValue >= ship.getValue())
        {
            buildUnits(clazz, totalValue);
        }
@@ -75,6 +111,25 @@ public class Squad
     public Team getTeam()
     {
         return team;
+    }
+
+    public void clicked()
+    {
+        selected = true;
+        for(Unit u : units)
+        {
+            u.select();
+        }
+    }
+
+    public void select()
+    {
+        selected = true;
+    }
+
+    public void unselect()
+    {
+        selected = false;
     }
 
     public void update()
@@ -96,8 +151,6 @@ public class Squad
         }
 
         aggregateHealth = new Attribute(curHealth, maxHealth);
-
-        System.out.println("updating " + getCenter());
 
         image.update();
     }
@@ -131,7 +184,6 @@ public class Squad
 
     public void render()
     {
-        System.out.println("rendering");
         image.render();
     }
 

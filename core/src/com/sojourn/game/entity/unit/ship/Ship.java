@@ -6,11 +6,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.unit.Unit;
+import com.sojourn.game.faction.Squad;
 
 public abstract class Ship extends Unit
 {
-    private Vector2 destination;
-    private Vector2 anchor;
     private boolean idle;
 
     private int lastOrder;
@@ -20,16 +19,42 @@ public abstract class Ship extends Unit
 
     boolean retreat;
 
+    private Squad group;
+
+    public void setGroup(Squad group) {
+        this.group = group;
+    }
+
+
+
     public Ship()
     {
         super();
-        anchor = getPosition();
         drift = new Vector2(.5f, .5f);
         drift.setToRandomDirection();
 
-      //  System.out.println(drift);
-
         //   drift.setLength(1);
+    }
+
+    public Vector2 getDestination()
+    {
+        return getSquad().getDestination();
+    }
+
+    public boolean hasDestination()
+    {
+        return getSquad().hasDestination();
+    }
+
+    public Squad getSquad()
+    {
+        return group;
+    }
+
+    public void clicked()
+    {
+        super.clicked();
+        group.clicked();
     }
 
     public void actionPlanning()
@@ -56,7 +81,7 @@ public abstract class Ship extends Unit
         }
         else
         {
-            moveTo(anchor);
+            moveTo(getAnchor());
         }
 
         if(getTimer() % 300 == 0)
@@ -143,7 +168,7 @@ public abstract class Ship extends Unit
 //        }
 
 
-turnTo(anchor);
+turnTo(getAnchor());
 turn(90);
 
 
@@ -156,28 +181,29 @@ turn(90);
     public void render()
     {
         super.render();
-     //   Text.draw(""+distancing, getX(), getY());
+       // Text.draw(""+isSelected(), getX(), getY());
     }
 
-    public Vector2 getDestination()
+//    public Vector2 getDestination()
+//    {
+//        return destination;
+//    }
+
+    public Vector2 getAnchor()
     {
-        return destination;
+        return getSquad().getAnchor();
     }
 
     public boolean nearAnchor(int amount)
     {
-        return getDistance(anchor) < amount + distancing;
+        return getDistance(getAnchor()) < amount + distancing;
     }
 
-    public boolean hasDestination()
-    {
-        return destination != null;
-    }
+
 
     public void setDestination(float x, float y)
     {
-        destination = new Vector2(x, y);
-        anchor = destination;
+        getSquad().setDestination(x, y);
         lastOrder = getTimer();
         idle = false;
     }
@@ -198,7 +224,7 @@ turn(90);
     {
         super.renderShapes();
 
-        if(!hasDestination()) {
+        if(!getSquad().hasDestination()) {
             return;
         }
 

@@ -1,11 +1,15 @@
 package com.sojourn.game.entity.images;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sojourn.game.Settings;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.HealthBar;
+import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.unit.civilian.Civilian;
 import com.sojourn.game.entity.unit.ship.Ship;
@@ -79,6 +83,21 @@ public class EntityImage
             healthbar.render(owner.getX(), owner.getY() + owner.getHeight() + 2, owner.getWidth(), 2);
         }
 
+    }
+
+    public void renderShapes()
+    {
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        if(owner.isSelected())
+        {
+            final int SPACE = 10;
+            Shape.getRenderer().setColor(new Color(200, 200, 200, .8f));
+            Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+            Shape.getRenderer().ellipse(owner.getX() - SPACE/2, owner.getY() - SPACE/2,
+                    owner.getWidth() + SPACE, owner.getHeight() + SPACE);
+        }
     }
 
 
