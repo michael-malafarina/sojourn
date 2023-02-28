@@ -9,6 +9,7 @@ import com.sojourn.game.entity.unit.civilian.Civilian;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
+import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
 import com.sojourn.game.faction.TeamEnemy;
 import com.sojourn.game.faction.TeamPlayer;
@@ -24,8 +25,8 @@ public class EntityManager
     private static List<Ship> ships;
     private static List<Civilian> civilians;
     private static List<Projectile> projectiles;
-
     private static List<Entity> newEntities;
+    private static List<Squad> squads;
 
     public EntityManager()
     {
@@ -36,6 +37,7 @@ public class EntityManager
     {
         entities = new ArrayList<>();
         newEntities = new ArrayList<>();
+        squads = new ArrayList<>();
 //        units = new ArrayList<>();
 //        ships = new ArrayList<>();
 
@@ -43,11 +45,15 @@ public class EntityManager
 
         // Human Player
         Team human = Sojourn.player;
-        addUnit(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human);
+
+
+        Squad one = new Squad(human,human.getHomePoint() );
+
+        addUnit(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, one);
 
         for(int i = 0; i < 18; i++) {
-            addUnit(Scout.class, human.getSpawnPoint(), human);
-            addUnit(Raider.class, human.getSpawnPoint(), human);
+            addUnit(Scout.class, human.getSpawnPoint(), human, one);
+            addUnit(Raider.class, human.getSpawnPoint(), human, one);
         }
 
         // Computer Player (Hostile)
@@ -85,8 +91,7 @@ public class EntityManager
         return ships;
     }
 
-
-
+    public static List<Squad> getSquads()   { return squads;        }
 
     public static List<Civilian> getCivilians()    {
         return civilians;
@@ -131,7 +136,10 @@ public class EntityManager
         entities.addAll(newEntities);
         newEntities.clear();
 
-        // Removing expired entities
+        // Remove expired units from each unit group
+        squads.forEach(a -> a.removeExpiredUnits());
+
+        // Removing expired entities from master list
         for(int i = 0; i < entities.size(); i++)
         {
             if(entities.get(i).isExpired())
@@ -141,14 +149,11 @@ public class EntityManager
             }
         }
 
-        // Update specific lists
+        // Update specific unit lists
         updateUnitLists();
 
         // Tell each entity to update itself
         entities.forEach((n)->n.update(planning, delta));
-
-
-
 
     }
 
@@ -158,13 +163,21 @@ public class EntityManager
         newEntities.add(e);
     }
 
-    public static Unit addUnit(Class<? extends Unit> clazz, Vector2 position, Team team)
+    public static Unit addUnit(Class<? extends Unit> clazz, Vector2 position, Team team, Squad group)
     {
         Unit u = unitFactory(clazz);
         u.setPosition(position.x - u.getWidth()/2, position.y - u.getHeight()/2);
         u.setTeam(team);
+        u.setGroup(group);
         u.setImage();
         entities.add(u);
+
+        // Add the group to our list of groups if it has not been added yet
+        if(!squads.contains(group))
+        {
+            squads.add(group);
+        }
+
         return u;
     }
 

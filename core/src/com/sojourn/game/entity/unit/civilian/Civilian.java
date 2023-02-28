@@ -1,6 +1,5 @@
 package com.sojourn.game.entity.unit.civilian;
 
-import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
 
 abstract public class Civilian extends Unit
@@ -18,6 +17,6 @@ abstract public class Civilian extends Unit
 
     public void spawnUnit(Class<? extends Unit> clazz)
     {
-        EntityManager.addUnit(clazz, getPosition(), getTeam());
+//        EntityManager.addUnit(clazz, getPosition(), getTeam(), this);
     }
 }

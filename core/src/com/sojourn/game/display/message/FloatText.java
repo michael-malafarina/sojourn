@@ -1,7 +1,8 @@
-package com.sojourn.game.display;
+package com.sojourn.game.display.message;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.sojourn.game.Utility;
+import com.sojourn.game.display.Fonts;
 import com.sojourn.game.entity.Entity;
 
 public class FloatText extends EntityMessage

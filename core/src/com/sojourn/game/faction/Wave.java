@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Wave
 {
-    List<UnitGroup> groups;
+    List<Squad> groups;
     Team team;
 
     Wave(Team team)
@@ -14,7 +14,7 @@ public class Wave
         this.team = team;
     }
 
-    public void addGroup(UnitGroup group)
+    public void addGroup(Squad group)
     {
         groups.add(group);
     }

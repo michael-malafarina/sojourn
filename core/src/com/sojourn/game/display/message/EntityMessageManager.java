@@ -1,4 +1,4 @@
-package com.sojourn.game.display;
+package com.sojourn.game.display.message;
 
 import java.util.ArrayList;
 import java.util.List;

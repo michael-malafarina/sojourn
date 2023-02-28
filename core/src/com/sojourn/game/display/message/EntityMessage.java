@@ -1,7 +1,10 @@
-package com.sojourn.game.display;
+package com.sojourn.game.display.message;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.sojourn.game.display.Alignment;
+import com.sojourn.game.display.Fonts;
+import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.Entity;
 
 
@@ -22,8 +25,8 @@ public class EntityMessage
     {
         this.message = message;
         this.color = Color.WHITE;
-        this.x = e.getX();
-        this.y = e.getY();
+        this.x = e.getCenterX();
+        this.y = e.getY() + e.getHeight();
 
         alpha = 1;
         myFont = Fonts.small;
@@ -67,6 +70,7 @@ public class EntityMessage
 
     public void render()
     {
+        Text.setAlignment(Alignment.CENTER, Alignment.BOTTOM);
         Text.setFont(myFont);
         Text.setColor(color);
         Text.setAlpha(alpha);

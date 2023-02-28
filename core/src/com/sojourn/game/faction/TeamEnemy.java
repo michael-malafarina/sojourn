@@ -30,10 +30,10 @@ public class TeamEnemy extends Team
 
     }
 
-    public UnitGroup getUniformGroup(Class<? extends Unit> type, Vector2 position, float value)
+    public Squad getUniformGroup(Class<? extends Unit> type, Vector2 position, float value)
     {
-        UnitGroup group = new UnitGroup(this, position);
-        group.add(type, value);
+        Squad group = new Squad(this, position);
+        group.buildUnits(type, value);
         return group;
     }
 

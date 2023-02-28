@@ -9,11 +9,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
-import com.sojourn.game.display.DamageText;
-import com.sojourn.game.display.EntityMessage;
-import com.sojourn.game.display.EntityMessageManager;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.display.message.DamageText;
+import com.sojourn.game.display.message.EntityMessage;
+import com.sojourn.game.display.message.EntityMessageManager;
 import com.sojourn.game.entity.images.EntityImage;
+import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
 
 
@@ -30,6 +31,7 @@ abstract public class Entity
     protected Rectangle box;
     private boolean selected;
     protected EntityImage image;
+    private Squad group;
 
     protected Vector2 speed;
     protected boolean isExpired;
@@ -156,6 +158,10 @@ abstract public class Entity
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public void setGroup(Squad group) {
+        this.group = group;
     }
 
     public void setPosition(float x, float y)    {

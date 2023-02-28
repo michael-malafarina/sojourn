@@ -10,11 +10,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.*;
+import com.sojourn.game.display.message.EntityMessageManager;
 import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
+import com.sojourn.game.faction.Squad;
 
 import java.util.List;
 
@@ -63,11 +65,13 @@ public class StateGameplay extends State
     {
         super.update(delta);
 
-        messages.update(delta);
 
         if(paused)  {
             return;
         }
+
+        messages.update(delta);
+
 
         if(inPlanningMode())
         {
@@ -94,12 +98,15 @@ public class StateGameplay extends State
         EntityManager.getCivilians().forEach(Entity::render);
         EntityManager.getShips().forEach(Entity::render);
         EntityManager.getProjectiles().forEach(Entity::render);
+        EntityManager.getSquads().forEach(Squad::render);
+
         messages.render();
     }
 
     protected void renderGameplayShapes()
     {
         EntityManager.getEntities().forEach(Entity::renderShapes);
+        EntityManager.getSquads().forEach(Squad::renderShape);
 
         // this has to be here to turn off outside of planning phase
         if(planning) {

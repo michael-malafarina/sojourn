@@ -1,4 +1,4 @@
-package com.sojourn.game.display;
+package com.sojourn.game.display.message;
 
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.Entity;
