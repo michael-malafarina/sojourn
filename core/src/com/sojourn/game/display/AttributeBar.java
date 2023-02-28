@@ -9,10 +9,10 @@ import com.sojourn.game.entity.Attribute;
 
 public class AttributeBar
 {
-    Attribute attribute;
-    Texture texture;
-    Color colorDark;
-    Color colorLight;
+    private Attribute attribute;
+    private Texture texture;
+    private Color colorDark;
+    private Color colorLight;
 
     AttributeBar(Attribute attribute, Color color)
     {
@@ -29,7 +29,14 @@ public class AttributeBar
 
     public void render(float x, float y, float w, float h, BitmapFont font)
     {
+        if(attribute == null)
+        {
+            return;
+        }
 
+        int edge = Math.round(h / 4.0f);
+
+        Display.draw(texture, Color.DARK_GRAY, x-edge, y-edge, w+edge*2, h+edge*2);
         Display.draw(texture, colorDark, x, y, w , h);
         Display.draw(texture, colorLight, x, y, w * attribute.getPercent(), h);
 

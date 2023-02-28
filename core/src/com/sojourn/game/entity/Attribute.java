@@ -2,7 +2,6 @@ package com.sojourn.game.entity;
 
 public class Attribute
 {
-
     float current;
     float maximum;
     float maximumBase;
@@ -13,6 +12,14 @@ public class Attribute
         current = value;
         maximum = value;
         maximumBase = value;
+        regeneration = 0;
+    }
+
+    public Attribute(float current, float maximum)
+    {
+        this.current = current;
+        this.maximum = maximum;
+        this.maximumBase = maximum;
         regeneration = 0;
     }
 

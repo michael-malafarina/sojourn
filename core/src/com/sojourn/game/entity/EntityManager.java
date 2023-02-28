@@ -51,9 +51,24 @@ public class EntityManager
 
         addUnit(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, one);
 
-        for(int i = 0; i < 18; i++) {
-            addUnit(Scout.class, human.getSpawnPoint(), human, one);
-            addUnit(Raider.class, human.getSpawnPoint(), human, one);
+        for(int j = 0; j < 2; j++)
+        {
+            Vector2 point = human.getSpawnPoint();
+            Squad s = new Squad(human, point);
+            for (int i = 0; i < 6; i++)
+            {
+
+                addUnit(Scout.class, point, human, s);
+
+            }
+
+            point = human.getSpawnPoint();
+            Squad b = new Squad(human, point);
+
+            for (int i = 0; i < 4; i++) {
+                addUnit(Raider.class, point, human, b);
+
+            }
         }
 
         // Computer Player (Hostile)
@@ -163,19 +178,28 @@ public class EntityManager
         newEntities.add(e);
     }
 
-    public static Unit addUnit(Class<? extends Unit> clazz, Vector2 position, Team team, Squad group)
+    public static Unit addUnit(Class<? extends Unit> clazz, Vector2 position, Team team, Squad squad)
     {
         Unit u = unitFactory(clazz);
         u.setPosition(position.x - u.getWidth()/2, position.y - u.getHeight()/2);
         u.setTeam(team);
-        u.setGroup(group);
+        u.setGroup(squad);
+        squad.add(u);
         u.setImage();
         entities.add(u);
 
         // Add the group to our list of groups if it has not been added yet
-        if(!squads.contains(group))
+        System.out.println(squad);
+
+        if(!squads.contains(squad))
         {
-            squads.add(group);
+            System.out.println("added");
+            squads.add(squad);
+        }
+        else
+        {
+            System.out.println("already have it");
+
         }
 
         return u;

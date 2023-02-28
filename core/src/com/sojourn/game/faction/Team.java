@@ -14,8 +14,8 @@ abstract public class Team
     final public static int ID_ENEMY = 2;
     final public static int ID_HOSTILE = 3;
 
-    final private int SPAWN_X_WIDTH = 200;
-    final private int SPAWN_Y_HEIGHT = 100;
+    final private int SPAWN_X_WIDTH = 800;
+    final private int SPAWN_Y_HEIGHT = 400;
 
     // Abstract
 

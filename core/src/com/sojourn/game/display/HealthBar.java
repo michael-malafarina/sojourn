@@ -7,6 +7,7 @@ public class HealthBar extends AttributeBar
 {
     public HealthBar(Attribute health)
     {
-        super(health, Color.RED);
+        super(health, Color.GREEN);
     }
+
 }
