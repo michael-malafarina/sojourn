@@ -21,6 +21,6 @@ public class ControlGroup
 
     public void activate()
     {
-        units.forEach(Entity::clicked);
+        units.forEach(com.sojourn.game.entity.Entity::clicked);
     }
 }

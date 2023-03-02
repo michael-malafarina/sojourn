@@ -25,6 +25,7 @@ public class Sojourn extends Game
 	// Temporarily in main
 	public static Team player;
 	public static Team currentEnemy;
+	public static Team neutral;
 
 	@Override
 	public void create()
@@ -33,7 +34,7 @@ public class Sojourn extends Game
 
 		player = new TeamPlayer(new BlueFaction());
 		currentEnemy = new TeamEnemy(new RedFaction());
-		player.setFaction(new BlueFaction());
+		neutral = new TeamNeutral(new NeutralFaction());
 
 		entityManager = new EntityManager();
 

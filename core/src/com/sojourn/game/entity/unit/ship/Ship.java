@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
-import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.faction.Squad;
 
@@ -44,6 +43,11 @@ public abstract class Ship extends Unit
     public boolean hasDestination()
     {
         return getSquad().hasDestination();
+    }
+
+    public int getSquadSize()
+    {
+        return getSquadSizeBase();
     }
 
     public Squad getSquad()
@@ -127,7 +131,7 @@ public abstract class Ship extends Unit
 
     }
 
-    public void avoid(Entity e)
+    public void avoid(com.sojourn.game.entity.Entity e)
     {
         turnTo(e);
         turnAround();

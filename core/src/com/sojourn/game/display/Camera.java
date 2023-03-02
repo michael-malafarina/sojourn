@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
 
@@ -82,7 +81,7 @@ public class Camera
     {
         controlCameraKeyboard();
         List<Unit> units = EntityManager.getUnits();
-        if(units != null && units.stream().filter(Entity::isSelected).toList().isEmpty())
+        if(units != null && units.stream().filter(com.sojourn.game.entity.Entity::isSelected).toList().isEmpty())
         {
             controlCameraMouse();
         }

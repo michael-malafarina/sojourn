@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.civilian.Civilian;
-import com.sojourn.game.entity.unit.ship.Ship;
 
 import java.util.List;
 
@@ -70,12 +69,17 @@ public class Minimap extends HudElement
 
 	public void renderUnits()
 	{
-		List<Ship> entities = EntityManager.getShips();
+		List<Entity> entities = EntityManager.getEntities();
 
 		for(Entity e : entities)
 		{
 			//if(u.isInBounds())
 			{
+
+				if(e instanceof Civilian)
+				{
+					continue;
+				}
 //				float xPos = e.getX() / (float) Values.PLAYFIELD_WIDTH * width + width/2;
 //				float yPos = e.getY() / (float) Values.PLAYFIELD_HEIGHT * height + y + height/2;
 

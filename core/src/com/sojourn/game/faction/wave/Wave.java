@@ -1,8 +1,8 @@
 package com.sojourn.game.faction.wave;
 
+import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.EntityManager;
-import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
@@ -62,11 +62,15 @@ public class Wave
 
         int count = 0;
         count +=  calculateNumberOfSquads(Scout.class, value * .6f);
-        count +=  calculateNumberOfSquads(Raider.class, value * .6f);
+        count +=  calculateNumberOfSquads(Raider.class, value * .4f);
 
         currentDistribution = createNewDistribution(count);
     }
 
+    public List<Vector2> getPositions()
+    {
+        return currentDistribution.getAllPositions();
+    }
 
     public void spawn()
     {
@@ -76,8 +80,8 @@ public class Wave
 
     public int calculateNumberOfSquads(Class<? extends Ship> clazz, float totalValue)
     {
-        Unit prototype = EntityManager.unitFactory(clazz);
-        return ((int) totalValue) / prototype.getValue();
+        Ship prototype = (Ship) EntityManager.entityFactory(clazz);
+        return ((int) totalValue) / (prototype.getValue() * prototype.getSquadSize());
     }
 
     public List<Squad> createSquadsByValue(Class<? extends Ship> clazz, float value)

@@ -2,6 +2,7 @@ package com.sojourn.game.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.entity.ambient.EnemyAlert;
 import com.sojourn.game.entity.projectile.Projectile;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.civilian.Base;
@@ -11,6 +12,7 @@ import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
+import com.sojourn.game.faction.TeamEnemy;
 import com.sojourn.game.faction.TeamPlayer;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,7 +45,7 @@ public class EntityManager {
         Team human = Sojourn.player;
 
         Squad one = new Squad(human, human.getHomePoint(), 6);
-        addUnit(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, one);
+        addEntity(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, one);
 
         spawnPlayerUnits();
 
@@ -64,7 +66,7 @@ public class EntityManager {
         addSquad(Raider.class, human.getSpawnPoint(), human);
     }
 
-    public static List<Entity> getEntities() {
+    public static List<com.sojourn.game.entity.Entity> getEntities() {
         return entities;
     }
 
@@ -103,16 +105,26 @@ public class EntityManager {
 
     }
 
-    public static List<Unit> getEnemyUnits(Team team) {
+    public static List<Unit> getHostileUnits(Team team) {
         return getUnits().stream().filter(u -> u.getTeam().isHostile(team)).toList();
     }
 
-    public static List<Ship> getEnemyShips(Team team) {
+    public static List<Ship> getHostileShips(Team team) {
         return getShips().stream().filter(u -> u.getTeam().isHostile(team)).toList();
     }
 
     public static List<Ship> getPlayerShips() {
         return getShips().stream().filter(u -> u.getTeam() instanceof TeamPlayer).toList();
+    }
+
+    public static List<Ship> getEnemyShips() {
+        return getShips().stream().filter(u -> u.getTeam() instanceof TeamEnemy).toList();
+    }
+
+    public static List<EnemyAlert> getEnemyAlerts()
+    {
+        List<Entity> tmp = getEntities().stream().filter(e -> e instanceof EnemyAlert).toList();
+        return tmp.stream().map(e -> (EnemyAlert) e).toList();
     }
 
     public void update(boolean planning, float delta) {
@@ -140,20 +152,20 @@ public class EntityManager {
     }
 
 
-    public static void addEntity(Entity e) {
+    public static void addEntity(com.sojourn.game.entity.Entity e) {
         newEntities.add(e);
     }
 
     public static Squad addSquad(Class<? extends Unit> clazz, Vector2 position, Team team)
     {
-        Ship prototype = (Ship) EntityManager.unitFactory(clazz);
+        Ship prototype = (Ship) EntityManager.entityFactory(clazz);
         int count = prototype.getSquadSizeBase();
 
         Squad s = new Squad(team, position, count);
 
         for (int i = 0; i < count; i++)
         {
-            addUnit(clazz, position, team, s);
+            addEntity(clazz, position, team, s);
         }
 
         updateUnitLists();
@@ -162,35 +174,38 @@ public class EntityManager {
 
     }
 
-
-
-    public static Unit addUnit(Class<? extends Unit> clazz, Vector2 position, Team team, Squad squad)
+    public static Entity addEntity(Class<? extends Entity> clazz, Vector2 position, Team team, Squad squad)
     {
-        Unit u = unitFactory(clazz);
+        Entity u = entityFactory(clazz);
         u.setPosition(position.x - u.getWidth()/2, position.y - u.getHeight()/2);
         u.setTeam(team);
-
-        if(u instanceof Ship) {
-            ((Ship)u).setGroup(squad);
-            squad.add((Ship)u);
-        }
         u.setImage();
-        entities.add(u);
 
-        // Add the group to our list of squads if it has not been added yet
-        if(!squads.contains(squad))
+        if(squad != null)
         {
-            squads.add(squad);
+            // Add the squad to our list of squads if it has not been added yet
+            if(!squads.contains(squad))
+            {
+                squads.add(squad);
+            }
+
+            if(u instanceof Ship)
+            {
+                ((Ship)u).setGroup(squad);
+                squad.add((Ship)u);
+            }
         }
+
+        entities.add(u);
 
         return u;
     }
 
-    public static Unit unitFactory(Object o)
+    public static Entity entityFactory(Object o)
     {
-        Class<? extends Unit> clazz = (Class<? extends Unit>) o;
+        Class<? extends Entity> clazz = (Class<? extends Entity>) o;
 
-        Unit u = null;
+        Entity u = null;
 
         try
         {
@@ -208,9 +223,9 @@ public class EntityManager {
     public static Entity getNearestEntity(Entity origin, List<Entity> entitySet)
     {
         float nearestDistance = Float.MAX_VALUE;
-        Entity nearestEntity = null;
+        com.sojourn.game.entity.Entity nearestEntity = null;
 
-        for(Entity e : entitySet)
+        for(com.sojourn.game.entity.Entity e : entitySet)
         {
             if(origin != e && origin.getDistance(e) < nearestDistance)
             {
@@ -236,12 +251,12 @@ public class EntityManager {
 
     public static Unit getNearestEnemyUnit(Entity origin)
     {
-        return (Unit) getNearestEntity(origin, new ArrayList<>(getEnemyUnits(origin.getTeam())));
+        return (Unit) getNearestEntity(origin, new ArrayList<>(getHostileUnits(origin.getTeam())));
     }
 
     public static Ship getNearestEnemyShip(Entity origin)
     {
-        return (Ship) getNearestEntity(origin, new ArrayList<>(getEnemyShips(origin.getTeam())));
+        return (Ship) getNearestEntity(origin, new ArrayList<>(getHostileShips(origin.getTeam())));
     }
 
 

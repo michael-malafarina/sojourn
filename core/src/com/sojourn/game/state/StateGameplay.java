@@ -14,6 +14,7 @@ import com.sojourn.game.display.message.EntityMessageManager;
 import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
+import com.sojourn.game.entity.ambient.EnemyAlert;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
@@ -43,7 +44,7 @@ public class StateGameplay extends State
     {
         super(game);
         controlGroups = new ControlGroupSet();
-        planning = true;
+        startPlanning();
         gameSpeed = 2;
         minimap = new Minimap(2, 2, 192*1.7f, 108*1.7f);
         messages = new EntityMessageManager();
@@ -66,7 +67,6 @@ public class StateGameplay extends State
     {
         super.update(delta);
 
-
         if(paused)  {
             return;
         }
@@ -87,6 +87,11 @@ public class StateGameplay extends State
                 game.getEntityManager().update(inPlanningMode(), delta);
             }
         }
+
+        if(EntityManager.getEnemyShips().isEmpty() && !inPlanningMode())
+        {
+            startPlanning();
+        }
     }
 
     @Override
@@ -97,6 +102,8 @@ public class StateGameplay extends State
     @Override
     protected void renderGameplay(float delta)
     {
+        EntityManager.getEnemyAlerts().forEach(Entity::render);
+
         EntityManager.getCivilians().forEach(Entity::render);
         EntityManager.getShips().forEach(Entity::render);
         EntityManager.getProjectiles().forEach(Entity::render);
@@ -333,26 +340,27 @@ public class StateGameplay extends State
         }
 
         // Toggle planning phase (temporary)
-        if(keycode == Input.Keys.C)
+        if(keycode == Input.Keys.E)
         {
-            planning = !planning;
+            togglePlanning();
         }
 
         // Plan a wave of enemies
-        if(keycode == Input.Keys.P)
-        {
-            TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
-            cpu.planWave(60);
-        }
+//        if(keycode == Input.Keys.P)
+//        {
+//            TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+//            cpu.planWave(60);
+//        }
 
         // Spawn a wave of enemies
-        if(keycode == Input.Keys.E)
-        {
-            TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
-            cpu.spawnWave();
-        }
+//        if(keycode == Input.Keys.E)
+//        {
+//            TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+//            cpu.spawnWave();
+//        }
 
-        if(inPlanningMode()) {
+        if(inPlanningMode())
+        {
             keyDownPlanning(keycode);
         }
         if(inCombatMode())
@@ -399,6 +407,42 @@ public class StateGameplay extends State
             gameSpeed = 3;
         }
 
+    }
+
+    public void togglePlanning()
+    {
+        if(inPlanningMode())
+        {
+            startCombat();
+        }
+        else
+        {
+            startPlanning();
+        }
+    }
+
+    public void startCombat()
+    {
+        planning = false;
+
+        TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+        cpu.spawnWave();
+
+        // Clear out old alerts
+        List<EnemyAlert> alerts = EntityManager.getEnemyAlerts();
+        alerts.forEach(a -> a.setExpired());
+
+    }
+
+    public void startPlanning()
+    {
+        planning = true;
+        TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+        cpu.planWave(60);
+
+        // Spawn new alerts at destinations for next wave
+        List<Vector2> destinations = cpu.getNextDestinations();
+        destinations.forEach(d -> EntityManager.addEntity(EnemyAlert.class, d, cpu, null));
     }
 
     public List<Unit> getAllSelectedUnits()

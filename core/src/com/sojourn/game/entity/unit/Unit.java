@@ -27,19 +27,19 @@ abstract public class Unit extends Entity
         action(planning);
     }
 
-    public boolean inRangeShortest(Entity e)
+    public boolean inRangeShortest(com.sojourn.game.entity.Entity e)
     {
         return getDistance(e) <= weapons.getShortestRange();
     }
 
-    public boolean inRangeLongest(Entity e)
+    public boolean inRangeLongest(com.sojourn.game.entity.Entity e)
     {
         return getDistance(e) <= weapons.getLongestRange();
     }
 
     protected List<Unit> getEnemyUnits()
     {
-        return EntityManager.getEnemyUnits(getTeam());
+        return EntityManager.getHostileUnits(getTeam());
     }
 
     protected Unit getNearestUnit()

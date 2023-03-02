@@ -96,7 +96,7 @@ public class Squad
 
     void add(Class<? extends Ship> clazz)
     {
-        Ship ship = (Ship) EntityManager.addUnit(clazz, position, team, this);
+        Ship ship = (Ship) EntityManager.addEntity(clazz, position, team, this);
         add(ship);
     }
 

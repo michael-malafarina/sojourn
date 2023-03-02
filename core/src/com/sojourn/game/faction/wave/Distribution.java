@@ -2,18 +2,37 @@ package com.sojourn.game.faction.wave;
 
 import com.badlogic.gdx.math.Vector2;
 
-import javax.swing.text.Position;
+import java.util.ArrayList;
 import java.util.List;
 
 abstract public class Distribution
 {
-    List<Position> positions;
-    int numPositions;
+    List<Vector2> positions;
+    int index;
 
-    Distribution(int numPositions)
+    abstract public Vector2 createNewPosition();
+
+
+    public Distribution(int numPositions)
     {
-        this.numPositions = numPositions;
+        positions = new ArrayList<>();
+
+        for(int i  = 0; i < numPositions; i++)
+        {
+            positions.add(createNewPosition());
+        }
     }
 
-    abstract public Vector2 getNextPosition();
+
+    public Vector2 getNextPosition()
+    {
+        Vector2 p = positions.get(index);
+        index++;
+        return p;
+    }
+
+    public List<Vector2> getAllPositions()
+    {
+        return positions;
+    }
 }

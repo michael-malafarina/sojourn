@@ -9,7 +9,7 @@ public class RandomDistribution extends Distribution
         super(numPositions);
     }
 
-    public Vector2 getNextPosition()
+    public Vector2 createNewPosition()
     {
         return new Vector2(Utility.random(-3000, 3000), Utility.random(-3000, 3000));
     }
