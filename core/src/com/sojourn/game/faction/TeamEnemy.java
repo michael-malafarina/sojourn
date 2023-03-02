@@ -1,16 +1,17 @@
 package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
-import com.sojourn.game.Utility;
-import com.sojourn.game.entity.unit.ship.Raider;
-import com.sojourn.game.entity.unit.ship.Scout;
-import com.sojourn.game.entity.unit.ship.Ship;
+import com.sojourn.game.faction.wave.Wave;
 
 public class TeamEnemy extends Team
 {
+    Wave nextWave;
+    Wave currentWave;
+
     public TeamEnemy(Faction faction)
     {
        super(faction);
+       nextWave = new Wave(this);
         setHomePoint(new Vector2(2000, 0));
     }
 
@@ -19,27 +20,31 @@ public class TeamEnemy extends Team
         return Team.ID_ENEMY;
     }
 
-    public Wave getWave(int value)
+    public void planWave(float value)
     {
-        Wave one = new Wave(this);
+        nextWave = new Wave(this, value);
+        nextWave.plan();
+    }
 
-        one.addGroup(getUniformGroup(Scout.class, getRandomPosition(), value * .6f));
-        one.addGroup(getUniformGroup(Raider.class, getRandomPosition(), value * .4f));
+    public void spawnWave()
+    {
+        if(nextWave != null)
+        {
+            nextWave.spawn();
+            currentWave = nextWave;
+            nextWave = null;
+        }
 
-        return one;
+//        Wave one = new Wave(this);
+////        one.addSquad(createSquad(Scout.class, getRandomPosition()));
+////        one.addSquad(createSquad(Raider.class, getRandomPosition()));
+
+
 
     }
 
-    public Squad getUniformGroup(Class<? extends Ship> type, Vector2 position, float value)
-    {
-        Squad group = new Squad(this, position);
-        group.buildUnits(type, value);
-        return group;
-    }
 
-    public Vector2 getRandomPosition()
-    {
-        return new Vector2(Utility.random(-3000, 3000), Utility.random(-3000, 3000));
-    }
+
+
 
 }

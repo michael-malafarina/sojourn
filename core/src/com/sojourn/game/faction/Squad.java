@@ -28,6 +28,12 @@ public class Squad
     private int maxSize;
     boolean selected = true;
 
+    public Squad(Team team, Vector2 position, int maxSize)
+    {
+        this(team, position);
+        this.maxSize = maxSize;
+    }
+
     public Squad(Team team, Vector2 position)
     {
         units = new ArrayList<>();
@@ -35,19 +41,29 @@ public class Squad
 
         this.team = team;
         this.position = position;
+        this.maxSize = maxSize;
         aggregateHealth = new Attribute(0);
         setDestination(position);
+    }
+
+    public int getMaxSize()
+    {
+        return maxSize;
+    }
+
+    public int getSize()
+    {
+        return units.size();
+    }
+
+    public boolean isFull()
+    {
+        return getSize() == getMaxSize();
     }
 
     public void add(Ship u)
     {
         units.add(u);
-
-        // For now, max size reflects the largest size.  Later on, we'll make this prescriptive.
-        if(units.size() > maxSize)
-        {
-            maxSize++;
-        }
     }
 
     public Vector2 getAnchor()
@@ -82,25 +98,6 @@ public class Squad
     {
         Ship ship = (Ship) EntityManager.addUnit(clazz, position, team, this);
         add(ship);
-    }
-
-    void buildUnits(Class<? extends Ship> clazz, float totalValue)
-    {
-       // Create a prototype unit
-        Ship ship = (Ship) EntityManager.addUnit(clazz, position, team, this);
-
-       // If you can afford it, add it to the list and "spend" value
-       if(totalValue >= ship.getValue())
-       {
-         add(ship);
-         totalValue -= ship.getValue();
-       }
-
-        // Keep going as long as you have money left to make more
-       if(totalValue >= ship.getValue())
-       {
-           buildUnits(clazz, totalValue);
-       }
     }
 
     public Attribute getHealth()

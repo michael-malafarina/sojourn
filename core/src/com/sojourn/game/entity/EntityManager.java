@@ -11,15 +11,13 @@ import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
-import com.sojourn.game.faction.TeamEnemy;
 import com.sojourn.game.faction.TeamPlayer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityManager
-{
+public class EntityManager {
     private static List<Entity> entities;
     private static List<Unit> units;
     private static List<Ship> ships;
@@ -28,13 +26,11 @@ public class EntityManager
     private static List<Entity> newEntities;
     private static List<Squad> squads;
 
-    public EntityManager()
-    {
+    public EntityManager() {
         newGame();
     }
 
-    public void newGame()
-    {
+    public void newGame() {
         entities = new ArrayList<>();
         newEntities = new ArrayList<>();
         squads = new ArrayList<>();
@@ -42,81 +38,57 @@ public class EntityManager
 //        ships = new ArrayList<>();
 
 
-
         // Human Player
+
         Team human = Sojourn.player;
 
-
-        Squad one = new Squad(human,human.getHomePoint() );
-
+        Squad one = new Squad(human, human.getHomePoint(), 6);
         addUnit(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, one);
 
-        for(int j = 0; j < 2; j++)
-        {
-            Vector2 point = human.getSpawnPoint();
-            Squad s = new Squad(human, point);
-            for (int i = 0; i < 6; i++)
-            {
+        spawnPlayerUnits();
 
-                addUnit(Scout.class, point, human, s);
 
-            }
-
-            point = human.getSpawnPoint();
-            Squad b = new Squad(human, point);
-
-            for (int i = 0; i < 4; i++) {
-                addUnit(Raider.class, point, human, b);
-
-            }
-        }
 
         // Computer Player (Hostile)
 
 
-
     }
 
-    public static void spawnEnemyWave()
+    public static void spawnPlayerUnits()
     {
-        TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
-//        addUnit(Carrier.class, new Vector2(cpu.getHomePoint().x, cpu.getHomePoint().y), cpu);
+        Team human = Sojourn.player;
 
-        cpu.getWave(60);
-
-//        for(int i = 0; i < 4; i++)
-//        {
-//            addUnit(Scout.class, cpu.getSpawnPoint(), cpu);
-//            addUnit(Raider.class, cpu.getSpawnPoint(), cpu);
-//        }
-
-        updateUnitLists();
-
+        addSquad(Scout.class, human.getSpawnPoint(), human);
+        addSquad(Scout.class, human.getSpawnPoint(), human);
+        addSquad(Raider.class, human.getSpawnPoint(), human);
+        addSquad(Raider.class, human.getSpawnPoint(), human);
     }
 
-    public static List<Entity> getEntities()    {
+    public static List<Entity> getEntities() {
         return entities;
     }
 
-    public static List<Unit> getUnits()    {
+    public static List<Unit> getUnits() {
         return units;
     }
 
-    public static List<Ship> getShips()    {
+    public static List<Ship> getShips() {
         return ships;
     }
 
-    public static List<Squad> getSquads()   { return squads;        }
+    public static List<Squad> getSquads() {
+        return squads;
+    }
 
-    public static List<Civilian> getCivilians()    {
+    public static List<Civilian> getCivilians() {
         return civilians;
     }
 
-    public static List<Projectile> getProjectiles()    {
+    public static List<Projectile> getProjectiles() {
         return projectiles;
     }
-    private static void updateUnitLists()
-    {
+
+    private static void updateUnitLists() {
         // Filter out units from the list of entities
         List<Entity> tempUnits = entities.stream().filter(e -> e instanceof Unit).toList();
         List<Entity> tempShips = tempUnits.stream().filter(e -> e instanceof Ship).toList();
@@ -124,29 +96,26 @@ public class EntityManager
         List<Entity> tempProj = entities.stream().filter(e -> e instanceof Projectile).toList();
 
         // Cast the entities to a list of units
-        units = tempUnits.stream().map(e-> (Unit) e).toList();
-        ships = tempShips.stream().map(e-> (Ship) e).toList();
-        civilians = tempCivs.stream().map(e-> (Civilian) e).toList();
-        projectiles = tempProj.stream().map(e-> (Projectile) e).toList();
+        units = tempUnits.stream().map(e -> (Unit) e).toList();
+        ships = tempShips.stream().map(e -> (Ship) e).toList();
+        civilians = tempCivs.stream().map(e -> (Civilian) e).toList();
+        projectiles = tempProj.stream().map(e -> (Projectile) e).toList();
 
     }
 
-    public static List<Unit> getEnemyUnits(Team team)
-    {
+    public static List<Unit> getEnemyUnits(Team team) {
         return getUnits().stream().filter(u -> u.getTeam().isHostile(team)).toList();
     }
 
-    public static List<Ship> getEnemyShips(Team team)
-    {
+    public static List<Ship> getEnemyShips(Team team) {
         return getShips().stream().filter(u -> u.getTeam().isHostile(team)).toList();
     }
 
-    public static List<Ship> getPlayerShips()    {
+    public static List<Ship> getPlayerShips() {
         return getShips().stream().filter(u -> u.getTeam() instanceof TeamPlayer).toList();
     }
 
-    public void update(boolean planning, float delta)
-    {
+    public void update(boolean planning, float delta) {
         // Add new entities created this frame
         entities.addAll(newEntities);
         newEntities.clear();
@@ -155,10 +124,8 @@ public class EntityManager
         squads.forEach(a -> a.removeExpiredUnits());
 
         // Removing expired entities from master list
-        for(int i = 0; i < entities.size(); i++)
-        {
-            if(entities.get(i).isExpired())
-            {
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).isExpired()) {
                 entities.remove(i);
                 i--;
             }
@@ -168,15 +135,34 @@ public class EntityManager
         updateUnitLists();
 
         // Tell each entity to update itself
-        entities.forEach((n)->n.update(planning, delta));
+        entities.forEach((n) -> n.update(planning, delta));
 
     }
 
 
-    public static void addEntity(Entity e)
-    {
+    public static void addEntity(Entity e) {
         newEntities.add(e);
     }
+
+    public static Squad addSquad(Class<? extends Unit> clazz, Vector2 position, Team team)
+    {
+        Ship prototype = (Ship) EntityManager.unitFactory(clazz);
+        int count = prototype.getSquadSizeBase();
+
+        Squad s = new Squad(team, position, count);
+
+        for (int i = 0; i < count; i++)
+        {
+            addUnit(clazz, position, team, s);
+        }
+
+        updateUnitLists();
+
+        return s;
+
+    }
+
+
 
     public static Unit addUnit(Class<? extends Unit> clazz, Vector2 position, Team team, Squad squad)
     {
@@ -191,8 +177,7 @@ public class EntityManager
         u.setImage();
         entities.add(u);
 
-        // Add the group to our list of groups if it has not been added yet
-
+        // Add the group to our list of squads if it has not been added yet
         if(!squads.contains(squad))
         {
             squads.add(squad);

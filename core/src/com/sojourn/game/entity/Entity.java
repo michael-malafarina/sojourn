@@ -77,7 +77,7 @@ abstract public class Entity
         return health;
     }
 
-    public float getValue()    {
+    public int getValue()    {
         // Applies additional scalars, such as if it is an elite to the base unit archetype's value
         return getValueBase();
     }

@@ -16,6 +16,11 @@ public class Scout extends Ship
 
     }
 
+    @Override
+    public int getSquadSizeBase() {
+        return 6;
+    }
+
     public void actionCombat()
     {
         super.actionCombat();

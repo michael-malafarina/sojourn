@@ -25,8 +25,6 @@ public abstract class Ship extends Unit
         this.group = group;
     }
 
-
-
     public Ship()
     {
         super();
@@ -35,6 +33,8 @@ public abstract class Ship extends Unit
 
         //   drift.setLength(1);
     }
+
+    public abstract int getSquadSizeBase();
 
     public Vector2 getDestination()
     {

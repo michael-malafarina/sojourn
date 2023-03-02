@@ -17,6 +17,7 @@ import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
+import com.sojourn.game.faction.TeamEnemy;
 
 import java.util.List;
 
@@ -337,10 +338,18 @@ public class StateGameplay extends State
             planning = !planning;
         }
 
+        // Plan a wave of enemies
+        if(keycode == Input.Keys.P)
+        {
+            TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+            cpu.planWave(60);
+        }
+
         // Spawn a wave of enemies
         if(keycode == Input.Keys.E)
         {
-            EntityManager.spawnEnemyWave();
+            TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+            cpu.spawnWave();
         }
 
         if(inPlanningMode()) {

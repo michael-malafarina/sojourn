@@ -7,6 +7,9 @@ import com.sojourn.game.entity.Entity;
 
 public class FloatText extends EntityMessage
 {
+    private final int BASE_TIME = 120;
+
+
     protected float ySpeed;
     protected float xSpeed;
     protected float dataScaling;
@@ -17,6 +20,9 @@ public class FloatText extends EntityMessage
         ySpeed = Utility.random(40, 50);
         myFont = Fonts.floatText;
         dataScaling = 1;
+
+        duration = BASE_TIME;
+
     }
 
     public void update(float delta)

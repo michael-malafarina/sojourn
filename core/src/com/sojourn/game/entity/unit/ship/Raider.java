@@ -15,6 +15,11 @@ public class Raider extends Ship
         weapons.add(new LargeLaser(this));
     }
 
+    @Override
+    public int getSquadSizeBase() {
+        return 4;
+    }
+
     public void actionCombat()
     {
         super.actionCombat();
