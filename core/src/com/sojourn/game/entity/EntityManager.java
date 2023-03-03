@@ -36,9 +36,6 @@ public class EntityManager {
         entities = new ArrayList<>();
         newEntities = new ArrayList<>();
         squads = new ArrayList<>();
-//        units = new ArrayList<>();
-//        ships = new ArrayList<>();
-
 
         // Human Player
 
@@ -48,11 +45,6 @@ public class EntityManager {
         addEntity(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, one);
 
         spawnPlayerUnits();
-
-
-
-        // Computer Player (Hostile)
-
 
     }
 

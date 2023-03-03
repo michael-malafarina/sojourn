@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.World;
 import com.sojourn.game.display.*;
 import com.sojourn.game.display.message.EntityMessageManager;
 import com.sojourn.game.entity.ControlGroupSet;
@@ -140,9 +141,18 @@ public class StateGameplay extends State
         if(gridlines)
         {
             Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
-            Shape.getRenderer().setColor(new Color(50, 20, 50, 150));
-            Shape.getRenderer().line(-5000, 0, 5000, 0);
-            Shape.getRenderer().line(0, -5000, 0, 5000);
+            Shape.getRenderer().setColor(new Color(.50f, .20f, .50f, 1));
+            Shape.getRenderer().line(World.getWestEdge(), 0, World.getEastEdge(), 0);
+            Shape.getRenderer().line(0, World.getSouthEdge(), 0, World.getNorthEdge());
+
+            Shape.getRenderer().setColor(new Color(1, 1, 1, 1));
+            Shape.getRenderer().line(World.getNorthWestCorner(), World.getNorthEastCorner());
+            Shape.getRenderer().line(World.getNorthEastCorner(), World.getSouthEastCorner());
+            Shape.getRenderer().line(World.getSouthEastCorner(), World.getSouthWestCorner());
+            Shape.getRenderer().line(World.getSouthWestCorner(), World.getNorthWestCorner());
+
+
+            //Shape.getRenderer().line(0, -5000, 0, 5000);
         }
     }
 
@@ -427,9 +437,7 @@ public class StateGameplay extends State
 
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
 
-        // Temp code - in actual gameplay these will already be gone
-        List<Ship> enemyShips = EntityManager.getEnemyShips();
-        enemyShips.forEach(a -> a.setExpired());
+
 
         cpu.spawnWave();
 
@@ -441,11 +449,13 @@ public class StateGameplay extends State
 
     public void startPlanning()
     {
+        // Temp code - in actual gameplay these will already be gone
+        List<Ship> enemyShips = EntityManager.getEnemyShips();
+        enemyShips.forEach(a -> a.setExpired());
+
         planning = true;
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
         cpu.planWave(60);
-
-
     }
 
     public List<Unit> getAllSelectedUnits()

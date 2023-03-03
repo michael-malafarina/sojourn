@@ -7,6 +7,7 @@ import com.sojourn.game.entity.unit.ship.Ship;
 import java.util.List;
 
 public class RandomDistribution extends Distribution {
+
     public RandomDistribution(List<Class<? extends Ship>> types) {
         super(types);
     }

@@ -8,7 +8,6 @@ import java.util.List;
 abstract public class Distribution
 {
     private List<TypePosition> positions;
-    private int index;
 
     abstract public TypePosition createNewPosition(Class<? extends Ship> type);
 
@@ -20,14 +19,6 @@ abstract public class Distribution
         {
             positions.add(createNewPosition(types.get(i)));
         }
-    }
-
-
-    public TypePosition getNextPosition()
-    {
-        TypePosition p = positions.get(index);
-        index++;
-        return p;
     }
 
     public List<TypePosition> getAllPositions()

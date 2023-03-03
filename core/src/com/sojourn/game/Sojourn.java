@@ -18,6 +18,7 @@ public class Sojourn extends Game
 	public static final int STATE_TITLE_ID = 0;
 	public static final int STATE_GAMEPLAY_ID = 1;
 
+
 	private StateTitle title;
 	private StateGameplay gameplay;
 	private EntityManager entityManager;

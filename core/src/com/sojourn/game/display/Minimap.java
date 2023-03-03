@@ -3,6 +3,7 @@ package com.sojourn.game.display;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.sojourn.game.World;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.civilian.Civilian;
@@ -11,11 +12,6 @@ import java.util.List;
 
 public class Minimap extends HudElement
 {
-	final float WORLD_WIDTH = 1920*5;
-	final float WORLD_HEIGHT = 1080 * 5 ;
-
-
-
 	public Minimap(float x, float y, float w, float h)
 	{
 		super(x, y, w, h);
@@ -46,8 +42,8 @@ public class Minimap extends HudElement
 
 		for(Entity e : entities)
 		{
-				float xPos = e.getCenterX() / (float) WORLD_WIDTH * width + width/2;
-				float yPos = e.getCenterY() / (float) WORLD_HEIGHT * height + y + height/2;
+				float xPos = e.getCenterX() / (float) World.WIDTH * width + width/2;
+				float yPos = e.getCenterY() / (float) World.HEIGHT * height + y + height/2;
 
 				int w = e.getWidth() / 40;
 				int h = e.getHeight() / 40;
@@ -84,8 +80,8 @@ public class Minimap extends HudElement
 //				float yPos = e.getY() / (float) Values.PLAYFIELD_HEIGHT * height + y + height/2;
 
 
-				float xPos = e.getCenterX() / (float) WORLD_WIDTH * width + width/2;
-				float yPos = e.getCenterY() / (float) WORLD_HEIGHT * height + y + height/2;
+				float xPos = e.getCenterX() / (float) World.WIDTH * width + width/2;
+				float yPos = e.getCenterY() / (float) World.HEIGHT * height + y + height/2;
 
 				int w = e.getWidth() / 12;
 				int h = e.getHeight() / 12;
@@ -176,10 +172,10 @@ public class Minimap extends HudElement
 		OrthographicCamera cam = Display.getCamera().getGameCamera();
 
 
-		float camX = cam.position.x / ((float) WORLD_WIDTH) * width + x + width / 2;
-		float camY = cam.position.y / ((float) WORLD_HEIGHT) * height + y + height / 2;
-		float camW = (cam.viewportWidth / ((float) WORLD_WIDTH)) * width;
-		float camH = (cam.viewportHeight / ((float) WORLD_HEIGHT)) * height;
+		float camX = cam.position.x / ((float) World.WIDTH) * width + x + width / 2;
+		float camY = cam.position.y / ((float) World.HEIGHT) * height + y + height / 2;
+		float camW = (cam.viewportWidth / ((float) World.WIDTH)) * width;
+		float camH = (cam.viewportHeight / ((float) World.HEIGHT)) * height;
 
 //		// Snap to right
 //		if(camX + camW / 2 > width)
