@@ -8,6 +8,7 @@ import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
+import com.sojourn.game.faction.wave.distributions.TwoSides;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,14 @@ public class Wave
 
     public Distribution createNewDistribution(List<Class<? extends Ship>> types)
     {
-        int r = Utility.random(2);
+        int r = Utility.random(3);
 
         return switch(r) {
-                    case 1 -> new EastSide(types);
-                    default ->new RandomDistribution(types);
+//                    case 1 -> new OneSide(types);
+//                     case 2 -> new TwoSides(types);
+//                     default ->new Scattered(types);
+
+            default ->new TwoSides(types);
                 };
     }
 

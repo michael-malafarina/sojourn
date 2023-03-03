@@ -8,7 +8,7 @@ public class TypePosition
     private Vector2 position;
     private Class<? extends Ship> type;
 
-    TypePosition(Class<? extends Ship> type, Vector2 position)
+    public TypePosition(Class<? extends Ship> type, Vector2 position)
     {
         this.type = type;
         this.position = position;

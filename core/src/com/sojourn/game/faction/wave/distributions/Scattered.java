@@ -1,15 +1,22 @@
-package com.sojourn.game.faction.wave;
+package com.sojourn.game.faction.wave.distributions;
 
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.unit.ship.Ship;
+import com.sojourn.game.faction.wave.Distribution;
+import com.sojourn.game.faction.wave.TypePosition;
 
 import java.util.List;
 
-public class RandomDistribution extends Distribution {
+public class Scattered extends Distribution {
 
-    public RandomDistribution(List<Class<? extends Ship>> types) {
+    public Scattered(List<Class<? extends Ship>> types) {
         super(types);
+    }
+
+    @Override
+    public void setup() {
+
     }
 
     public TypePosition createNewPosition(Class<? extends Ship> type) {

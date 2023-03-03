@@ -48,26 +48,35 @@ public class World
     }
 
 
-    public static Vector2 getRandomWestSide()
+    public static Vector2 getRandomWestSide(float width)
     {
-        return new Vector2(getWestEdge(), Utility.random(getSouthEdge(), getNorthEdge()));
+        return new Vector2(Utility.random(getWestEdge(), getWestEdge() + width), getRandomY());
     }
 
-    public static Vector2 getRandomEastSide()
+    public static Vector2 getRandomEastSide(float width)
     {
-        return new Vector2(getEastEdge(), Utility.random(getSouthEdge(), getNorthEdge()));
+        return new Vector2(Utility.random(getEastEdge() - width, getEastEdge()), getRandomY());
     }
 
-    public static Vector2 getRandomNorthSide()
+    public static Vector2 getRandomNorthSide(float height)
     {
-        return new Vector2(Utility.random(getWestEdge(), getEastEdge()), getNorthEdge());
+        return new Vector2(getRandomX(), Utility.random(getNorthEdge() - height, getNorthEdge()));
     }
 
-    public static Vector2 getRandomSouthSide()
+    public static Vector2 getRandomSouthSide(float height)
     {
-        return new Vector2(Utility.random(getWestEdge(), getEastEdge()), getSouthEdge());
+        return new Vector2(getRandomX(), Utility.random(getSouthEdge(), getSouthEdge() + height));
     }
 
+    public static float getRandomX()
+    {
+        return Utility.random(getWestEdge(), getEastEdge());
+    }
+
+    public static float getRandomY()
+    {
+        return Utility.random(getSouthEdge(), getNorthEdge());
+    }
 
 
 }
