@@ -1,37 +1,36 @@
 package com.sojourn.game.faction.wave;
 
-import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.entity.unit.ship.Ship;
 
 import java.util.ArrayList;
 import java.util.List;
 
 abstract public class Distribution
 {
-    List<Vector2> positions;
-    int index;
+    private List<TypePosition> positions;
+    private int index;
 
-    abstract public Vector2 createNewPosition();
+    abstract public TypePosition createNewPosition(Class<? extends Ship> type);
 
-
-    public Distribution(int numPositions)
+    public Distribution(List<Class<? extends Ship>> types)
     {
         positions = new ArrayList<>();
 
-        for(int i  = 0; i < numPositions; i++)
+        for(int i  = 0; i < types.size(); i++)
         {
-            positions.add(createNewPosition());
+            positions.add(createNewPosition(types.get(i)));
         }
     }
 
 
-    public Vector2 getNextPosition()
+    public TypePosition getNextPosition()
     {
-        Vector2 p = positions.get(index);
+        TypePosition p = positions.get(index);
         index++;
         return p;
     }
 
-    public List<Vector2> getAllPositions()
+    public List<TypePosition> getAllPositions()
     {
         return positions;
     }

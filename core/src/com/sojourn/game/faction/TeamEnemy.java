@@ -3,8 +3,6 @@ package com.sojourn.game.faction;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.faction.wave.Wave;
 
-import java.util.List;
-
 public class TeamEnemy extends Team
 {
     Wave nextWave;
@@ -28,23 +26,11 @@ public class TeamEnemy extends Team
         nextWave.plan();
     }
 
-    public void spawnWave()
-    {
-        if(nextWave != null)
-        {
+    public void spawnWave() {
+        if (nextWave != null) {
             nextWave.spawn();
             currentWave = nextWave;
             nextWave = null;
         }
     }
-
-    public List<Vector2> getNextDestinations()
-    {
-        return nextWave.getPositions();
-    }
-
-
-
-
-
 }

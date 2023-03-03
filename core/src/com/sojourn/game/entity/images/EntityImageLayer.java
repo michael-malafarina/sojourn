@@ -2,11 +2,13 @@ package com.sojourn.game.entity.images;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.sojourn.game.display.Display;
 
 public class EntityImageLayer
 {
     TextureRegion texture;
     Color color;
+    boolean hidden;
 
     EntityImageLayer(TextureRegion texture)    {
         this.texture = texture;
@@ -16,6 +18,11 @@ public class EntityImageLayer
         this.texture = texture;
         this.color = color;
     }
+
+    public void hide()   {
+        this.hidden = true;
+    }
+
 
     public void setTexture(TextureRegion texture)    {
         this.texture = texture;
@@ -41,4 +48,10 @@ public class EntityImageLayer
         return texture.getRegionHeight();
     }
 
+    public void render(float x, float y, float w, float h, float theta)
+    {
+        if(!hidden) {
+            Display.draw(getTexture(), getColor(), x, y, w, h, theta);
+        }
+    }
 }

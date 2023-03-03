@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sojourn.game.Settings;
-import com.sojourn.game.display.Display;
 import com.sojourn.game.display.HealthBar;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Entity;
@@ -69,6 +68,11 @@ public class EntityImage
         }
     }
 
+    public void hideLayer(int layer)
+    {
+        imageLayers.get(layer).hide();
+    }
+
     public void render()
     {
         if(imageLayers == null)
@@ -76,7 +80,10 @@ public class EntityImage
             return;
         }
 
-        imageLayers.forEach(n -> Display.draw(n.getTexture(), n.getColor(), owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
+        imageLayers.forEach(n -> n.render(owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
+
+
+//        imageLayers.forEach(n -> Display.draw(n.getTexture(), n.getColor(), owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
 
         if((owner instanceof Ship && Settings.showUnitHealthbars) || (owner instanceof Civilian && Settings.showCivilianHealthbars))
         {

@@ -1,8 +1,8 @@
 package com.sojourn.game.faction.wave;
 
-import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.EntityManager;
+import com.sojourn.game.entity.ambient.EnemyAlert;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Wave
 {
+
     List<Squad> squads;
     Team team;
     float value;
@@ -41,13 +42,13 @@ public class Wave
         squads.addAll(squads);
     }
 
-    public Distribution createNewDistribution(int numPositions)
+    public Distribution createNewDistribution(List<Class<? extends Ship>> types)
     {
         int r = Utility.random(2);
 
         return switch(r) {
-                    case 1 -> new EastSide(numPositions);
-                    default ->new RandomDistribution(numPositions);
+                    case 1 -> new EastSide(types);
+                    default ->new RandomDistribution(types);
                 };
     }
 
@@ -60,33 +61,47 @@ public class Wave
     {
         squads.clear();
 
-        int count = 0;
-        count +=  calculateNumberOfSquads(Scout.class, value * .6f);
-        count +=  calculateNumberOfSquads(Raider.class, value * .4f);
+        List<Class<? extends Ship>> types = new ArrayList<>();
 
-        currentDistribution = createNewDistribution(count);
+        int count = calculateNumberOfSquads(Scout.class, value * .5f);
+
+        for(int i = 0; i < count; i++)
+        {
+            types.add(Scout.class);
+        }
+
+        count = calculateNumberOfSquads(Raider.class, value * .5f);
+
+        for(int i = 0; i < count; i++)
+        {
+            types.add(Raider.class);
+        }
+
+        currentDistribution = createNewDistribution(types);
+
+        List<TypePosition> pairs = currentDistribution.getAllPositions();
+
+        for(int i = 0; i < pairs.size(); i++)
+        {
+            EnemyAlert e = new EnemyAlert();
+            e.setClazz(pairs.get(i).getType());
+            e.setPosition(pairs.get(i).getPosition());
+            e.setTeam(team);
+            EntityManager.addEntity(e);
+        }
+
     }
 
-    public List<Vector2> getPositions()
-    {
-        return currentDistribution.getAllPositions();
-    }
 
     public void spawn()
     {
-        addSquads(createSquadsByValue(Scout.class, value * .6f));
-        addSquads(createSquadsByValue(Raider.class,value * .4f));
+        currentDistribution.getAllPositions().forEach(p -> team.createSquad(p.getType(), p.getPosition()));
     }
 
     public int calculateNumberOfSquads(Class<? extends Ship> clazz, float totalValue)
     {
         Ship prototype = (Ship) EntityManager.entityFactory(clazz);
         return ((int) totalValue) / (prototype.getValue() * prototype.getSquadSize());
-    }
-
-    public List<Squad> createSquadsByValue(Class<? extends Ship> clazz, float value)
-    {
-        return team.createSquads(clazz, currentDistribution, calculateNumberOfSquads(clazz, value));
     }
 
 

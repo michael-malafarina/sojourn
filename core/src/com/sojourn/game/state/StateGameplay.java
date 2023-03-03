@@ -426,6 +426,11 @@ public class StateGameplay extends State
         planning = false;
 
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+
+        // Temp code - in actual gameplay these will already be gone
+        List<Ship> enemyShips = EntityManager.getEnemyShips();
+        enemyShips.forEach(a -> a.setExpired());
+
         cpu.spawnWave();
 
         // Clear out old alerts
@@ -440,9 +445,7 @@ public class StateGameplay extends State
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
         cpu.planWave(60);
 
-        // Spawn new alerts at destinations for next wave
-        List<Vector2> destinations = cpu.getNextDestinations();
-        destinations.forEach(d -> EntityManager.addEntity(EnemyAlert.class, d, cpu, null));
+
     }
 
     public List<Unit> getAllSelectedUnits()

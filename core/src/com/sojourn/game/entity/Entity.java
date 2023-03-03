@@ -151,6 +151,7 @@ abstract public class Entity
 
     public void setTeam(Team team) {
         this.team = team;
+        setImage();
     }
 
     public void setPosition(float x, float y)    {

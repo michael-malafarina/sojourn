@@ -4,10 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
-import com.sojourn.game.faction.wave.Distribution;
-
-import java.util.ArrayList;
-import java.util.List;
 
 abstract public class Team
 {
@@ -83,25 +79,25 @@ abstract public class Team
         return EntityManager.addSquad(clazz, position, this);
     }
 
-    public List<Squad> createSquads(Class<? extends Ship> clazz, Vector2 position, int quantity)
-    {
-        List<Squad> squads = new ArrayList<>();
-        for(int i = 0; i < quantity; i++)
-        {
-            squads.add(createSquad(clazz, position));
-        }
-        return squads;
-    }
+//    public List<Squad> createSquads(Class<? extends Ship> clazz, Vector2 position, int quantity)
+//    {
+//        List<Squad> squads = new ArrayList<>();
+//        for(int i = 0; i < quantity; i++)
+//        {
+//            squads.add(createSquad(clazz, position));
+//        }
+//        return squads;
+//    }
 
-    public List<Squad> createSquads(Class<? extends Ship> clazz, Distribution distribution, int quantity)
-    {
-        List<Squad> squads = new ArrayList<>();
-        for(int i = 0; i < quantity; i++)
-        {
-            squads.add(createSquad(clazz, distribution.getNextPosition()));
-        }
-        return squads;
-    }
+//    public List<Squad> createSquads(Class<? extends Ship> clazz, Distribution distribution, int quantity)
+//    {
+//        List<Squad> squads = new ArrayList<>();
+//        for(int i = 0; i < quantity; i++)
+//        {
+//            squads.add(createSquad(clazz, distribution.getNextPosition()));
+//        }
+//        return squads;
+//    }
 
 
 
