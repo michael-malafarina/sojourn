@@ -9,13 +9,16 @@ import com.sojourn.game.entity.unit.ship.Ship;
 
 public class EnemyAlert extends Ambient
 {
+    final float VALUE_SCALING = 3;
     Texture sheet;
     Class<? extends Ship> clazz;
+    int value;
 
     public void setClazz(Class<? extends Ship> clazz)
     {
         Ship prototype = (Ship) EntityManager.entityFactory(clazz);
         sheet = prototype.getSpriteSheet();
+        value = prototype.getValueBase() * prototype.getSquadSizeBase();
         this.clazz = clazz;
     }
 
@@ -28,14 +31,18 @@ public class EnemyAlert extends Ambient
         return 5;
     }
 
+    public int getValueBase() {
+        return value;
+    }
+
     @Override
     public int getWidth() {
-        return 80;
+        return Math.round(getValue() *  VALUE_SCALING);
     }
 
     @Override
     public int getHeight() {
-        return 80;
+        return Math.round(getValue() * VALUE_SCALING);
     }
 
     @Override

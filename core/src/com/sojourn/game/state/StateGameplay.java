@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.World;
 import com.sojourn.game.display.*;
@@ -33,8 +34,8 @@ public class StateGameplay extends State
     private Vector2 selectionBoxOrigin;
     private boolean paused;
     private boolean planning;
-    private boolean gridlines;
     private int gameSpeed;
+    private int waveNumber;
 
 
     private static Minimap minimap;
@@ -47,7 +48,7 @@ public class StateGameplay extends State
         controlGroups = new ControlGroupSet();
         startPlanning();
         gameSpeed = 2;
-        minimap = new Minimap(2, 2, 192*1.7f, 108*1.7f);
+        minimap = new Minimap(10, 10, World.WIDTH * .02f, World.HEIGHT * .02f);
         messages = new EntityMessageManager();
     }
 
@@ -138,7 +139,7 @@ public class StateGameplay extends State
         }
 
         // Draw gridlines
-        if(gridlines)
+        if((planning && Settings.showGridlinesPlanning) || (!planning && Settings.showGridlinesCombat))
         {
             Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
             Shape.getRenderer().setColor(new Color(.50f, .20f, .50f, 1));
@@ -172,9 +173,13 @@ public class StateGameplay extends State
 
     protected void renderHudPlanning()
     {
+
         Text.setFont(Fonts.title);
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
-        Text.draw("Planning ", Display.WIDTH/2, Display.HEIGHT);
+        Text.draw("Planning", Display.WIDTH/2, Display.HEIGHT - 10);
+
+        Text.setFont(Fonts.subtitle);
+        Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
     }
 
     protected void renderHudCombat()
@@ -185,7 +190,10 @@ public class StateGameplay extends State
 
         Text.setFont(Fonts.title);
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
-        Text.draw("Combat ", Display.WIDTH/2, Display.HEIGHT);
+        Text.draw("Combat", Display.WIDTH/2, Display.HEIGHT - 10);
+
+        Text.setFont(Fonts.subtitle);
+        Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
     }
 
     protected void renderHudShapes()
@@ -346,7 +354,14 @@ public class StateGameplay extends State
         // Toggle gridlines
         if(keycode == Input.Keys.G)
         {
-            gridlines = !gridlines;
+            if(planning)
+            {
+                Settings.showGridlinesPlanning = ! Settings.showGridlinesPlanning;
+            }
+            else
+            {
+                Settings.showGridlinesCombat = ! Settings.showGridlinesCombat;
+            }
         }
 
         // Toggle planning phase (temporary)
@@ -354,20 +369,6 @@ public class StateGameplay extends State
         {
             togglePlanning();
         }
-
-        // Plan a wave of enemies
-//        if(keycode == Input.Keys.P)
-//        {
-//            TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
-//            cpu.planWave(60);
-//        }
-
-        // Spawn a wave of enemies
-//        if(keycode == Input.Keys.E)
-//        {
-//            TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
-//            cpu.spawnWave();
-//        }
 
         if(inPlanningMode())
         {
@@ -453,9 +454,13 @@ public class StateGameplay extends State
         List<Ship> enemyShips = EntityManager.getEnemyShips();
         enemyShips.forEach(a -> a.setExpired());
 
+        // Restore missing and damaged ships to squads
+        restoreUnits();
+
         planning = true;
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
-        cpu.planWave(60);
+        cpu.planWave(waveNumber);
+        waveNumber++;
     }
 
     public List<Unit> getAllSelectedUnits()
@@ -468,6 +473,13 @@ public class StateGameplay extends State
         EntityManager.getEntities().forEach(Entity::unselect);
     }
 
+
+    public void restoreUnits()
+    {
+        List<Squad> playerSquads = EntityManager.getPlayerSquads();
+        playerSquads.forEach(s -> s.restore());
+
+    }
 
 
 }

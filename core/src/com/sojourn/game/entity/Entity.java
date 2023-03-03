@@ -176,11 +176,11 @@ abstract public class Entity
 
     public void update(boolean planning, float delta)
     {
-        upkeep(delta);
+        upkeep(planning, delta);
         action(planning);
     }
 
-    protected void upkeep(float delta)
+    protected void upkeep(boolean planning, float delta)
     {
         this.delta = delta;
         timer++;
@@ -189,6 +189,11 @@ abstract public class Entity
         doneTurning = false;
 
         health.update();
+
+        if(planning)
+        {
+            health.increase(1);
+        }
 
         if(health.getCurrent() <= 0)
         {
@@ -212,6 +217,11 @@ abstract public class Entity
     {
         health.decrease(amount);
         addMessage(new DamageText(Math.round(amount), this));
+    }
+
+    public void restoreHealth(float amount, Entity source)
+    {
+        health.increase(amount);
     }
 
     public void render()

@@ -51,7 +51,7 @@ public class Attribute
         increase(getRegeneration());
     }
 
-    public void increase(float amount)
+     public void increase(float amount)
     {
         current = Math.min(getCurrent() + amount,  getMaximum());
     }
@@ -59,5 +59,10 @@ public class Attribute
     public void decrease(float amount)
     {
         current = Math.max(getCurrent() - amount,  0);
+    }
+
+    public void maximize()
+    {
+        current = maximum;
     }
 }

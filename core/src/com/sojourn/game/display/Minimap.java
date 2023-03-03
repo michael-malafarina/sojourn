@@ -174,8 +174,8 @@ public class Minimap extends HudElement
 
 		float camX = cam.position.x / ((float) World.WIDTH) * width + x + width / 2;
 		float camY = cam.position.y / ((float) World.HEIGHT) * height + y + height / 2;
-		float camW = (cam.viewportWidth / ((float) World.WIDTH)) * width;
-		float camH = (cam.viewportHeight / ((float) World.HEIGHT)) * height;
+		float camW = (cam.viewportWidth / ((float) World.WIDTH)) * width * cam.zoom;
+		float camH = (cam.viewportHeight / ((float) World.HEIGHT)) * height * cam.zoom;
 
 //		// Snap to right
 //		if(camX + camW / 2 > width)

@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class World
 {
-    public static final int WIDTH = 1920 * 5;
-    public static final int HEIGHT = 1080 * 5;
+    public static final int WIDTH = 2000*6; //1920 * 6;
+    public static final int HEIGHT = 1500*6; //1920 * 6;
 
     public static int getWestEdge()
     {

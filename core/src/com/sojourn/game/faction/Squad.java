@@ -27,14 +27,15 @@ public class Squad
     SquadImage image;
     private int maxSize;
     boolean selected = true;
+    Class<? extends Ship> type;
 
-    public Squad(Team team, Vector2 position, int maxSize)
+    public Squad(Class<? extends Ship> type, Team team, Vector2 position, int maxSize)
     {
-        this(team, position);
+        this(type, team, position);
         this.maxSize = maxSize;
     }
 
-    public Squad(Team team, Vector2 position)
+    public Squad(Class<? extends Ship> type, Team team, Vector2 position)
     {
         units = new ArrayList<>();
         image = new SquadImage(this);
@@ -42,6 +43,7 @@ public class Squad
         this.team = team;
         this.position = position;
         this.maxSize = maxSize;
+        this.type = type;
         aggregateHealth = new Attribute(0);
         setDestination(position);
     }
@@ -55,6 +57,8 @@ public class Squad
     {
         return units.size();
     }
+
+    public int countMissingUnits()  { return getMaxSize() - units.size();}
 
     public boolean isFull()
     {
@@ -188,5 +192,18 @@ public class Squad
     {
         image.renderShape();
 
+    }
+
+
+    public void restore()
+    {
+        int spawnAmount = countMissingUnits();
+
+        for(int i = 0; i < spawnAmount; i++)
+        {
+           EntityManager.addEntity(type, team.getSpawnPoint(), team, this);
+        }
+
+//        units.forEach(a -> a.restoreHealth());
     }
 }

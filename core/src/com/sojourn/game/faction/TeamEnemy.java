@@ -20,8 +20,9 @@ public class TeamEnemy extends Team
         return Team.ID_ENEMY;
     }
 
-    public void planWave(float value)
+    public void planWave(int number)
     {
+        int value = 60 + number * 20;
         nextWave = new Wave(this, value);
         nextWave.plan();
     }

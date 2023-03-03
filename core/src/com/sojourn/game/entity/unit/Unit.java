@@ -15,14 +15,11 @@ abstract public class Unit extends Entity
     {
         super();
         weapons = new WeaponSet();
-
     }
-
-
 
     public void update(boolean planning, float delta)
     {
-        upkeep(delta);
+        upkeep(planning, delta);
         weapons.update();
         action(planning);
     }

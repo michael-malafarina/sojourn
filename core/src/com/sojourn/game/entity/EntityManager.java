@@ -41,8 +41,7 @@ public class EntityManager {
 
         Team human = Sojourn.player;
 
-        Squad one = new Squad(human, human.getHomePoint(), 6);
-        addEntity(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, one);
+        addEntity(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, null);
 
         spawnPlayerUnits();
 
@@ -109,6 +108,11 @@ public class EntityManager {
         return getShips().stream().filter(u -> u.getTeam() instanceof TeamPlayer).toList();
     }
 
+    public static List<Squad> getPlayerSquads() {
+        return getSquads().stream().filter(u -> u.getTeam() instanceof TeamPlayer).toList();
+    }
+
+
     public static List<Ship> getEnemyShips() {
         return getShips().stream().filter(u -> u.getTeam() instanceof TeamEnemy).toList();
     }
@@ -148,12 +152,12 @@ public class EntityManager {
         newEntities.add(e);
     }
 
-    public static Squad addSquad(Class<? extends Unit> clazz, Vector2 position, Team team)
+    public static Squad addSquad(Class<? extends Ship> clazz, Vector2 position, Team team)
     {
         Ship prototype = (Ship) EntityManager.entityFactory(clazz);
         int count = prototype.getSquadSizeBase();
 
-        Squad s = new Squad(team, position, count);
+        Squad s = new Squad(clazz, team, position, count);
 
         for (int i = 0; i < count; i++)
         {
