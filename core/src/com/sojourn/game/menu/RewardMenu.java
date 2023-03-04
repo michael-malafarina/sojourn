@@ -12,10 +12,13 @@ public class RewardMenu
     public RewardMenu(State state)
     {
         one = new Button();
-        Reward r = new ExtraHealth();
+        Reward a = new ExtraHealthScaling();
+        Reward b = new ExtraDamageScaling();
+        Reward c = new ExtraRangeScaling();
+
         one.setPosition(600, 600);
         one.setLabel("Reward");
-        one.setClickEvent(r::apply);
+        one.setClickEvent(b::apply);
         one.setClickEventTwo(this::done);
 
 //        one.setClickEvent(() -> System.out.println("waaaa"));

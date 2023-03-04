@@ -1,6 +1,7 @@
 package com.sojourn.game.entity.component;
 
 import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.component.weapon.TargetSet;
 
@@ -14,6 +15,10 @@ abstract public class Component
     protected int useTimer;
     protected TargetSet targets;
 
+
+    private Attribute damage;
+    private Attribute range;
+
     // Constructors
 
     protected Component(Entity owner)
@@ -23,14 +28,27 @@ abstract public class Component
 
     // Abstract Methods
 
-    abstract public int getRangeBase();
     abstract public int getPreparationTime();
     abstract public int getActivationTime();
     abstract public int getRecoveryTime();
     abstract public boolean targetsSelf();
     abstract public int getNumTargets();
-
     abstract public void effect(Entity owner, Entity target);
+
+    public Attribute getDamage()
+    {
+        return damage;
+    }
+
+    public Attribute getRange()
+    {
+        return range;
+    }
+
+    public int getMaxRange()
+    {
+        return Math.round(range.getValue());
+    }
 
     // Accessors
 
@@ -50,22 +68,29 @@ abstract public class Component
                 (targetsSelf() || e != owner) ;
     }
 
-    public int getRange()    {
-        return getRangeBase();
-    }
-
     public boolean inRange(Entity e)
     {
         if(e == null) return false;
-        return owner.getCenterPosition().dst(e.getCenterPosition()) < getRange();
+        return owner.getCenterPosition().dst(e.getCenterPosition()) <  getMaxRange();
     }
 
     public boolean inRange(Vector2 p)    {
         if(p == null) return false;
-        return owner.getCenterPosition().dst(p) < getRange();
+        return owner.getCenterPosition().dst(p) < getRange().getValue();
     }
 
     // Mutators
+
+    protected void setDamage(float baseValue)
+    {
+        damage = new Attribute(baseValue, owner.getTeam().getTeamBonusManager().getDamageBonus());
+    }
+
+    protected void setRange(float baseValue)
+    {
+        range = new Attribute(baseValue, owner.getTeam().getTeamBonusManager().getRangeBonus());
+    }
+
 
     public void use() {
         if (canUse()) {

@@ -28,7 +28,7 @@ abstract public class Entity
 
     protected Vector2 speed;
     protected boolean isExpired;
-    protected AttributePool health;
+    private AttributePool health;
 
     private float theta;
     private float delta;

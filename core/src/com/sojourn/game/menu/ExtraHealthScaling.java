@@ -2,7 +2,7 @@ package com.sojourn.game.menu;
 
 import com.sojourn.game.Sojourn;
 
-public class ExtraHealth extends RewardTeamBonus{
+public class ExtraHealthScaling extends RewardTeamBonus{
 
     @Override
     public void apply()

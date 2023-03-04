@@ -11,6 +11,8 @@ abstract public class Unit extends Entity
 {
     protected WeaponSet weapons;
 
+
+
     public Unit()
     {
         super();
@@ -24,6 +26,15 @@ abstract public class Unit extends Entity
         action(planning);
     }
 
+    public void setAttributes()
+    {
+        super.setAttributes();
+        setHealth(1);
+        startingAttributes();
+        image.setAttributes();
+    }
+
+
     public boolean inRangeShortest(com.sojourn.game.entity.Entity e)
     {
         return getDistance(e) <= weapons.getShortestRange();
@@ -33,6 +44,7 @@ abstract public class Unit extends Entity
     {
         return getDistance(e) <= weapons.getLongestRange();
     }
+
 
     protected List<Unit> getEnemyUnits()
     {

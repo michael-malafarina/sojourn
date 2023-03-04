@@ -3,15 +3,30 @@ package com.sojourn.game.faction;
 public class TeamBonusManager
 {
     private TeamBonus health;
+    private TeamBonus damage;
+    private TeamBonus range;
+
+    TeamBonusManager()
+    {
+        health = new TeamBonus();
+        damage = new TeamBonus();
+        range = new TeamBonus();
+    }
 
     public TeamBonus getHealthBonus()
     {
         return health;
     }
 
-    TeamBonusManager()
+    public TeamBonus getDamageBonus()
     {
-        health = new TeamBonus();
+        return damage;
     }
+
+    public TeamBonus getRangeBonus()
+    {
+        return range;
+    }
+
 
 }

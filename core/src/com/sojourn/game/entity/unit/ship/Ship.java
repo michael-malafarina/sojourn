@@ -187,6 +187,8 @@ turn(90);
     {
         super.render();
         Text.draw(""+Math.round(getHealth().getMaximum()), getX(), getY());
+        Text.draw(""+Math.round(weapons.getWeapons().get(0).getDamage().getValue()), getX(), getY()+50);
+
     }
 
 //    public Vector2 getDestination()

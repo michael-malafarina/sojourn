@@ -6,16 +6,10 @@ import com.sojourn.game.entity.component.weapon.LargeLaser;
 
 public class Raider extends Ship
 {
-    public Raider()
-    {
-        super();
-
-        weapons.add(new LargeLaser(this));
-    }
-
     public void startingAttributes()
     {
         setHealth(120);
+        weapons.add(new LargeLaser(this));
     }
 
     @Override

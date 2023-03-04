@@ -6,15 +6,10 @@ import com.sojourn.game.entity.component.weapon.SmallLaser;
 
 public class Scout extends Ship
 {
-    public Scout()
-    {
-        super();
-        weapons.add(new SmallLaser(this));
-    }
-
     public void startingAttributes()
     {
         setHealth(50);
+        weapons.add(new SmallLaser(this));
     }
 
     @Override

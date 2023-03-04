@@ -7,6 +7,8 @@ public class LargeLaser extends WeaponLaser
     public LargeLaser(Entity owner)
     {
         super(owner);
+        setRange(600);
+        setDamage(15);
     }
 
     @Override
@@ -24,14 +26,9 @@ public class LargeLaser extends WeaponLaser
         return true;
     }
 
-    @Override
-    public int getRangeBase() {
-        return 600;
-    }
-
     public void effect(Entity owner, Entity target)
     {
-        target.takeDamage(15, owner);
+        target.takeDamage(getDamage().getValue(), owner);
     }
 
     @Override

@@ -29,22 +29,22 @@ public class WeaponSet
 
     public float getShortestRange()
     {
-        Optional<Weapon> w = weapons.stream().min(Comparator.comparingInt(Weapon::getRange));
+        Optional<Weapon> w = weapons.stream().min(Comparator.comparing(Weapon::getMaxRange));
 
         if(w != null)
         {
-            return w.get().getRange();
+            return w.get().getMaxRange();
         }
         return 0;
     }
 
     public float getLongestRange()
     {
-        Optional<Weapon> w = weapons.stream().max(Comparator.comparingInt(Weapon::getRange));
+        Optional<Weapon> w = weapons.stream().max(Comparator.comparingInt(Weapon::getMaxRange));
 
         if(w != null)
         {
-            return w.get().getRange();
+            return w.get().getMaxRange();
         }
         return 0;
     }
