@@ -2,7 +2,6 @@ package com.sojourn.game.entity.images;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.sojourn.game.display.HealthBar;
 import com.sojourn.game.faction.Squad;
 
 public class SquadImage
@@ -10,14 +9,12 @@ public class SquadImage
 
     private Texture sheet;
     private Squad owner;
-    private HealthBar healthbar;
     Vector2 position;
 
     public SquadImage(Squad owner)
     {
         this.owner = owner;
         position = new Vector2(0, 0);
-        healthbar = new HealthBar(owner.getHealth());
     }
 
     public SquadImage(Squad owner, Texture sheet)
@@ -37,7 +34,6 @@ public class SquadImage
     public void update()
     {
         position.set(owner.getCenter());
-        healthbar = new HealthBar(owner.getHealth());
     }
 
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.World;
+import com.sojourn.game.button.Button;
 import com.sojourn.game.display.*;
 import com.sojourn.game.display.message.EntityMessageManager;
 import com.sojourn.game.entity.ControlGroupSet;
@@ -21,6 +22,7 @@ import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.TeamEnemy;
+import com.sojourn.game.menu.RewardMenu;
 
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class StateGameplay extends State
     private boolean planning;
     private int gameSpeed;
     private int waveNumber;
+    private RewardMenu rewardMenu;
 
 
     private static Minimap minimap;
@@ -94,6 +97,8 @@ public class StateGameplay extends State
         {
             startPlanning();
         }
+
+        rewardMenu.update();
     }
 
     @Override
@@ -180,6 +185,8 @@ public class StateGameplay extends State
 
         Text.setFont(Fonts.subtitle);
         Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
+
+        rewardMenu.render();
     }
 
     protected void renderHudCombat()
@@ -210,6 +217,15 @@ public class StateGameplay extends State
         Vector3 mouseRaw = new Vector3(screenX, screenY, 0);
         Vector3 mouseProjected = Display.getCamera().getGameCamera().unproject(mouseRaw);
         boolean returnValue = false;
+
+        // Try using buttons first
+        for(Button b : buttons)
+        {
+            if(b.touchDown(screenX, screenY, pointer, button))
+            {
+                return true;
+            }
+        }
 
         // Determine which units are selected with this event
 
@@ -435,6 +451,7 @@ public class StateGameplay extends State
     public void startCombat()
     {
         planning = false;
+        rewardMenu.done();
 
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
 
@@ -461,6 +478,8 @@ public class StateGameplay extends State
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
         cpu.planWave(waveNumber);
         waveNumber++;
+
+        rewardMenu = new RewardMenu(this);
     }
 
     public List<Unit> getAllSelectedUnits()

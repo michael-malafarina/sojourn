@@ -1,68 +1,45 @@
 package com.sojourn.game.entity;
 
+import com.sojourn.game.faction.TeamBonus;
+
 public class Attribute
 {
-    float current;
-    float maximum;
-    float maximumBase;
-    float regeneration;
+    protected TeamBonus teamBonus;
+    private float value;
 
-    public Attribute(float value)
+    public Attribute(TeamBonus bonus)
     {
-        current = value;
-        maximum = value;
-        maximumBase = value;
-        regeneration = 0;
+        this.teamBonus = bonus;
     }
 
-    public Attribute(float current, float maximum)
+    public Attribute(float value, TeamBonus bonus)
     {
-        this.current = current;
-        this.maximum = maximum;
-        this.maximumBase = maximum;
-        regeneration = 0;
+        this(bonus);
+        this.value = value;
     }
 
     /************ ACCESSORS *************/
 
-    public float getCurrent()
+    public float getValue()
     {
-        return current;
-    }
-
-    public float getMaximum()
-    {
-        return maximum;
-    }
-
-    public float getRegeneration()
-    {
-        return regeneration;
-    }
-
-    public float getPercent()    {
-        return current / maximum;
+        return value * teamBonus.getBonusPercent();
     }
 
     /************ MUTATORS *************/
 
     public void update()
     {
-        increase(getRegeneration());
+
     }
 
-     public void increase(float amount)
+    public void increase(float amount)
     {
-        current = Math.min(getCurrent() + amount,  getMaximum());
+        value += amount;
     }
 
     public void decrease(float amount)
     {
-        current = Math.max(getCurrent() - amount,  0);
+        value = Math.max(getValue() - amount,  0);
     }
 
-    public void maximize()
-    {
-        current = maximum;
-    }
 }

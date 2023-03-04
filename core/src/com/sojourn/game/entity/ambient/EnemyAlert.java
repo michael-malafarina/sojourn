@@ -22,6 +22,11 @@ public class EnemyAlert extends Ambient
         this.clazz = clazz;
     }
 
+    public void startingAttributes()
+    {
+
+    }
+
     public Class<? extends Ship> getClazz()
     {
         return clazz;

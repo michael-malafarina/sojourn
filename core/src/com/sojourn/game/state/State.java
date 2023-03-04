@@ -150,4 +150,14 @@ abstract public class State implements Screen, InputProcessor
     {
         return false;
     }
+
+    public void addButton(Button b)
+    {
+        buttons.add(b);
+    }
+
+    public void removeButton(Button b)
+    {
+        buttons.remove(b);
+    }
 }

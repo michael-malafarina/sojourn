@@ -33,8 +33,11 @@ public class EntityImage
         this(owner);
         setSpriteSheet(sheet);
         loadImage();
-        healthbar = new HealthBar(owner.getHealth());
+    }
 
+    public void setAttributes()
+    {
+        healthbar = new HealthBar(owner.getHealth());
     }
 
     private void setSpriteSheet(Texture sheet)
@@ -85,7 +88,7 @@ public class EntityImage
 
 //        imageLayers.forEach(n -> Display.draw(n.getTexture(), n.getColor(), owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
 
-        if((owner instanceof Ship && Settings.showUnitHealthbars) || (owner instanceof Civilian && Settings.showCivilianHealthbars))
+        if(healthbar != null && ((owner instanceof Ship && Settings.showUnitHealthbars) || (owner instanceof Civilian && Settings.showCivilianHealthbars)))
         {
             healthbar.render(owner.getX(), owner.getY() + owner.getHeight() + 2, owner.getWidth(), 2);
         }

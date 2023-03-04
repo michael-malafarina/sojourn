@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Fonts;
@@ -14,7 +13,6 @@ import com.sojourn.game.display.Text;
 
 public class Button
 {
-    protected final Sojourn game;
     private Texture image;
     private Rectangle box;
 
@@ -24,11 +22,12 @@ public class Button
     private Texture buttonMouseover;
 
     protected ButtonEvent clickEvent;
+    protected ButtonEvent clickEventTwo;
+
     protected ButtonEvent mouseoverEvent;
 
-    public Button(final Sojourn game)
+    public Button()
     {
-        this.game = game;
         buttonBase = new Texture(Gdx.files.internal("ui/button/button.png"));
         buttonMouseover = new Texture(Gdx.files.internal("ui/button/buttonOver.png"));
         box = new Rectangle(0, 0, Display.WIDTH * .15f, Display.WIDTH * .15f * .25f);
@@ -48,6 +47,11 @@ public class Button
     public void setClickEvent(ButtonEvent clickEvent)
     {
         this.clickEvent = clickEvent;
+    }
+
+    public void setClickEventTwo(ButtonEvent clickEvent)
+    {
+        this.clickEventTwo = clickEvent;
     }
 
     public void setMouseoverEvent(ButtonEvent mouseoverEvent)
@@ -84,6 +88,7 @@ public class Button
 
         if(box.contains(tp.x, tp.y)) {
             clicked(clickEvent);
+            clicked(clickEventTwo);
             return true;
         }
         return false;

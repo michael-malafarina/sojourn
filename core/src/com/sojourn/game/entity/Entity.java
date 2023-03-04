@@ -28,7 +28,7 @@ abstract public class Entity
 
     protected Vector2 speed;
     protected boolean isExpired;
-    protected Attribute health;
+    protected AttributePool health;
 
     private float theta;
     private float delta;
@@ -55,9 +55,16 @@ abstract public class Entity
         box = new Rectangle(0,0, getWidth(), getHeight());
         speed = new Vector2(0, 0);
 
-        health = new Attribute(1);
     }
 
+    public void setAttributes()
+    {
+        setHealth(1);
+        startingAttributes();
+        image.setAttributes();
+    }
+
+    public abstract void startingAttributes();
 
     // Accessors
 
@@ -73,7 +80,7 @@ abstract public class Entity
         return image;
     }
 
-    public Attribute getHealth()    {
+    public AttributePool getHealth()    {
         return health;
     }
 
@@ -188,17 +195,22 @@ abstract public class Entity
         doneMovement = false;
         doneTurning = false;
 
-        health.update();
-
-        if(planning)
+        if(health != null)
         {
-            health.increase(1);
+            health.update();
+
+            if(health.getValue() <= 0)
+            {
+                setExpired();
+            }
+
+            if(planning)
+            {
+                health.increase(.1f);
+            }
+
         }
 
-        if(health.getCurrent() <= 0)
-        {
-            setExpired();
-        }
     }
 
     protected void action(boolean planning)
@@ -249,7 +261,10 @@ abstract public class Entity
         selected = false;
     }
 
-
+    protected void setHealth(int baseValue)
+    {
+        health = new AttributePool(baseValue, getTeam().getTeamBonusManager().getHealthBonus());
+    }
 
     /********************* MOVEMENT *********************/
 

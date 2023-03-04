@@ -5,16 +5,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.sojourn.game.Textures;
-import com.sojourn.game.entity.Attribute;
+import com.sojourn.game.entity.AttributePool;
 
 public class AttributeBar
 {
-    private Attribute attribute;
+    private AttributePool attribute;
     private Texture texture;
     private Color colorDark;
     private Color colorLight;
 
-    AttributeBar(Attribute attribute, Color color)
+    AttributeBar(AttributePool attribute, Color color)
     {
         this.attribute = attribute;
         this.texture = Textures.uiBar;
@@ -29,10 +29,10 @@ public class AttributeBar
 
     public void render(float x, float y, float w, float h, BitmapFont font)
     {
-        if(attribute == null)
-        {
-            return;
-        }
+//        if(attribute == null)
+//        {
+//            return;
+//        }
 
         int edge = Math.round(h / 4.0f);
 

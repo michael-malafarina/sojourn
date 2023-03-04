@@ -10,6 +10,7 @@ abstract public class Team
     // Data
     private Faction faction;
     private Vector2 homePoint;
+    private TeamBonusManager teamBonusManager;
 
     final public static int ID_NEUTRAL = 0;
     final public static int ID_PLAYER = 1;
@@ -28,10 +29,13 @@ abstract public class Team
     public Team(Faction faction)
     {
         this.faction = faction;
+        teamBonusManager = new TeamBonusManager();
     }
 
 
     // Accessors
+
+    public TeamBonusManager getTeamBonusManager() { return teamBonusManager; }
 
     public Faction getFaction()
     {

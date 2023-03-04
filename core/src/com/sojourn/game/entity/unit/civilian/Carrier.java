@@ -2,15 +2,18 @@ package com.sojourn.game.entity.unit.civilian;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
-import com.sojourn.game.entity.Attribute;
 
 public class Carrier extends Civilian
 {
     public Carrier()
     {
-        health = new Attribute(1000);
-//       setPosition(getX() - getWidth()/2, getY() - getHeight()/2);
+        //       setPosition(getX() - getWidth()/2, getY() - getHeight()/2);
 
+    }
+
+    public void startingAttributes()
+    {
+        setHealth(1000);
     }
 
     public int getValueBase() {

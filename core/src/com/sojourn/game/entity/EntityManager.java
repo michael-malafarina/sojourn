@@ -175,6 +175,7 @@ public class EntityManager {
         Entity u = entityFactory(clazz);
         u.setPosition(position.x - u.getWidth()/2, position.y - u.getHeight()/2);
         u.setTeam(team);
+        u.setAttributes();
 //        u.setImage();
 
         if(squad != null)

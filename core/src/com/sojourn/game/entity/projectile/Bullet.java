@@ -49,6 +49,9 @@ public class Bullet extends Projectile
 
     }
 
+    @Override
+
+
     public float getPercentProgress()
     {
         return ((float) getTimer()) / ((float) weapon.getActivationTime());

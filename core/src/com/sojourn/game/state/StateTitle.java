@@ -9,13 +9,13 @@ public class StateTitle extends State {
     public StateTitle(final Sojourn game)
     {
         super(game);
-        Button startButton = new Button(game);
+        Button startButton = new Button();
         startButton.setPosition(10, 110);
         startButton.setLabel("Play");
         startButton.setClickEvent(() -> game.setState(Sojourn.STATE_GAMEPLAY_ID));
         buttons.add(startButton);
 
-        Button exitButton = new Button(game);
+        Button exitButton = new Button();
         exitButton.setPosition(10, 10);
         exitButton.setLabel("Quit");
         exitButton.setClickEvent(game::exit);

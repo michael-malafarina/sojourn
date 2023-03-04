@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.faction.Squad;
 
@@ -185,7 +186,7 @@ turn(90);
     public void render()
     {
         super.render();
-       // Text.draw(""+isSelected(), getX(), getY());
+        Text.draw(""+Math.round(getHealth().getMaximum()), getX(), getY());
     }
 
 //    public Vector2 getDestination()

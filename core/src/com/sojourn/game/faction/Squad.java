@@ -1,7 +1,6 @@
 package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
-import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.images.SquadImage;
 import com.sojourn.game.entity.unit.Unit;
@@ -18,8 +17,6 @@ public class Squad
     private Vector2 anchor;
 
     Team team;
-
-    Attribute aggregateHealth;
 
     private Vector2 destination;
 
@@ -44,7 +41,6 @@ public class Squad
         this.position = position;
         this.maxSize = maxSize;
         this.type = type;
-        aggregateHealth = new Attribute(0);
         setDestination(position);
     }
 
@@ -104,11 +100,6 @@ public class Squad
         add(ship);
     }
 
-    public Attribute getHealth()
-    {
-        return aggregateHealth;
-    }
-
     public Team getTeam()
     {
         return team;
@@ -135,23 +126,6 @@ public class Squad
 
     public void update()
     {
-
-        // Update the squad's health to reflect the total of all units' health
-
-        int curHealth = 0;
-        int maxHealth = 0;
-
-        for(Unit u : units)
-        {
-            curHealth += u.getHealth().getCurrent();
-        }
-
-        if(!units.isEmpty())
-        {
-            maxHealth = Math.round(units.get(0).getHealth().getMaximum() * maxSize);
-        }
-
-        aggregateHealth = new Attribute(curHealth, maxHealth);
 
         image.update();
     }

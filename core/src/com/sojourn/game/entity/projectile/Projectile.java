@@ -32,6 +32,10 @@ abstract public class Projectile extends Entity
         setImage();
     }
 
+    public void startingAttributes() {
+
+    }
+
     abstract public float getPercentProgress();
 
     @Override
