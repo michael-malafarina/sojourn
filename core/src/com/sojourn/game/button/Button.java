@@ -63,6 +63,11 @@ public class Button
         box.setPosition(x, y);
     }
 
+    public void setSize(int w, int h) {
+        box.width = w;
+        box.height = h;
+    }
+
     public void setLabel(String label)
     {
         this.label = label;

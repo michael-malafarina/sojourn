@@ -3,53 +3,62 @@ package com.sojourn.game.menu;
 import com.sojourn.game.button.Button;
 import com.sojourn.game.state.State;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RewardMenu
 {
-    private Button one;
+    private List<Reward> rewards;
     private State state;
     private boolean done;
 
     public RewardMenu(State state)
     {
-        one = new Button();
-        Reward a = new ExtraHealthScaling();
-        Reward b = new ExtraDamageScaling();
-        Reward c = new ExtraRangeScaling();
-
-        one.setPosition(600, 600);
-        one.setLabel("Reward");
-        one.setClickEvent(b::apply);
-        one.setClickEventTwo(this::done);
-
-//        one.setClickEvent(() -> System.out.println("waaaa"));
-//        one.setMouseoverEvent(() -> System.out.println("fdsafdsafds"));
-
-        System.out.println(one);
         this.state = state;
-        state.addButton(one);
+        rewards = new ArrayList<>();
+        rewards.add(new ExtraHealthScaling(this));
+        rewards.add(new ExtraDamageScaling(this));
+        rewards.add(new ExtraRangeScaling(this));
+
+        position();
+    }
+
+    public void addButton(Button b)
+    {
+        state.addButton(b);
+    }
+
+    public void removeButton(Button b)
+    {
+        state.removeButton(b);
     }
 
     public void done()
     {
         done = true;
-        state.removeButton(one);
+        rewards.forEach(a -> a.done());
 
     }
 
-    public void update()
+    public void position()
     {
-        if(!done)
-        {
-            one.update();
+       for(int i = 0; i < rewards.size(); i++)
+       {
+          rewards.get(i).setup(i);
         }
+    }
 
+
+    public int getNumberOfChoices()
+    {
+        return rewards.size();
     }
 
     public void render()
     {
         if(!done)
         {
-            one.render();
+            rewards.forEach(a-> a.render());
         }
 
     }

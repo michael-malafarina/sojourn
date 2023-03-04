@@ -6,8 +6,9 @@ import com.sojourn.game.entity.ambient.EnemyAlert;
 import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
-import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
+import com.sojourn.game.faction.wave.distributions.OneSide;
+import com.sojourn.game.faction.wave.distributions.Scattered;
 import com.sojourn.game.faction.wave.distributions.TwoSides;
 
 import java.util.ArrayList;
@@ -15,15 +16,12 @@ import java.util.List;
 
 public class Wave
 {
-
-    List<Squad> squads;
     Team team;
     float value;
     Distribution currentDistribution;
 
     public Wave(Team team)
     {
-        squads = new ArrayList<>();
         this.team = team;
     }
 
@@ -33,27 +31,15 @@ public class Wave
         setValue(value);
     }
 
-    public void addSquad(Squad squad)
-    {
-        squads.add(squad);
-    }
-
-    public void addSquads(List<Squad> squads)
-    {
-        squads.addAll(squads);
-    }
-
     public Distribution createNewDistribution(List<Class<? extends Ship>> types)
     {
         int r = Utility.random(3);
 
         return switch(r) {
-//                    case 1 -> new OneSide(types);
-//                     case 2 -> new TwoSides(types);
-//                     default ->new Scattered(types);
-
-            default ->new TwoSides(types);
-                };
+            case 1 -> new OneSide(types);
+            case 2 -> new TwoSides(types);
+            default ->new Scattered(types);
+         };
     }
 
     public void setValue(float value)
@@ -63,8 +49,6 @@ public class Wave
 
     public void plan()
     {
-        squads.clear();
-
         List<Class<? extends Ship>> types = new ArrayList<>();
 
         int count = calculateNumberOfSquads(Scout.class, value * .5f);

@@ -98,7 +98,6 @@ public class StateGameplay extends State
             startPlanning();
         }
 
-        rewardMenu.update();
     }
 
     @Override
@@ -115,6 +114,8 @@ public class StateGameplay extends State
         EntityManager.getShips().forEach(Entity::render);
         EntityManager.getProjectiles().forEach(Entity::render);
         EntityManager.getSquads().forEach(Squad::render);
+
+
 
         messages.render();
     }
@@ -174,6 +175,9 @@ public class StateGameplay extends State
             renderHudCombat();
         }
 
+        Sojourn.player.render();
+
+
     }
 
     protected void renderHudPlanning()
@@ -187,6 +191,8 @@ public class StateGameplay extends State
         Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
 
         rewardMenu.render();
+
+
     }
 
     protected void renderHudCombat()

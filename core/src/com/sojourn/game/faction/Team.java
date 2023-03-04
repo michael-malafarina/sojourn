@@ -78,31 +78,16 @@ abstract public class Team
         return true;
     }
 
+    /****** Mutators *********/
+
+    public void render()
+    {
+        teamBonusManager.render();
+    }
+
     public Squad createSquad(Class<? extends Ship> clazz, Vector2 position)
     {
         return EntityManager.addSquad(clazz, position, this);
     }
-
-//    public List<Squad> createSquads(Class<? extends Ship> clazz, Vector2 position, int quantity)
-//    {
-//        List<Squad> squads = new ArrayList<>();
-//        for(int i = 0; i < quantity; i++)
-//        {
-//            squads.add(createSquad(clazz, position));
-//        }
-//        return squads;
-//    }
-
-//    public List<Squad> createSquads(Class<? extends Ship> clazz, Distribution distribution, int quantity)
-//    {
-//        List<Squad> squads = new ArrayList<>();
-//        for(int i = 0; i < quantity; i++)
-//        {
-//            squads.add(createSquad(clazz, distribution.getNextPosition()));
-//        }
-//        return squads;
-//    }
-
-
 
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
-import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.faction.Squad;
 
@@ -164,37 +163,19 @@ public abstract class Ship extends Unit
 
     public void idleMovement()
     {
-//        float percentOrbitLimit = getDistance(anchor) / 75f;
-//        float turnAmount = percentOrbitLimit * .45f + .45f;
-
-//        if(getDistance(getNearestShip()) < (getWidth() + getHeight()) * .5f)
-//        {
-//            turn(Utility.random(0, turnAmount * -1));
-//        }
-
-
 turnTo(getAnchor());
 turn(90);
 
-
-//        turn(.2f * getDistance(anchor) / 100);
-
-       // turn(.45f);
         move(10f);
     }
 
     public void render()
     {
         super.render();
-        Text.draw(""+Math.round(getHealth().getMaximum()), getX(), getY());
-        Text.draw(""+Math.round(weapons.getWeapons().get(0).getDamage().getValue()), getX(), getY()+50);
+     //   Text.draw(""+Math.round(getHealth().getMaximum()), getX(), getY());
+    //    Text.draw(""+Math.round(weapons.getWeapons().get(0).getDamage().getValue()), getX(), getY()+50);
 
     }
-
-//    public Vector2 getDestination()
-//    {
-//        return destination;
-//    }
 
     public Vector2 getAnchor()
     {

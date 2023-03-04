@@ -10,6 +10,7 @@ public class Fonts
 {
     public static final BitmapFont title = createFont("TCM", 28, Color.WHITE, Color.BLACK, 1);
     public static final BitmapFont subtitle = createFont("TCM", 20, new Color(.9f, .9f, .5f, 1f), Color.BLACK, 1);
+    public static final BitmapFont medium = createFont("TCM", 20, Color.WHITE, Color.BLACK, 1);
 
     public static final BitmapFont small = createFont("TCM", 14, Color.WHITE, Color.BLACK, 0);
     public static final BitmapFont floatText = createFont("TCM", 36, Color.WHITE, Color.DARK_GRAY, 1);
