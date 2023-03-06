@@ -57,7 +57,6 @@ public class Utility
             for (int cur : rolls) {
                 if (cur == r) {
                     found = true;
-                    System.out.println("repeat!!");
                 }
             }
 
@@ -70,7 +69,6 @@ public class Utility
             }
         }
 
-        System.out.println(rolls);
         return rolls;
 
     }

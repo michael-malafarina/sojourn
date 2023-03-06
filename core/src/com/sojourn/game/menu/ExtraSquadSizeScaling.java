@@ -14,6 +14,6 @@ public class ExtraSquadSizeScaling extends RewardTeamBonus{
     @Override
     public void apply()
     {
-        Sojourn.player.getTeamBonusManager().getSquadSize().addBonusPercent(bonus);
+        Sojourn.player.getTeamBonusManager().getSquadSizeBonus().addBonusPercent(bonus);
     }
 }

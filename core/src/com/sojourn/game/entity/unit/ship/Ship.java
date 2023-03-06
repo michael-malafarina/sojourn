@@ -54,7 +54,7 @@ public abstract class Ship extends Unit
 
     protected void setSquadSize(int baseValue)
     {
-        squadSize = new Attribute(baseValue, getTeam().getTeamBonusManager().getSquadSize());
+        squadSize = new Attribute(baseValue, getTeam().getTeamBonusManager().getSquadSizeBonus());
     }
 
     public Squad getSquad()
@@ -108,7 +108,7 @@ public abstract class Ship extends Unit
         //drift();
 
 
-        Unit u = getNearestEnemyShip();
+        Unit u = getNearestEnemyUnit();
 
         if(!inRangeShortest(u))
         {

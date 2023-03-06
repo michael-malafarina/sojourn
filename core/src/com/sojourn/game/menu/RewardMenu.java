@@ -17,19 +17,19 @@ public class RewardMenu
     {
         this.state = state;
         rewards = new ArrayList<>();
-        rewards.addAll(getRandomRewards(3));
+        rewards.addAll(getRandomRewards(3, 4));
         position();
     }
 
 
 
 
-    public List<Reward> getRandomRewards(int number)
+    public List<Reward> getRandomRewards(int rewardCount, int numTypes)
     {
-        List<Integer> rolls = Utility.uniqueRolls(3, 0, number);
+        List<Integer> rolls = Utility.uniqueRolls(3, 0, numTypes);
         List<Reward> newRewards = new ArrayList<>();
 
-        for(int i = 0; i < number; i++)
+        for(int i = 0; i < rewardCount; i++)
         {
             newRewards.add(getReward(rolls.get(i)));
         }
@@ -43,6 +43,7 @@ public class RewardMenu
             case 1 -> new ExtraHealthScaling(this);
             case 2 -> new ExtraDamageScaling(this);
             case 3 -> new ExtraRangeScaling(this);
+            case 4 -> new ControlRadiusScaling(this);
             default -> new ExtraSquadSizeScaling(this);
         };
     }

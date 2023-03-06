@@ -42,8 +42,8 @@ public class Minimap extends HudElement
 
 		for(Entity e : entities)
 		{
-				float xPos = e.getCenterX() / (float) World.WIDTH * width + width/2;
-				float yPos = e.getCenterY() / (float) World.HEIGHT * height + y + height/2;
+				float xPos = e.getCenterX() / (float) World.getWidth() * width + width/2;
+				float yPos = e.getCenterY() / (float) World.getHeight() * height + y + height/2;
 
 				int w = e.getWidth() / 40;
 				int h = e.getHeight() / 40;
@@ -80,8 +80,8 @@ public class Minimap extends HudElement
 //				float yPos = e.getY() / (float) Values.PLAYFIELD_HEIGHT * height + y + height/2;
 
 
-				float xPos = e.getCenterX() / (float) World.WIDTH * width + width/2;
-				float yPos = e.getCenterY() / (float) World.HEIGHT * height + y + height/2;
+				float xPos = e.getCenterX() / (float) World.getWidth() * width + width/2;
+				float yPos = e.getCenterY() / (float) World.getHeight() * height + y + height/2;
 
 				int w = e.getWidth() / 12;
 				int h = e.getHeight() / 12;
@@ -172,10 +172,10 @@ public class Minimap extends HudElement
 		OrthographicCamera cam = Display.getCamera().getGameCamera();
 
 
-		float camX = cam.position.x / ((float) World.WIDTH) * width + x + width / 2;
-		float camY = cam.position.y / ((float) World.HEIGHT) * height + y + height / 2;
-		float camW = (cam.viewportWidth / ((float) World.WIDTH)) * width * cam.zoom;
-		float camH = (cam.viewportHeight / ((float) World.HEIGHT)) * height * cam.zoom;
+		float camX = cam.position.x / ((float) World.getWidth()) * width + x + width / 2;
+		float camY = cam.position.y / ((float) World.getHeight()) * height + y + height / 2;
+		float camW = (cam.viewportWidth / ((float) World.getWidth())) * width * cam.zoom;
+		float camH = (cam.viewportHeight / ((float) World.getHeight())) * height * cam.zoom;
 
 //		// Snap to right
 //		if(camX + camW / 2 > width)

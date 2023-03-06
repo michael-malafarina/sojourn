@@ -9,7 +9,7 @@ import java.util.List;
 
 abstract public class Distribution
 {
-    protected final int BAND_SIZE = (int) ((World.WIDTH + World.HEIGHT) / 2 * .1f);
+    protected final int BAND_SIZE = (int) ((World.getWidth() + World.getHeight()) / 2 * .1f);
 
     private List<TypePosition> positions;
 

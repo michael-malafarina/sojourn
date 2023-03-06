@@ -1,11 +1,23 @@
 package com.sojourn.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.state.StateGameplay;
 
 public class World
 {
-    public static final int WIDTH = 2000*6; //1920 * 6;
-    public static final int HEIGHT = 1500*6; //1920 * 6;
+    private static final int WIDTH = 1000*6; //1920 * 6;
+    private static final int HEIGHT = 750*6; //1920 * 6;
+    private static final float WAVE_SCALING = .1f;
+
+    public static int getWidth()
+    {
+        return Math.round(WIDTH + StateGameplay.getWaveNumber() * WAVE_SCALING * WIDTH);
+    }
+
+    public static int getHeight()
+    {
+        return Math.round(HEIGHT + StateGameplay.getWaveNumber() * WAVE_SCALING * HEIGHT);
+    }
 
     public static int getWestEdge()
     {

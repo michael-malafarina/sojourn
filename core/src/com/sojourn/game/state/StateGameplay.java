@@ -28,7 +28,6 @@ import java.util.List;
 
 public class StateGameplay extends State
 {
-
     private EntityMessageManager messages;
 
     private ControlGroupSet controlGroups;
@@ -37,8 +36,9 @@ public class StateGameplay extends State
     private boolean paused;
     private boolean planning;
     private int gameSpeed;
-    private int waveNumber;
+    private static int waveNumber;
     private RewardMenu rewardMenu;
+
 
 
     private static Minimap minimap;
@@ -51,7 +51,7 @@ public class StateGameplay extends State
         controlGroups = new ControlGroupSet();
         startPlanning();
         gameSpeed = 2;
-        minimap = new Minimap(10, 10, World.WIDTH * .02f, World.HEIGHT * .02f);
+        minimap = new Minimap(10, 10, World.getWidth() * .02f, World.getHeight() * .02f);
         messages = new EntityMessageManager();
     }
 
@@ -65,6 +65,11 @@ public class StateGameplay extends State
     public boolean inCombatMode()
     {
         return !planning;
+    }
+
+    public static int getWaveNumber()
+    {
+        return waveNumber;
     }
 
     @Override
@@ -134,6 +139,10 @@ public class StateGameplay extends State
                 }
             }
 
+            int radius = Sojourn.player.getControlDistance();
+            Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+            Shape.getRenderer().setColor(Color.WHITE);
+            Shape.getRenderer().ellipse(-radius, -radius, radius*2, radius*2);
         }
 
         // Draw selection box shape
@@ -260,7 +269,7 @@ public class StateGameplay extends State
         // Issue orders
 
         // If I have right-clicked on a location, move selected units there
-        if(button == Input.Buttons.RIGHT && planning)
+        if(button == Input.Buttons.RIGHT && planning && Sojourn.player.inControlRadius(mouseProjected))
         {
             for (Unit u : getAllSelectedUnits()) {
 

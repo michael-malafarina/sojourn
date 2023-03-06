@@ -24,8 +24,8 @@ public class Sojourn extends Game
 	private EntityManager entityManager;
 
 	// Temporarily in main
-	public static Team player;
-	public static Team currentEnemy;
+	public static TeamPlayer player;
+	public static TeamEnemy currentEnemy;
 	public static Team neutral;
 
 	@Override

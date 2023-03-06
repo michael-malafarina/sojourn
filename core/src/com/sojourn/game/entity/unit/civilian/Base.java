@@ -13,7 +13,7 @@ public class Base extends Civilian
 
     public void startingAttributes()
     {
-        setHealth(1000);
+        setHealth(5000);
     }
 
     public int getValueBase() {
