@@ -17,8 +17,9 @@ public class EnemyAlert extends Ambient
     public void setClazz(Class<? extends Ship> clazz)
     {
         Ship prototype = (Ship) EntityManager.entityFactory(clazz);
+        prototype.setTeam(Sojourn.currentEnemy);
         sheet = prototype.getSpriteSheet();
-        value = prototype.getValueBase() * prototype.getSquadSizeBase();
+        value = Math.round(prototype.getValueBase() * prototype.getSquadSize().getValue());
         this.clazz = clazz;
     }
 

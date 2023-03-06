@@ -190,7 +190,10 @@ public class StateGameplay extends State
         Text.setFont(Fonts.subtitle);
         Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
 
-        rewardMenu.render();
+        if(rewardMenu != null)
+        {
+            rewardMenu.render();
+        }
 
 
     }
@@ -457,7 +460,10 @@ public class StateGameplay extends State
     public void startCombat()
     {
         planning = false;
-        rewardMenu.done();
+        if(rewardMenu != null)
+        {
+            rewardMenu.done();
+        }
 
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
 
@@ -485,7 +491,10 @@ public class StateGameplay extends State
         cpu.planWave(waveNumber);
         waveNumber++;
 
-        rewardMenu = new RewardMenu(this);
+        if(waveNumber > 1)
+        {
+            rewardMenu = new RewardMenu(this);
+        }
     }
 
     public List<Unit> getAllSelectedUnits()

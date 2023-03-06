@@ -89,7 +89,8 @@ public class Wave
     public int calculateNumberOfSquads(Class<? extends Ship> clazz, float totalValue)
     {
         Ship prototype = (Ship) EntityManager.entityFactory(clazz);
-        return ((int) totalValue) / (prototype.getValue() * prototype.getSquadSize());
+        prototype.setTeam(team);
+        return ((int) totalValue) / (prototype.getValue() * Math.round(prototype.getSquadSize().getValue()));
     }
 
 

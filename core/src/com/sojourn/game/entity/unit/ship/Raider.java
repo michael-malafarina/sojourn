@@ -9,12 +9,9 @@ public class Raider extends Ship
     public void startingAttributes()
     {
         setHealth(120);
-        weapons.add(new LargeLaser(this));
-    }
+        setSquadSize(4);
 
-    @Override
-    public int getSquadSizeBase() {
-        return 4;
+        weapons.add(new LargeLaser(this));
     }
 
     public void actionCombat()

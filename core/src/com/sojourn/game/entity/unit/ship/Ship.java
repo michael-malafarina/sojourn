@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.faction.Squad;
 
@@ -20,9 +21,12 @@ public abstract class Ship extends Unit
 
     private Squad group;
 
+    protected Attribute squadSize;
+
     public void setGroup(Squad group) {
         this.group = group;
     }
+
 
     public Ship()
     {
@@ -32,8 +36,6 @@ public abstract class Ship extends Unit
 
         //   drift.setLength(1);
     }
-
-    public abstract int getSquadSizeBase();
 
     public Vector2 getDestination()
     {
@@ -45,9 +47,14 @@ public abstract class Ship extends Unit
         return getSquad().hasDestination();
     }
 
-    public int getSquadSize()
+    public Attribute getSquadSize()
     {
-        return getSquadSizeBase();
+        return squadSize;
+    }
+
+    protected void setSquadSize(int baseValue)
+    {
+        squadSize = new Attribute(baseValue, getTeam().getTeamBonusManager().getSquadSize());
     }
 
     public Squad getSquad()

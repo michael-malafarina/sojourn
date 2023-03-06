@@ -14,15 +14,18 @@ public class Textures
     public static Texture bullet;
     public static Texture beam;
 
+    public static Texture title;
 
     public static void loadImages()
     {
+        title = new Texture(Gdx.files.internal("ui/spaceTitleTemp.png"));
+        uiBar = new Texture(Gdx.files.internal("ui/bar.png"));
+
         scout = new Texture(Gdx.files.internal("unit/scout.png"));
         raider = new Texture(Gdx.files.internal("unit/raider2.png"));
         base = new Texture(Gdx.files.internal("unit/base.png"));
 
 
-        uiBar = new Texture(Gdx.files.internal("ui/bar.png"));
 
         bullet = new Texture(Gdx.files.internal("bullet.png"));
         beam = new Texture(Gdx.files.internal("beam.png"));

@@ -2,7 +2,9 @@ package com.sojourn.game.state;
 
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.Textures;
 import com.sojourn.game.button.Button;
+import com.sojourn.game.display.Display;
 
 public class StateTitle extends State {
 
@@ -51,6 +53,7 @@ public class StateTitle extends State {
     @Override
     public void renderHud(float delta)
     {
+        Display.draw(Textures.title, 0, 0, 1920, 1080);
         super.renderHud(delta);
     }
 

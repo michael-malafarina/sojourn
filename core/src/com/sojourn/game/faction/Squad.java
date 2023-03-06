@@ -19,18 +19,9 @@ public class Squad
     Team team;
 
     private Vector2 destination;
-
-
     SquadImage image;
-    private int maxSize;
     boolean selected = true;
     Class<? extends Ship> type;
-
-    public Squad(Class<? extends Ship> type, Team team, Vector2 position, int maxSize)
-    {
-        this(type, team, position);
-        this.maxSize = maxSize;
-    }
 
     public Squad(Class<? extends Ship> type, Team team, Vector2 position)
     {
@@ -39,14 +30,18 @@ public class Squad
 
         this.team = team;
         this.position = position;
-        this.maxSize = maxSize;
         this.type = type;
         setDestination(position);
+
+
+
     }
 
     public int getMaxSize()
     {
-        return maxSize;
+        Ship prototype = (Ship) EntityManager.entityFactory(type);
+        prototype.setTeam(team);
+        return Math.round(prototype.getSquadSize().getValue());
     }
 
     public int getSize()

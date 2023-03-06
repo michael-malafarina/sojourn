@@ -9,12 +9,14 @@ public class TeamBonusManager
     private TeamBonus health;
     private TeamBonus damage;
     private TeamBonus range;
+    private TeamBonus squadSize;
 
     TeamBonusManager()
     {
         health = new TeamBonus();
         damage = new TeamBonus();
         range = new TeamBonus();
+        squadSize = new TeamBonus();
     }
 
     public TeamBonus getHealthBonus()
@@ -30,6 +32,11 @@ public class TeamBonusManager
     public TeamBonus getRangeBonus()
     {
         return range;
+    }
+
+    public TeamBonus getSquadSize()
+    {
+        return squadSize;
     }
 
     public void render()
@@ -56,6 +63,12 @@ public class TeamBonusManager
         if(range.isModified())
         {
             Text.draw("Range: +" + getPercentString(range.getBonusPercent()-1), 350, base + i * space);
+            i++;
+        }
+
+        if(squadSize.isModified())
+        {
+            Text.draw("Squad Size: +" + getPercentString(squadSize.getBonusPercent()-1), 350, base + i * space);
             i++;
         }
     }

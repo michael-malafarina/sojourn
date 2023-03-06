@@ -2,6 +2,9 @@ package com.sojourn.game;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Utility
 {
     public static int random(int max)
@@ -41,5 +44,34 @@ public class Utility
     {
         float val = scaleBetween(n, minOut, maxOut, minIn, maxIn);
         return Math.max(Math.min(val,  maxOut), minOut);
+    }
+
+    public static List<Integer> uniqueRolls(int numRolls, int minValue, int maxValue)
+    {
+        List<Integer> rolls = new ArrayList<>();
+
+        for(int i = 0; i < numRolls; i++) {
+            int r = Utility.random(minValue, maxValue);
+            boolean found = false;
+
+            for (int cur : rolls) {
+                if (cur == r) {
+                    found = true;
+                    System.out.println("repeat!!");
+                }
+            }
+
+            if (found) {
+                i--;
+
+            }
+            else {
+                rolls.add(r);
+            }
+        }
+
+        System.out.println(rolls);
+        return rolls;
+
     }
 }

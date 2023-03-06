@@ -9,12 +9,9 @@ public class Scout extends Ship
     public void startingAttributes()
     {
         setHealth(50);
-        weapons.add(new SmallLaser(this));
-    }
+        setSquadSize(6);
 
-    @Override
-    public int getSquadSizeBase() {
-        return 6;
+        weapons.add(new SmallLaser(this));
     }
 
     public void actionCombat()

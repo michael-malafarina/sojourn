@@ -154,12 +154,9 @@ public class EntityManager {
 
     public static Squad addSquad(Class<? extends Ship> clazz, Vector2 position, Team team)
     {
-        Ship prototype = (Ship) EntityManager.entityFactory(clazz);
-        int count = prototype.getSquadSizeBase();
+        Squad s = new Squad(clazz, team, position);
 
-        Squad s = new Squad(clazz, team, position, count);
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < s.getMaxSize(); i++)
         {
             addEntity(clazz, position, team, s);
         }
@@ -175,8 +172,6 @@ public class EntityManager {
         Entity u = entityFactory(clazz);
         u.setPosition(position.x - u.getWidth()/2, position.y - u.getHeight()/2);
         u.setTeam(team);
-        u.setAttributes();
-//        u.setImage();
 
         if(squad != null)
         {
