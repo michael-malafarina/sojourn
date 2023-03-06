@@ -3,9 +3,10 @@ package com.sojourn.game.faction.wave;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.ambient.EnemyAlert;
-import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
+import com.sojourn.game.entity.unit.ship.Sniper;
+import com.sojourn.game.entity.unit.ship.Tank;
 import com.sojourn.game.faction.Team;
 import com.sojourn.game.faction.wave.distributions.OneSide;
 import com.sojourn.game.faction.wave.distributions.Scattered;
@@ -51,18 +52,25 @@ public class Wave
     {
         List<Class<? extends Ship>> types = new ArrayList<>();
 
-        int count = calculateNumberOfSquads(Scout.class, value * .5f);
+        int count = calculateNumberOfSquads(Scout.class, value * .4f);
 
         for(int i = 0; i < count; i++)
         {
             types.add(Scout.class);
         }
 
-        count = calculateNumberOfSquads(Raider.class, value * .5f);
+        count = calculateNumberOfSquads(Tank.class, value * .4f);
 
         for(int i = 0; i < count; i++)
         {
-            types.add(Raider.class);
+            types.add(Tank.class);
+        }
+
+        count = calculateNumberOfSquads(Sniper.class, value * .2f);
+
+        for(int i = 0; i < count; i++)
+        {
+            types.add(Sniper.class);
         }
 
         currentDistribution = createNewDistribution(types);

@@ -29,6 +29,7 @@ abstract public class Reward
         accept = new Button();
         accept.setClickEvent(this::apply);
         accept.setClickEventTwo(owner::done);
+        accept.setFont(Fonts.large);
         description = "";
 
         owner.addButton(accept);

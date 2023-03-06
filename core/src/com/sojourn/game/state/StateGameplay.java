@@ -38,6 +38,7 @@ public class StateGameplay extends State
     private int gameSpeed;
     private static int waveNumber;
     private RewardMenu rewardMenu;
+    Button combatStartButton = new Button();
 
 
 
@@ -484,6 +485,9 @@ public class StateGameplay extends State
         List<EnemyAlert> alerts = EntityManager.getEnemyAlerts();
         alerts.forEach(a -> a.setExpired());
 
+        buttons.remove(combatStartButton);
+
+
     }
 
     public void startPlanning()
@@ -504,6 +508,12 @@ public class StateGameplay extends State
         {
             rewardMenu = new RewardMenu(this);
         }
+
+        combatStartButton.setPosition(Display.WIDTH - 320, 40);
+        combatStartButton.setLabel("Battle!");
+        combatStartButton.setClickEvent(() -> startCombat());
+        buttons.add(combatStartButton);
+
     }
 
     public List<Unit> getAllSelectedUnits()

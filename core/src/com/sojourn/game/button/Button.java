@@ -2,6 +2,7 @@ package com.sojourn.game.button;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.sojourn.game.display.Alignment;
@@ -25,6 +26,7 @@ public class Button
     protected ButtonEvent clickEventTwo;
 
     protected ButtonEvent mouseoverEvent;
+    protected BitmapFont font;
 
     public Button()
     {
@@ -32,6 +34,7 @@ public class Button
         buttonMouseover = new Texture(Gdx.files.internal("ui/button/buttonOver.png"));
         box = new Rectangle(0, 0, Display.WIDTH * .15f, Display.WIDTH * .15f * .25f);
 
+        font = Fonts.title;
         image = buttonBase;
         label = "";
 
@@ -73,6 +76,11 @@ public class Button
         this.label = label;
     }
 
+    public void setFont(BitmapFont font)
+    {
+        this.font = font;
+    }
+
     public void update() {
        // execute(() -> System.out.println("Hello, World!"));
 
@@ -80,11 +88,10 @@ public class Button
 
     public void render() {
         Display.draw(image, box.x, box.y, box.width, box.height);
-        Text.setFont(Fonts.title);
+        Text.setFont(font);
         Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
         Text.draw(label, box.x+box.width/2, box.y+box.height/2);
     }
-
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {

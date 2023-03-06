@@ -7,7 +7,7 @@ public class ExtraRangeScaling extends RewardTeamBonus{
     public ExtraRangeScaling(RewardMenu owner) {
         super(owner);
         bonus = .15f;
-        name = "Range Up";
+        name = "Weapon Range";
         description = "Increases unit range by " + getPercentString(bonus);
     }
 

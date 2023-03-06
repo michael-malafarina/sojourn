@@ -7,7 +7,7 @@ public class ExtraDamageScaling extends RewardTeamBonus{
     public ExtraDamageScaling(RewardMenu owner) {
         super(owner);
         bonus = .1f;
-        name = "Damage Up";
+        name = "Weapon Strength";
         description = "Increases unit damage by " + getPercentString(bonus);
     }
 

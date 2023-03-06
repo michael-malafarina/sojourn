@@ -7,8 +7,8 @@ public class ExtraHealthScaling extends RewardTeamBonus{
     public ExtraHealthScaling(RewardMenu owner) {
         super(owner);
         bonus = .1f;
-        name = "Health Up";
-        description = "Increases unit health by " + getPercentString(bonus);
+        name = "Structure";
+        description = "Increases unit structure by " + getPercentString(bonus);
     }
 
     @Override

@@ -6,8 +6,8 @@ public class ControlRadiusScaling extends RewardTeamBonus{
 
     public ControlRadiusScaling(RewardMenu owner) {
         super(owner);
-        bonus = .30f;
-        name = "Control Radius Up";
+        bonus = .25f;
+        name = "Communications";
         description = "Increases unit control radius by " + getPercentString(bonus);
     }
 

@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.component.weapon.SmallLaser;
 
-public class Scout extends Ship
+public class Tank extends Ship
 {
     public void startingAttributes()
     {
-        setHealth(40);
-        setSquadSize(8);
+        setHealth(200);
+        setSquadSize(4);
 
         weapons.add(new SmallLaser(this));
     }
@@ -18,43 +18,38 @@ public class Scout extends Ship
     {
         super.actionCombat();
 
-//        if(getDistance(getNearestEnemyUnit()) < 120)
-//        {
-//            takeDamage(1, getNearestEnemyUnit());
-//        }
-
     }
-
-    public int getValueBase() {
-        return 3;
-    }
-
 
     @Override
     public Texture getSpriteSheet()
     {
-        return Textures.scout;
+        return Textures.bubble;
+    }
+
+    @Override
+    public int getValueBase() {
+        return 7;
     }
 
     @Override
     public int getWidth() {
-        return 24;
+        return 48;
     }
 
     @Override
     public int getHeight() {
-        return 24;
+        return 48;
     }
 
     @Override
     public float getMaxSpeedBase()
     {
-        return 80;
+        return 50;
     }
 
     @Override
     public float getAccelerationBase()
     {
-        return 80;
+        return 50;
     }
 }

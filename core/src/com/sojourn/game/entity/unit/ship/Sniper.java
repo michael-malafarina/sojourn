@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.component.weapon.LargeLaser;
 
-public class Raider extends Ship
+public class Sniper extends Ship
 {
     public void startingAttributes()
     {
-        setHealth(120);
+        setHealth(75);
         setSquadSize(4);
 
         weapons.add(new LargeLaser(this));
@@ -23,12 +23,12 @@ public class Raider extends Ship
     @Override
     public Texture getSpriteSheet()
     {
-        return Textures.raider;
+        return Textures.boxy;
     }
 
     @Override
     public int getValueBase() {
-        return 7;
+        return 6;
     }
 
     @Override
@@ -44,12 +44,12 @@ public class Raider extends Ship
     @Override
     public float getMaxSpeedBase()
     {
-        return 50;
+        return 30;
     }
 
     @Override
     public float getAccelerationBase()
     {
-        return 50;
+        return 30;
     }
 }

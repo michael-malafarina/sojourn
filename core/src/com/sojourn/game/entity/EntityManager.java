@@ -7,9 +7,10 @@ import com.sojourn.game.entity.projectile.Projectile;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.civilian.Base;
 import com.sojourn.game.entity.unit.civilian.Civilian;
-import com.sojourn.game.entity.unit.ship.Raider;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
+import com.sojourn.game.entity.unit.ship.Sniper;
+import com.sojourn.game.entity.unit.ship.Tank;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
 import com.sojourn.game.faction.TeamEnemy;
@@ -52,9 +53,11 @@ public class EntityManager {
         Team human = Sojourn.player;
 
         addSquad(Scout.class, human.getSpawnPoint(), human);
+
+
         addSquad(Scout.class, human.getSpawnPoint(), human);
-        addSquad(Raider.class, human.getSpawnPoint(), human);
-        addSquad(Raider.class, human.getSpawnPoint(), human);
+        addSquad(Tank.class, human.getSpawnPoint(), human);
+        addSquad(Sniper.class, human.getSpawnPoint(), human);
     }
 
     public static List<com.sojourn.game.entity.Entity> getEntities() {
