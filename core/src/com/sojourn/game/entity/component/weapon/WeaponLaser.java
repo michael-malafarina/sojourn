@@ -3,6 +3,7 @@ package com.sojourn.game.entity.component.weapon;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.projectile.Beam;
+import com.sojourn.game.entity.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ abstract public class WeaponLaser extends Weapon
 {
     List<Beam> beams;
 
-    public WeaponLaser(Entity owner) {
+    public WeaponLaser(Unit owner) {
         super(owner);
     }
 

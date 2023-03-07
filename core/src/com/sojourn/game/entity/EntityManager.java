@@ -7,10 +7,10 @@ import com.sojourn.game.entity.projectile.Projectile;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.civilian.Base;
 import com.sojourn.game.entity.unit.civilian.Civilian;
+import com.sojourn.game.entity.unit.ship.EnergySniper;
+import com.sojourn.game.entity.unit.ship.EnergyTank;
 import com.sojourn.game.entity.unit.ship.Scout;
 import com.sojourn.game.entity.unit.ship.Ship;
-import com.sojourn.game.entity.unit.ship.Sniper;
-import com.sojourn.game.entity.unit.ship.Tank;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.Team;
 import com.sojourn.game.faction.TeamEnemy;
@@ -54,8 +54,8 @@ public class EntityManager {
 
         addSquad(Scout.class, human.getSpawnPoint(), human);
         addSquad(Scout.class, human.getSpawnPoint(), human);
-        addSquad(Tank.class, human.getSpawnPoint(), human);
-        addSquad(Sniper.class, human.getSpawnPoint(), human);
+        addSquad(EnergyTank.class, human.getSpawnPoint(), human);
+        addSquad(EnergySniper.class, human.getSpawnPoint(), human);
     }
 
     public static List<com.sojourn.game.entity.Entity> getEntities() {
@@ -95,6 +95,14 @@ public class EntityManager {
         civilians = tempCivs.stream().map(e -> (Civilian) e).toList();
         projectiles = tempProj.stream().map(e -> (Projectile) e).toList();
 
+    }
+
+    public static List<Unit> getMunitionDepots(Team team) {
+        return getFriendlyUnits(team).stream().filter(u -> u.isMunitionsDepot()).toList();
+    }
+
+    public static List<Unit> getFriendlyUnits(Team team) {
+        return getUnits().stream().filter(u -> u.getTeam().isFriendly(team)).toList();
     }
 
     public static List<Unit> getHostileUnits(Team team) {
@@ -251,6 +259,11 @@ public class EntityManager {
     public static Ship getNearestEnemyShip(Entity origin)
     {
         return (Ship) getNearestEntity(origin, new ArrayList<>(getHostileShips(origin.getTeam())));
+    }
+
+    public static Unit getNearestMunitionsDepot(Entity origin)
+    {
+        return (Unit) getNearestEntity(origin, new ArrayList<>(getMunitionDepots(origin.getTeam())));
     }
 
 

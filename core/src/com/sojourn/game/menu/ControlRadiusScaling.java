@@ -14,6 +14,6 @@ public class ControlRadiusScaling extends RewardTeamBonus{
     @Override
     public void apply()
     {
-        Sojourn.player.getTeamBonusManager().controlRadiusBonus().addBonusPercent(bonus);
+        Sojourn.player.getTeamBonusManager().getControlRadiusBonus().addBonusPercent(bonus);
     }
 }

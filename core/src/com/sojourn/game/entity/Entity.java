@@ -16,6 +16,7 @@ abstract public class Entity
 {
     final private float SPEED = 1.2f;
     final private float ACC = .02f;
+    private final float HEALTH_REGEN_PLANNING = .1f;
 
     // Data
 
@@ -196,6 +197,7 @@ abstract public class Entity
         doneMovement = false;
         doneTurning = false;
 
+
         if(health != null)
         {
             health.update();
@@ -207,11 +209,12 @@ abstract public class Entity
 
             if(planning)
             {
-                health.increase(.1f);
+                health.increase(HEALTH_REGEN_PLANNING);
             }
 
         }
 
+        image.update();
     }
 
     protected void action(boolean planning)

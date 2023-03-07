@@ -2,6 +2,7 @@ package com.sojourn.game.entity.unit.civilian;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
+import com.sojourn.game.entity.component.module.MunitionsDepot;
 
 public class Base extends Civilian
 {
@@ -14,6 +15,8 @@ public class Base extends Civilian
     public void startingAttributes()
     {
         setHealth(5000);
+        setMunitions(150);
+        modules.add(new MunitionsDepot(this));
     }
 
     public int getValueBase() {

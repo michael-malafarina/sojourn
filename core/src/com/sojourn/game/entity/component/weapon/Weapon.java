@@ -7,8 +7,8 @@ package com.sojourn.game.entity.component.weapon;
 
 //
 
-import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.component.Component;
+import com.sojourn.game.entity.unit.Unit;
 
 abstract public class Weapon extends Component
 {
@@ -17,7 +17,7 @@ abstract public class Weapon extends Component
 
     // Constructor
 
-    public Weapon(Entity owner) {
+    public Weapon(Unit owner) {
         super(owner);
     }
 
@@ -31,9 +31,8 @@ abstract public class Weapon extends Component
     }
 
 
+
     // Accessors
-
-
 
 
     public void preparationBegin()

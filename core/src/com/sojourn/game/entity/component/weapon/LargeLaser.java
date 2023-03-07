@@ -1,10 +1,11 @@
 package com.sojourn.game.entity.component.weapon;
 
 import com.sojourn.game.entity.Entity;
+import com.sojourn.game.entity.unit.Unit;
 
 public class LargeLaser extends WeaponLaser
 {
-    public LargeLaser(Entity owner)
+    public LargeLaser(Unit owner)
     {
         super(owner);
         setRange(600);
@@ -29,6 +30,11 @@ public class LargeLaser extends WeaponLaser
     public void effect(Entity owner, Entity target)
     {
         target.takeDamage(getDamage().getValue(), owner);
+    }
+
+    @Override
+    public int getMunitionCost() {
+        return 0;
     }
 
     @Override

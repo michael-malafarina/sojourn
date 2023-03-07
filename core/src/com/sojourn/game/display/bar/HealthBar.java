@@ -1,4 +1,4 @@
-package com.sojourn.game.display;
+package com.sojourn.game.display.bar;
 
 import com.badlogic.gdx.graphics.Color;
 import com.sojourn.game.entity.AttributePool;

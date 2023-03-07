@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Attribute;
+import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.faction.Squad;
 
@@ -74,9 +75,6 @@ public abstract class Ship extends Unit
 
         // Planning Phase Movement Rules
 
-
-
-
         if(nearAnchor(25))
         {
             idle = true;
@@ -107,22 +105,32 @@ public abstract class Ship extends Unit
         avoidNearby();
         //drift();
 
+        restockMunitions();
 
         Unit u = getNearestEnemyUnit();
 
+
+
         if(!inRangeShortest(u))
         {
-            turnTo(u);
+            moveTo(u);
         }
         else
         {
-            turnTo(getTeam().getHomePoint());
+            moveTo(getTeam().getHomePoint());
         }
 
 
         weapons.useAllSingleTargetWeapons(u);
 
-        move();
+    }
+
+    protected void restockMunitions()
+    {
+        if(getMunitions().getMaximum() > 0 && getMunitions().getPercent() < .1f)
+        {
+            moveTo(EntityManager.getNearestMunitionsDepot(this));
+        }
     }
 
 

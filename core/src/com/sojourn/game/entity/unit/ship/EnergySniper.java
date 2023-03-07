@@ -2,60 +2,54 @@ package com.sojourn.game.entity.unit.ship;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
-import com.sojourn.game.entity.component.weapon.MachineGun;
+import com.sojourn.game.entity.component.weapon.LargeLaser;
 
-public class Scout extends Skirmisher
+public class EnergySniper extends Sniper
 {
     public void startingAttributes()
     {
-        setHealth(40);
-        setSquadSize(8);
-        setMunitions(8);
+        setHealth(75);
+        setSquadSize(4);
 
-        weapons.add(new MachineGun(this));
+        weapons.add(new LargeLaser(this));
     }
 
     public void actionCombat()
     {
         super.actionCombat();
 
-//        if(getDistance(getNearestEnemyUnit()) < 120)
-//        {
-//            takeDamage(1, getNearestEnemyUnit());
-//        }
-
     }
-
-    public int getValueBase() {
-        return 3;
-    }
-
 
     @Override
     public Texture getSpriteSheet()
     {
-        return Textures.scout;
+        return Textures.boxy;
+    }
+
+    @Override
+    public int getValueBase() {
+        return 6;
     }
 
     @Override
     public int getWidth() {
-        return 24;
+        return 32;
     }
 
     @Override
     public int getHeight() {
-        return 24;
+        return 32;
     }
 
     @Override
     public float getMaxSpeedBase()
     {
-        return 80;
+        return 30;
     }
 
     @Override
     public float getAccelerationBase()
     {
-        return 80;
+        return 30;
     }
 }

@@ -7,9 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.sojourn.game.Settings;
-import com.sojourn.game.display.HealthBar;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.display.bar.HealthBar;
+import com.sojourn.game.display.bar.MunitionsBar;
+import com.sojourn.game.entity.AttributePool;
 import com.sojourn.game.entity.Entity;
+import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.civilian.Civilian;
 import com.sojourn.game.entity.unit.ship.Ship;
 
@@ -22,6 +25,7 @@ public class EntityImage
     private Texture sheet;
     private Entity owner;
     private HealthBar healthbar;
+    private MunitionsBar munitionsbar;
 
     public EntityImage(Entity owner)
     {
@@ -38,6 +42,12 @@ public class EntityImage
     public void setAttributes()
     {
         healthbar = new HealthBar(owner.getHealth());
+
+        if(owner instanceof Unit)
+        {
+            AttributePool munitions = ((Unit)owner).getMunitions();
+            munitionsbar = new MunitionsBar(munitions);
+        }
     }
 
     private void setSpriteSheet(Texture sheet)
@@ -76,6 +86,19 @@ public class EntityImage
         imageLayers.get(layer).hide();
     }
 
+    public void update()
+    {
+        if(owner instanceof Unit)
+        {
+            AttributePool munitions = ((Unit)owner).getMunitions();
+            if(munitions != null && munitions.getMaximum() > 0)
+            {
+                munitionsbar = new MunitionsBar(munitions);
+            }
+        }
+    }
+
+
     public void render()
     {
         if(imageLayers == null)
@@ -90,7 +113,12 @@ public class EntityImage
 
         if(healthbar != null && ((owner instanceof Ship && Settings.showUnitHealthbars) || (owner instanceof Civilian && Settings.showCivilianHealthbars)))
         {
-            healthbar.render(owner.getX(), owner.getY() + owner.getHeight() + 2, owner.getWidth(), 2);
+            healthbar.render(owner.getX(), owner.getY() + owner.getHeight() + 7, owner.getWidth(), 3);
+
+            if(munitionsbar != null && munitionsbar.hasMunitions())
+            {
+                munitionsbar.render(owner.getX(), owner.getY() + owner.getHeight() + 3, owner.getWidth(), 3);
+            }
         }
 
     }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.component.weapon.TargetSet;
+import com.sojourn.game.entity.unit.Unit;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ abstract public class Component
 {
     // Data
 
-    protected Entity owner;
+    protected Unit owner;
     protected int useTimer;
     protected TargetSet targets;
 
@@ -21,12 +22,14 @@ abstract public class Component
 
     // Constructors
 
-    protected Component(Entity owner)
+    protected Component(Unit owner)
     {
         this.owner = owner;
     }
 
     // Abstract Methods
+
+    abstract public int getMunitionCost();
 
     abstract public int getPreparationTime();
     abstract public int getActivationTime();
@@ -59,7 +62,7 @@ abstract public class Component
 
     public boolean canUse()
     {
-        return useTimer == 0;
+        return useTimer == 0 && getMunitionCost() <= owner.getMunitions().getCurrent();
     }
 
     public boolean canUse(Entity e) {
@@ -95,6 +98,10 @@ abstract public class Component
     public void use() {
         if (canUse()) {
             useTimer = getUseTime();
+            if(getMunitionCost() > 0)
+            {
+                owner.getMunitions().decrease(getMunitionCost());
+            }
             if(targetsSelf())
             {
                 targets = new TargetSet(owner);

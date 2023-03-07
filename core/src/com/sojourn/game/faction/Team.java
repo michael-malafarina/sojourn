@@ -37,6 +37,7 @@ abstract public class Team
 
     public TeamBonusManager getTeamBonusManager() { return teamBonusManager; }
 
+
     public Faction getFaction()
     {
         return faction;
@@ -62,6 +63,22 @@ abstract public class Team
         this.homePoint = homePoint;
     }
 
+
+
+    public boolean isFriendly(Team other)
+    {
+        if(getTeamID() == 0 || other.getTeamID() == 0)
+        {
+            return false;
+        }
+
+        else if(getTeamID() == other.getTeamID())
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     public boolean isHostile(Team other)
     {

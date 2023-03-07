@@ -1,6 +1,8 @@
 package com.sojourn.game.entity.projectile;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.Textures;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.component.weapon.Weapon;
@@ -11,6 +13,9 @@ abstract public class Projectile extends Entity
     protected Entity target;
     protected Weapon weapon;
     protected Vector2 targetOffset;
+
+    protected int width;
+    protected int height;
 
     @Override
     public int getValueBase() {
@@ -25,7 +30,7 @@ abstract public class Projectile extends Entity
 
         targetOffset  = new Vector2(.5f, .5f);
         targetOffset.setToRandomDirection();
-        targetOffset.setLength(Utility.random((target.getWidth() + target.getHeight()) / 2));
+        targetOffset.setLength(Utility.random((target.getWidth() + target.getHeight()) / 3));
 
         setPosition(owner.getPosition());
         setTeam(owner.getTeam());
@@ -67,6 +72,30 @@ abstract public class Projectile extends Entity
     {
         weapon.effect(owner, target);
         setExpired();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public float getMaxSpeedBase() {
+        return 250;
+    }
+
+    @Override
+    public float getAccelerationBase() {
+        return 20000;
+    }
+
+    @Override
+    public Texture getSpriteSheet() {
+        return Textures.bullet;
     }
 
 }

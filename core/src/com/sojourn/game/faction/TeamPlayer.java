@@ -21,7 +21,7 @@ public class TeamPlayer extends Team
 
     public int getControlDistance()
     {
-        return Math.round(CONTROL_DISTANCE_BASE * getTeamBonusManager().controlRadiusBonus().getBonusPercent());
+        return Math.round(CONTROL_DISTANCE_BASE * getTeamBonusManager().getControlRadiusBonus().getBonusPercent());
     }
 
     public boolean inControlRadius(Vector2 point)

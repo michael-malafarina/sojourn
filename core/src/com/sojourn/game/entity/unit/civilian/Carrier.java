@@ -14,6 +14,7 @@ public class Carrier extends Civilian
     public void startingAttributes()
     {
         setHealth(1000);
+
     }
 
     public int getValueBase() {

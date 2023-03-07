@@ -1,7 +1,10 @@
 package com.sojourn.game.entity.unit;
 
+import com.sojourn.game.entity.AttributePool;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
+import com.sojourn.game.entity.component.module.ModuleSet;
+import com.sojourn.game.entity.component.module.MunitionsDepot;
 import com.sojourn.game.entity.component.weapon.WeaponSet;
 import com.sojourn.game.entity.unit.ship.Ship;
 
@@ -9,23 +12,63 @@ import java.util.List;
 
 abstract public class Unit extends Entity
 {
+    private final float MUNITIONS_REGEN_PLANNING = .1f;
     protected WeaponSet weapons;
+    protected ModuleSet modules;
 
-
+    protected AttributePool munitions;
 
     public Unit()
     {
         super();
         weapons = new WeaponSet();
+        modules = new ModuleSet();
+//
+    }
+
+    public AttributePool getMunitions()    {
+        return munitions;
+    }
+
+    protected void upkeep(boolean planning, float delta)
+    {
+        super.upkeep(planning, delta);
+
+        if(munitions != null)
+        {
+            munitions.update();
+
+            if(planning)
+            {
+                munitions.increase(MUNITIONS_REGEN_PLANNING);
+            }
+
+        }
+    }
+
+    public boolean isMunitionsDepot()
+    {
+        return modules.hasModule(MunitionsDepot.class);
+    }
+
+    public void setAttributes()
+    {
+        setMunitions(0);
+        super.setAttributes();
     }
 
     public void update(boolean planning, float delta)
     {
         upkeep(planning, delta);
         weapons.update();
+        modules.update();
         action(planning);
     }
 
+    protected void setMunitions(int baseValue)
+    {
+        munitions = new AttributePool(baseValue, getTeam().getTeamBonusManager().getMunitionsBonus());
+    }
 
     public boolean inRangeShortest(com.sojourn.game.entity.Entity e)
     {
@@ -36,7 +79,6 @@ abstract public class Unit extends Entity
     {
         return getDistance(e) <= weapons.getLongestRange();
     }
-
 
     protected List<Unit> getEnemyUnits()
     {
@@ -62,7 +104,6 @@ abstract public class Unit extends Entity
     {
         return EntityManager.getNearestEnemyShip(this);
     }
-
 
 
 }

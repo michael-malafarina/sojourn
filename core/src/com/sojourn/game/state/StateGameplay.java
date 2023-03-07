@@ -18,6 +18,7 @@ import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.ambient.EnemyAlert;
+import com.sojourn.game.entity.projectile.Projectile;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
@@ -497,6 +498,10 @@ public class StateGameplay extends State
         // Temp code - in actual gameplay these will already be gone
         List<Ship> enemyShips = EntityManager.getEnemyShips();
         enemyShips.forEach(a -> a.setExpired());
+
+        // Remove all projectiles
+        List<Projectile> projectiles = EntityManager.getProjectiles();
+        projectiles.forEach(a -> a.setExpired());
 
         // Restore missing and damaged ships to squads
         restoreUnits();

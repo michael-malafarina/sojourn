@@ -68,13 +68,11 @@ public class AttributePool extends Attribute
     public float getRecentDamage()
     {
         float amount = 0;
+
         for (AttributeDelta damage : damageTimes)
         {
-            if(StateGameplay.getTime() - damage.getTime() < RECENT)
-           {
-               amount += damage.getAmount();
-           }
-        };
+              amount += damage.getAmount();
+        }
 
         return amount;
     }
@@ -89,22 +87,45 @@ public class AttributePool extends Attribute
     public void update()
     {
         increase(getRegeneration());
+
+        for (int i = 0; i < damageTimes.size(); i++)
+        {
+            AttributeDelta current = damageTimes.get(i);
+
+            if(StateGameplay.getTime() - current.getTime() > RECENT)
+            {
+                damageTimes.remove(i);
+                i--;
+            }
+        }
     }
 
     public void increase(float amount)
     {
-        current = Math.min(getCurrent() + amount,  getMaximum());
-        healingTimes.add(new AttributeDelta(StateGameplay.getTime(), amount));
+        float actualAmount = amount;
+
+        // Would exceed maximum
+        if(getCurrent() + amount > getMaximum())
+        {
+            actualAmount = getMaximum() - getCurrent();
+        }
+
+        current += actualAmount;
+        healingTimes.add(new AttributeDelta(StateGameplay.getTime(), actualAmount));
     }
 
     public void decrease(float amount)
     {
-        current = Math.max(getCurrent() - amount,  0);
-        damageTimes.add(new AttributeDelta(StateGameplay.getTime(), amount));
+        float actualAmount = amount;
+
+        // Amount exceeds current - would go negative
+        if(getCurrent() - amount < 0)
+        {
+            actualAmount = getCurrent();
+        }
+
+        current -= actualAmount;
+        damageTimes.add(new AttributeDelta(StateGameplay.getTime(), actualAmount));
     }
 
-    public void maximize()
-    {
-        current = maximum;
-    }
 }
