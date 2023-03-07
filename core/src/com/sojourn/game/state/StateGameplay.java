@@ -39,7 +39,7 @@ public class StateGameplay extends State
     private static int waveNumber;
     private RewardMenu rewardMenu;
     Button combatStartButton = new Button();
-
+    private static int timer;
 
 
     private static Minimap minimap;
@@ -72,6 +72,7 @@ public class StateGameplay extends State
     {
         return waveNumber;
     }
+    public static int getTime()    { return timer;}
 
     @Override
     public void update(float delta)
@@ -83,6 +84,7 @@ public class StateGameplay extends State
         }
 
         messages.update(delta);
+        timer++;
 
         EntityManager.getSquads().forEach(Squad::update);
 
@@ -531,6 +533,11 @@ public class StateGameplay extends State
     {
         List<Squad> playerSquads = EntityManager.getPlayerSquads();
         playerSquads.forEach(s -> s.restore());
+
+    }
+
+    public void dispose()
+    {
 
     }
 

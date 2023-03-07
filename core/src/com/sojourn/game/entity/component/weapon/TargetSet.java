@@ -24,12 +24,7 @@ public class TargetSet
     public TargetSet(List<Entity> entities)
     {
         this();
-
-        for(Entity e : entities)
-        {
-            targets.addAll(entities);
-        }
-
+        targets.addAll(entities);
     }
 
     public void update()

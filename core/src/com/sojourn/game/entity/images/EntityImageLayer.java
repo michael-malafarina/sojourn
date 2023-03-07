@@ -54,4 +54,5 @@ public class EntityImageLayer
             Display.draw(getTexture(), getColor(), x, y, w, h, theta);
         }
     }
+
 }

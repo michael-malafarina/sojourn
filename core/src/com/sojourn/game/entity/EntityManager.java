@@ -53,8 +53,6 @@ public class EntityManager {
         Team human = Sojourn.player;
 
         addSquad(Scout.class, human.getSpawnPoint(), human);
-
-
         addSquad(Scout.class, human.getSpawnPoint(), human);
         addSquad(Tank.class, human.getSpawnPoint(), human);
         addSquad(Sniper.class, human.getSpawnPoint(), human);
@@ -134,9 +132,10 @@ public class EntityManager {
         // Remove expired units from each unit group
         squads.forEach(a -> a.removeExpiredUnits());
 
-        // Removing expired entities from master list
+        // Removing expired entities from master list and disposing each entity
         for (int i = 0; i < entities.size(); i++) {
             if (entities.get(i).isExpired()) {
+                entities.get(i).dispose();
                 entities.remove(i);
                 i--;
             }

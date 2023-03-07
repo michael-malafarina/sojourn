@@ -110,5 +110,10 @@ public class EntityImage
         }
     }
 
+    public void dispose()
+    {
+        //sheet.dispose();
+    }
+
 
 }

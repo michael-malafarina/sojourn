@@ -224,6 +224,7 @@ abstract public class Entity
         {
             actionCombat();
         }
+
     }
 
     public void takeDamage(float amount, Entity source)
@@ -422,6 +423,10 @@ abstract public class Entity
             return 0;
     }
 
+    public void dispose()
+    {
+        image.dispose();
+    }
 
 
 

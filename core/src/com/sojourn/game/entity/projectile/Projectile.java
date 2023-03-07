@@ -32,6 +32,11 @@ abstract public class Projectile extends Entity
         setImage();
     }
 
+    public Entity getOwner()
+    {
+        return owner;
+    }
+
     public void startingAttributes() {
 
     }

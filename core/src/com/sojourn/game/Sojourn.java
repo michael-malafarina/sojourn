@@ -105,6 +105,8 @@ public class Sojourn extends Game
 	public void dispose()
 	{
 		display.dispose();
+		gameplay.dispose();
+		title.dispose();
 	}
 
 	public void resize(int width, int height)

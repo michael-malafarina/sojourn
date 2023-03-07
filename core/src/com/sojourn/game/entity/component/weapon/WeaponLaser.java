@@ -32,6 +32,11 @@ abstract public class WeaponLaser extends Weapon
             b.setWidth(getAnimationWidth());
             b.setAlpha(getAnimationAlpha());
             b.setBurst(getAnimationBurst());
+
+//            if(owner.getTeam() instanceof TeamPlayer)
+//            {
+//                System.out.println("MAKING A BEAM");
+//            }
             beams.add(b);
             EntityManager.addEntity(b);
         }

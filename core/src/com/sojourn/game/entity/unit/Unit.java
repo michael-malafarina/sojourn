@@ -26,14 +26,6 @@ abstract public class Unit extends Entity
         action(planning);
     }
 
-    public void setAttributes()
-    {
-        super.setAttributes();
-        setHealth(1);
-        startingAttributes();
-        image.setAttributes();
-    }
-
 
     public boolean inRangeShortest(com.sojourn.game.entity.Entity e)
     {

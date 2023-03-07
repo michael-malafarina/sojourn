@@ -99,10 +99,6 @@ abstract public class Component
             {
                 targets = new TargetSet(owner);
             }
-            else if(targets == null)
-            {
-                targets = new TargetSet();
-            }
         }
 
     }

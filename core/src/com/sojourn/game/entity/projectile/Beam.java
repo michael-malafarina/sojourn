@@ -62,6 +62,7 @@ public class Beam extends Projectile
         }
     }
 
+
     private float centerPeakProgress()
     {
         return Interpolation.pow3In.apply(1 - (Math.abs(getPercentProgress() - .5f) * 2)) ;
@@ -125,4 +126,8 @@ public class Beam extends Projectile
         Shape.getRenderer().rectLine(owner.getPosition(), offsetTarget, getWidth()/2);
     }
 
+    public void end()
+    {
+        setExpired();
+    }
 }

@@ -53,6 +53,7 @@ public class WeaponSet
     {
         for(Weapon w : weapons)
         {
+
             if(w.getNumTargets() == 1 && !w.targetsSelf()) {
                 w.use(e);
             }

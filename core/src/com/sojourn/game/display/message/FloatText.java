@@ -16,6 +16,8 @@ public class FloatText extends EntityMessage
 
     public FloatText(String message, Entity e) {
         super(message, e);
+        this.x = e.getX() + Utility.random(0, e.getWidth());
+        this.y = e.getY() + Utility.random(e.getHeight(), e.getHeight() * 1.2f);
         xSpeed = Utility.random(-15, 15);
         ySpeed = Utility.random(40, 50);
         myFont = Fonts.floatText;

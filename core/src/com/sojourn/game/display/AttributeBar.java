@@ -22,8 +22,8 @@ public class AttributeBar
         this.colorLight = color;
         this.colorDark = new Color(color);
 
-        final float GAP = .6f;
-        colorDark.sub(GAP, GAP, GAP, 0);
+        final float GAP = .2f;
+        colorDark.mul(GAP, GAP, GAP, 0);
 
     }
 
@@ -36,8 +36,11 @@ public class AttributeBar
 
         int edge = Math.round(h / 4.0f);
 
+
+
         Display.draw(texture, Color.DARK_GRAY, x-edge, y-edge, w+edge*2, h+edge*2);
         Display.draw(texture, colorDark, x, y, w , h);
+        Display.draw(texture, Color.WHITE, x, y, w * attribute.getPercent() + w * attribute.getRecentDamagePercent() , h);
         Display.draw(texture, colorLight, x, y, w * attribute.getPercent(), h);
 
         if(font != null)
