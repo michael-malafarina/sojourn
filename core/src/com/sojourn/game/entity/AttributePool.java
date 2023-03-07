@@ -24,18 +24,11 @@ public class AttributePool extends Attribute
         healingTimes = new ArrayList<>();
     }
 
-    public AttributePool(float value, TeamBonus bonus)
+    public AttributePool(TeamBonus bonus, float value)
     {
         this(bonus);
         current = value;
         maximum = value;
-    }
-
-    public AttributePool(float current, float maximum, TeamBonus bonus)
-    {
-        this(bonus);
-        this.current = current;
-        this.maximum = maximum;
     }
 
     /************ ACCESSORS *************/
@@ -84,9 +77,14 @@ public class AttributePool extends Attribute
 
     /************ MUTATORS *************/
 
+    public void setRegeneration(float amount)
+    {
+        regeneration = amount;
+    }
+
     public void update()
     {
-        increase(getRegeneration());
+        increase(getRegeneration() / 60f);
 
         for (int i = 0; i < damageTimes.size(); i++)
         {

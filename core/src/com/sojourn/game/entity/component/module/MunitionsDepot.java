@@ -58,8 +58,6 @@ public class MunitionsDepot extends Module
             actualAmount = stockpile;
         }
 
-        System.out.println(actualAmount);
-
         target.getMunitions().increase(actualAmount);
         owner.getMunitions().decrease(actualAmount);
 

@@ -268,7 +268,12 @@ abstract public class Entity
 
     protected void setHealth(int baseValue)
     {
-        health = new AttributePool(baseValue, getTeam().getTeamBonusManager().getHealthBonus());
+        health = new AttributePool(getTeam().getTeamBonusManager().getHealthBonus(), baseValue);
+    }
+
+    protected void setHealthRegeneration(int amount)
+    {
+        health.setRegeneration(amount);
     }
 
     /********************* MOVEMENT *********************/

@@ -16,6 +16,8 @@ public class Base extends Civilian
     {
         setHealth(5000);
         setMunitions(150);
+        setMunitionsRegeneration(1);
+
         modules.add(new MunitionsDepot(this));
     }
 

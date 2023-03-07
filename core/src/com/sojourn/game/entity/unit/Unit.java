@@ -67,7 +67,12 @@ abstract public class Unit extends Entity
 
     protected void setMunitions(int baseValue)
     {
-        munitions = new AttributePool(baseValue, getTeam().getTeamBonusManager().getMunitionsBonus());
+        munitions = new AttributePool(getTeam().getTeamBonusManager().getMunitionsBonus(), baseValue);
+    }
+
+    protected void setMunitionsRegeneration(int amount)
+    {
+        munitions.setRegeneration(amount);
     }
 
     public boolean inRangeShortest(com.sojourn.game.entity.Entity e)

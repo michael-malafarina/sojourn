@@ -20,7 +20,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntityManager {
+public class EntityManager
+{
     private static List<Entity> entities;
     private static List<Unit> units;
     private static List<Ship> ships;
