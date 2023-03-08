@@ -86,12 +86,12 @@ abstract public class Component
 
     protected void setDamage(float baseValue)
     {
-        damage = new Attribute(baseValue, owner.getTeam().getTeamBonusManager().getDamageBonus());
+        damage = new Attribute(owner.getTeam().getTeamBonusManager().getDamageBonus(), baseValue);
     }
 
     protected void setRange(float baseValue)
     {
-        range = new Attribute(baseValue, owner.getTeam().getTeamBonusManager().getRangeBonus());
+        range = new Attribute(owner.getTeam().getTeamBonusManager().getRangeBonus(), baseValue);
     }
 
 

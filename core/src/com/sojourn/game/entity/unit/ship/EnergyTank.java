@@ -10,6 +10,9 @@ public class EnergyTank extends Tank
     {
         setHealth(200);
         setSquadSize(4);
+        setSpeed(40);
+        setAcceleration(40);
+
 
         weapons.add(new SmallLaser(this));
     }
@@ -41,15 +44,4 @@ public class EnergyTank extends Tank
         return 48;
     }
 
-    @Override
-    public float getMaxSpeedBase()
-    {
-        return 50;
-    }
-
-    @Override
-    public float getAccelerationBase()
-    {
-        return 50;
-    }
 }

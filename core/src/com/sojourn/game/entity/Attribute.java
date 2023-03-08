@@ -12,7 +12,7 @@ public class Attribute
         this.teamBonus = bonus;
     }
 
-    public Attribute(float value, TeamBonus bonus)
+    public Attribute(TeamBonus bonus, float value)
     {
         this(bonus);
         this.value = value;

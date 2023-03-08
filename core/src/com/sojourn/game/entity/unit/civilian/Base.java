@@ -42,16 +42,6 @@ public class Base extends Civilian
     }
 
     @Override
-    public float getMaxSpeedBase() {
-        return 0;
-    }
-
-    @Override
-    public float getAccelerationBase() {
-        return 0;
-    }
-
-    @Override
     public Texture getSpriteSheet() {
         return Textures.base;
     }

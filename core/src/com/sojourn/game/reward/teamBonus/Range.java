@@ -8,9 +8,9 @@ public class Range extends RewardTeamBonus {
 
     public Range(RewardMenu owner) {
         super(owner);
-        bonus = .15f;
+        bonus = .20f;
         name = "Weapon Range";
-        description = "Increases unit range by " + getPercentString(bonus);
+        description = "Increases range by " + getPercentString(bonus);
     }
 
     @Override

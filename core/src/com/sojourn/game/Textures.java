@@ -19,10 +19,15 @@ public class Textures
     public static Texture beam;
 
     public static Texture title;
+    public static Texture titleName;
+    public static Texture titleBlack;
 
     public static void loadImages()
     {
         title = new Texture(Gdx.files.internal("ui/spaceTitleTemp.png"));
+        titleName = new Texture(Gdx.files.internal("ui/titleName.png"));
+        titleBlack = new Texture(Gdx.files.internal("ui/titleBlack.png"));
+
         uiBar = new Texture(Gdx.files.internal("ui/bar.png"));
 
         scout = new Texture(Gdx.files.internal("unit/scout.png"));

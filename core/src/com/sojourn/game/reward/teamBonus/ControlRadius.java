@@ -10,7 +10,7 @@ public class ControlRadius extends RewardTeamBonus {
         super(owner);
         bonus = .25f;
         name = "Communications";
-        description = "Increases unit control radius by " + getPercentString(bonus);
+        description = "Increases control radius by " + getPercentString(bonus);
     }
 
     @Override

@@ -12,13 +12,13 @@ public class StateTitle extends State {
     {
         super(game);
         Button startButton = new Button();
-        startButton.setPosition(10, 110);
+        startButton.setPosition(100, 450);
         startButton.setLabel("Play");
         startButton.setClickEvent(() -> game.setState(Sojourn.STATE_GAMEPLAY_ID));
         buttons.add(startButton);
 
         Button exitButton = new Button();
-        exitButton.setPosition(10, 10);
+        exitButton.setPosition(100, 325);
         exitButton.setLabel("Quit");
         exitButton.setClickEvent(game::exit);
         buttons.add(exitButton);
@@ -54,6 +54,9 @@ public class StateTitle extends State {
     public void renderHud(float delta)
     {
         Display.draw(Textures.title, 0, 0, 1920, 1080);
+        Display.draw(Textures.titleBlack, 50, 0, 400, 1080);
+        Display.draw(Textures.titleName, 75, 800);
+
         super.renderHud(delta);
     }
 

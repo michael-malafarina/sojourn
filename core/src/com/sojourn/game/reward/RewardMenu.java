@@ -18,7 +18,7 @@ public class RewardMenu
     {
         this.state = state;
         rewards = new ArrayList<>();
-        rewards.addAll(getRandomRewards(3, 5));
+        rewards.addAll(getRandomRewards(3, 6));
         position();
     }
 
@@ -43,6 +43,8 @@ public class RewardMenu
             case 3 -> new Range(this);
             case 4 -> new ControlRadius(this);
             case 5 -> new MunitionsCapacity(this);
+            case 6 -> new Speed(this);
+
             default -> new SquadSize(this);
         };
     }

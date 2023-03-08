@@ -8,9 +8,9 @@ public class Damage extends RewardTeamBonus {
 
     public Damage(RewardMenu owner) {
         super(owner);
-        bonus = .1f;
+        bonus = .15f;
         name = "Weapon Strength";
-        description = "Increases unit damage by " + getPercentString(bonus);
+        description = "Increases damage by " + getPercentString(bonus);
     }
 
     @Override

@@ -8,7 +8,7 @@ public class MunitionsCapacity extends RewardTeamBonus {
 
     public MunitionsCapacity(RewardMenu owner) {
         super(owner);
-        bonus = .25f;
+        bonus = .30f;
         name = "Munitions";
         description = "Increases munitions capacity by " + getPercentString(bonus);
     }

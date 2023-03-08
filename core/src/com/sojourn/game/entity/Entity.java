@@ -16,7 +16,6 @@ abstract public class Entity
 {
     final private float SPEED = 1.2f;
     final private float ACC = .02f;
-    private final float HEALTH_REGEN_PLANNING = .1f;
 
     // Data
 
@@ -27,9 +26,11 @@ abstract public class Entity
     private boolean selected;
     protected EntityImage image;
 
-    protected Vector2 speed;
+    protected Vector2 speedTrue;
     protected boolean isExpired;
     private AttributePool health;
+    private Attribute speed;
+    private Attribute acceleration;
 
     private float theta;
     private float delta;
@@ -42,8 +43,6 @@ abstract public class Entity
     abstract public int getWidth();
     abstract public int getHeight();
     abstract public int getNumLayers();
-    abstract public float getMaxSpeedBase();
-    abstract public float getAccelerationBase();
     abstract public Texture getSpriteSheet();
     abstract public void actionPlanning();
     abstract public void actionCombat();
@@ -54,13 +53,15 @@ abstract public class Entity
     public Entity()
     {
         box = new Rectangle(0,0, getWidth(), getHeight());
-        speed = new Vector2(0, 0);
+        speedTrue = new Vector2(0, 0);
 
     }
 
     public void setAttributes()
     {
         setHealth(1);
+        setSpeed(50);
+
         startingAttributes();
         image.setAttributes();
     }
@@ -85,19 +86,31 @@ abstract public class Entity
         return health;
     }
 
+    public Attribute getSpeed()
+    {
+        return speed;
+    }
+
+    public Attribute getAcceleration()
+    {
+        return acceleration;
+    }
+
+
     public int getValue()    {
         // Applies additional scalars, such as if it is an elite to the base unit archetype's value
         return getValueBase();
     }
 
-    public float getMaxSpeed()    {
 
-        return getMaxSpeedBase() * SPEED;
+
+    private float getMaxSpeedTrue()    {
+        return getSpeed().getValue() * SPEED;
     }
 
-    public float getAcceleration()    {
+    private float getAccelerationTrue()    {
         // Eventually multiply this by speed debuffs and other conditions
-        return getAccelerationBase() * ACC;
+        return getAcceleration().getValue() * ACC;
     }
 
     public Vector2 getPosition()    {
@@ -207,10 +220,7 @@ abstract public class Entity
                 setExpired();
             }
 
-            if(planning)
-            {
-                health.increase(HEALTH_REGEN_PLANNING);
-            }
+
 
         }
 
@@ -271,6 +281,16 @@ abstract public class Entity
         health = new AttributePool(getTeam().getTeamBonusManager().getHealthBonus(), baseValue);
     }
 
+    protected void setSpeed(int baseValue)
+    {
+        speed = new Attribute(getTeam().getTeamBonusManager().getSpeedBonus(), baseValue);
+    }
+
+    protected void setAcceleration(int baseValue)
+    {
+        acceleration = new Attribute(getTeam().getTeamBonusManager().getAcceleration(), baseValue);
+    }
+
     protected void setHealthRegeneration(int amount)
     {
         health.setRegeneration(amount);
@@ -309,10 +329,10 @@ abstract public class Entity
     }
 
     protected void pidTurn(Vector2 p) {
-        double kD = 0.5 * getMaxSpeed() / getAcceleration();
+        double kD = 0.5 * getMaxSpeedTrue() / getAccelerationTrue();
 
-        double xDist = (p.x - getCenterX()) - speed.x * kD;
-        double yDist = (p.y - getCenterY()) - speed.y * kD;
+        double xDist = (p.x - getCenterX()) - speedTrue.x * kD;
+        double yDist = (p.y - getCenterY()) - speedTrue.y * kD;
         double angle = Math.atan2(yDist, xDist);
         turnTo((float) Math.toDegrees(angle));
       //  move();
@@ -320,29 +340,29 @@ abstract public class Entity
 
     private void accelerate()
     {
-        changeSpeed(getAcceleration()  );
-        box.x += speed.x * delta;
-        box.y += speed.y * delta;
+        changeSpeed(getAccelerationTrue()  );
+        box.x += speedTrue.x * delta;
+        box.y += speedTrue.y * delta;
         doneMovement = true;
     }
 
     private void accelerate(float normScaled)
     {
-        changeSpeed(getAcceleration());
-        speed.nor().scl(normScaled );
-        box.x += speed.x * delta;
-        box.y += speed.y * delta;
+        changeSpeed(getAccelerationTrue());
+        speedTrue.nor().scl(normScaled );
+        box.x += speedTrue.x * delta;
+        box.y += speedTrue.y * delta;
         doneMovement = true;
     }
 
     private void changeSpeed(float amount)
     {
-        speed.add(Utility.makeVector(amount, theta));
+        speedTrue.add(Utility.makeVector(amount, theta));
 
-        if (speed.len() > getMaxSpeed())
+        if (speedTrue.len() > getMaxSpeedTrue())
         {
-            speed.nor();
-            speed.scl(getMaxSpeed());
+            speedTrue.nor();
+            speedTrue.scl(getMaxSpeedTrue());
         }
     }
 

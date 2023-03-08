@@ -32,6 +32,8 @@ abstract public class Projectile extends Entity
         targetOffset.setToRandomDirection();
         targetOffset.setLength(Utility.random((target.getWidth() + target.getHeight()) / 3));
 
+
+
         setPosition(owner.getPosition());
         setTeam(owner.getTeam());
         setImage();
@@ -43,6 +45,8 @@ abstract public class Projectile extends Entity
     }
 
     public void startingAttributes() {
+        setSpeed(250);
+        setAcceleration(20000);
 
     }
 
@@ -81,16 +85,6 @@ abstract public class Projectile extends Entity
     @Override
     public int getHeight() {
         return height;
-    }
-
-    @Override
-    public float getMaxSpeedBase() {
-        return 250;
-    }
-
-    @Override
-    public float getAccelerationBase() {
-        return 20000;
     }
 
     @Override

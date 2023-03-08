@@ -10,6 +10,8 @@ public class EnergySniper extends Sniper
     {
         setHealth(75);
         setSquadSize(4);
+        setSpeed(30);
+        setAcceleration(30);
 
         weapons.add(new LargeLaser(this));
     }
@@ -41,15 +43,5 @@ public class EnergySniper extends Sniper
         return 32;
     }
 
-    @Override
-    public float getMaxSpeedBase()
-    {
-        return 30;
-    }
 
-    @Override
-    public float getAccelerationBase()
-    {
-        return 30;
-    }
 }

@@ -4,6 +4,13 @@ import com.sojourn.game.entity.Entity;
 
 abstract public class Ambient extends Entity
 {
+    public void setAttributes()
+    {
+        setSpeed(0);
+        setAcceleration(0);
+        super.setAttributes();
+    }
+
     @Override
     public int getValueBase() {
         return 0;
@@ -12,16 +19,6 @@ abstract public class Ambient extends Entity
     @Override
     public int getNumLayers() {
         return 1;
-    }
-
-    @Override
-    public float getMaxSpeedBase() {
-        return 0;
-    }
-
-    @Override
-    public float getAccelerationBase() {
-        return 0;
     }
 
     @Override

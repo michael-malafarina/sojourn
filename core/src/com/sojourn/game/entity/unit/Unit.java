@@ -12,7 +12,7 @@ import java.util.List;
 
 abstract public class Unit extends Entity
 {
-    private final float MUNITIONS_REGEN_PLANNING = .1f;
+    private final float MUNITIONS_REGEN_PLANNING = 1/120f;
     protected WeaponSet weapons;
     protected ModuleSet modules;
 
@@ -40,7 +40,7 @@ abstract public class Unit extends Entity
 
             if(planning)
             {
-                munitions.increase(MUNITIONS_REGEN_PLANNING);
+                munitions.increase(MUNITIONS_REGEN_PLANNING * munitions.getMaximum());
             }
 
         }

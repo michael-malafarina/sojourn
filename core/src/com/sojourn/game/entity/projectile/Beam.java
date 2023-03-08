@@ -27,6 +27,13 @@ public class Beam extends Projectile
         burst = true;
     }
 
+    public void setAttributes()
+    {
+        setSpeed(0);
+        setAcceleration(0);
+        super.setAttributes();
+    }
+
     public void setWidth (int width)
     {
         this.width = width;
@@ -70,16 +77,6 @@ public class Beam extends Projectile
 
     @Override
     public int getHeight() {
-        return 0;
-    }
-
-    @Override
-    public float getMaxSpeedBase() {
-        return 0;
-    }
-
-    @Override
-    public float getAccelerationBase() {
         return 0;
     }
 

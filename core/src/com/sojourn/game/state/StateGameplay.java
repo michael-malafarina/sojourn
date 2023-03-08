@@ -53,7 +53,12 @@ public class StateGameplay extends State
         controlGroups = new ControlGroupSet();
         startPlanning();
         gameSpeed = 2;
-        minimap = new Minimap(10, 10, World.getWidth() * .02f, World.getHeight() * .02f);
+        //minimap = new Minimap(10, 10, World.getWidth() * .02f, World.getHeight() * .02f);
+
+        float ratio = (float) World.getHeight() / (float) World.getWidth();
+        float minimapScale = .13f;
+        minimap = new Minimap(10, 10, Display.WIDTH * minimapScale, Display.WIDTH * minimapScale * ratio);
+
         messages = new EntityMessageManager();
     }
 

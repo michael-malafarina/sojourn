@@ -11,6 +11,8 @@ public class Scout extends Skirmisher
         setHealth(40);
         setSquadSize(8);
         setMunitions(8);
+        setSpeed(80);
+        setAcceleration(80);
 
         weapons.add(new MachineGun(this));
     }
@@ -47,15 +49,4 @@ public class Scout extends Skirmisher
         return 24;
     }
 
-    @Override
-    public float getMaxSpeedBase()
-    {
-        return 80;
-    }
-
-    @Override
-    public float getAccelerationBase()
-    {
-        return 80;
-    }
 }
