@@ -1,4 +1,4 @@
-package com.sojourn.game.menu;
+package com.sojourn.game.reward;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.button.Button;

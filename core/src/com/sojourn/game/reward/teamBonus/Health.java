@@ -1,10 +1,12 @@
-package com.sojourn.game.menu;
+package com.sojourn.game.reward.teamBonus;
 
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.reward.RewardMenu;
+import com.sojourn.game.reward.RewardTeamBonus;
 
-public class ExtraHealthScaling extends RewardTeamBonus{
+public class Health extends RewardTeamBonus {
 
-    public ExtraHealthScaling(RewardMenu owner) {
+    public Health(RewardMenu owner) {
         super(owner);
         bonus = .1f;
         name = "Structure";

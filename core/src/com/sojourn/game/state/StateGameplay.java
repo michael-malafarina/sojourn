@@ -23,7 +23,7 @@ import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.TeamEnemy;
-import com.sojourn.game.menu.RewardMenu;
+import com.sojourn.game.reward.RewardMenu;
 
 import java.util.List;
 

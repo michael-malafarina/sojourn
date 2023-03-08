@@ -1,10 +1,12 @@
-package com.sojourn.game.menu;
+package com.sojourn.game.reward.teamBonus;
 
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.reward.RewardMenu;
+import com.sojourn.game.reward.RewardTeamBonus;
 
-public class ExtraSquadSizeScaling extends RewardTeamBonus{
+public class SquadSize extends RewardTeamBonus {
 
-    public ExtraSquadSizeScaling(RewardMenu owner) {
+    public SquadSize(RewardMenu owner) {
         super(owner);
         bonus = .10f;
         name = "Manufacturing";

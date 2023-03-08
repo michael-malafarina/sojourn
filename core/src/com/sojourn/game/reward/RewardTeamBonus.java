@@ -1,4 +1,4 @@
-package com.sojourn.game.menu;
+package com.sojourn.game.reward;
 
 abstract public class RewardTeamBonus extends Reward
 {

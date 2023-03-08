@@ -1,7 +1,8 @@
-package com.sojourn.game.menu;
+package com.sojourn.game.reward;
 
 import com.sojourn.game.Utility;
 import com.sojourn.game.button.Button;
+import com.sojourn.game.reward.teamBonus.*;
 import com.sojourn.game.state.StateGameplay;
 
 import java.util.ArrayList;
@@ -17,12 +18,9 @@ public class RewardMenu
     {
         this.state = state;
         rewards = new ArrayList<>();
-        rewards.addAll(getRandomRewards(3, 4));
+        rewards.addAll(getRandomRewards(3, 5));
         position();
     }
-
-
-
 
     public List<Reward> getRandomRewards(int rewardCount, int numTypes)
     {
@@ -40,11 +38,12 @@ public class RewardMenu
     public Reward getReward(int index)
     {
         return switch(index) {
-            case 1 -> new ExtraHealthScaling(this);
-            case 2 -> new ExtraDamageScaling(this);
-            case 3 -> new ExtraRangeScaling(this);
-            case 4 -> new ControlRadiusScaling(this);
-            default -> new ExtraSquadSizeScaling(this);
+            case 1 -> new Health(this);
+            case 2 -> new Damage(this);
+            case 3 -> new Range(this);
+            case 4 -> new ControlRadius(this);
+            case 5 -> new MunitionsCapacity(this);
+            default -> new SquadSize(this);
         };
     }
 

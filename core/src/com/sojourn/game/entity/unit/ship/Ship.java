@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.display.Shape;
+import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
@@ -187,7 +188,7 @@ turn(90);
     public void render()
     {
         super.render();
-     //   Text.draw(""+Math.round(getHealth().getMaximum()), getX(), getY());
+        Text.draw(""+Math.round(getMunitions().getMaximum()), getX(), getY());
     //    Text.draw(""+Math.round(weapons.getWeapons().get(0).getDamage().getValue()), getX(), getY()+50);
 
     }
