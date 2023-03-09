@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.Textures;
 import com.sojourn.game.World;
 import com.sojourn.game.button.Button;
 import com.sojourn.game.display.*;
@@ -115,8 +116,13 @@ public class StateGameplay extends State
     }
 
     @Override
-    protected void renderBackground(float delta) {
+    protected void renderBackground(float delta)
+    {
         ScreenUtils.clear(.02f, .02f, .02f, 1);
+        float bgScale = 1.5f;
+        Display.draw(Textures.background, new Color(1, 1,1, Settings.backgroundBrightness),
+                -World.getWidthBase() * bgScale * .5f, -World.getHeightBase() * bgScale * .5f,
+                World.getWidthBase() * bgScale, World.getHeightBase() * bgScale);
     }
 
     @Override
@@ -163,21 +169,25 @@ public class StateGameplay extends State
         }
 
         // Draw gridlines
-        if((planning && Settings.showGridlinesPlanning) || (!planning && Settings.showGridlinesCombat))
+        if(Settings.showGridlines)
         {
             Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
             Shape.getRenderer().setColor(new Color(.50f, .20f, .50f, 1));
             Shape.getRenderer().line(World.getWestEdge(), 0, World.getEastEdge(), 0);
             Shape.getRenderer().line(0, World.getSouthEdge(), 0, World.getNorthEdge());
 
+
+            //Shape.getRenderer().line(0, -5000, 0, 5000);
+        }
+
+        if(Settings.showBorders)
+        {
+            Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
             Shape.getRenderer().setColor(new Color(1, 1, 1, 1));
             Shape.getRenderer().line(World.getNorthWestCorner(), World.getNorthEastCorner());
             Shape.getRenderer().line(World.getNorthEastCorner(), World.getSouthEastCorner());
             Shape.getRenderer().line(World.getSouthEastCorner(), World.getSouthWestCorner());
             Shape.getRenderer().line(World.getSouthWestCorner(), World.getNorthWestCorner());
-
-
-            //Shape.getRenderer().line(0, -5000, 0, 5000);
         }
     }
 
@@ -194,6 +204,7 @@ public class StateGameplay extends State
         }
 
         Sojourn.player.render();
+        minimap.render();
 
 
     }
@@ -397,14 +408,13 @@ public class StateGameplay extends State
         // Toggle gridlines
         if(keycode == Input.Keys.G)
         {
-            if(planning)
-            {
-                Settings.showGridlinesPlanning = ! Settings.showGridlinesPlanning;
-            }
-            else
-            {
-                Settings.showGridlinesCombat = ! Settings.showGridlinesCombat;
-            }
+           Settings.showGridlines = ! Settings.showGridlines;
+        }
+
+        // Toggle borders
+        if(keycode == Input.Keys.B)
+        {
+            Settings.showBorders = ! Settings.showBorders;
         }
 
         // Toggle planning phase (temporary)

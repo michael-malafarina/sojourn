@@ -14,8 +14,11 @@ public class Camera
 {
     private OrthographicCamera gameCam;
     private OrthographicCamera hudCam;
+    private OrthographicCamera backgroundCam;
+
     private Viewport gamePort;
     private Viewport hudPort;
+    private Viewport backgroundPort;
 
     private static final float ZOOM_RATE = .1f;
     private static float targetZoom;
@@ -40,15 +43,20 @@ public class Camera
         return hudCam;
     }
 
-    public Viewport getGamePort()
+    public OrthographicCamera getBackgroundCamera()
     {
-        return gamePort;
+        return backgroundCam;
     }
 
-    public Viewport getHudPort()
-    {
-        return hudPort;
-    }
+//    public Viewport getGamePort()
+//    {
+//        return gamePort;
+//    }
+//
+//    public Viewport getHudPort()
+//    {
+//        return hudPort;
+//    }
 
     public void update()
     {
@@ -59,17 +67,24 @@ public class Camera
     public void setupCamera()
     {
 
-    // Create the camera and port for GAMEPLAY objects
-    gameCam = new OrthographicCamera(Display.WIDTH, Display.HEIGHT);
-    gamePort = new StretchViewport(Display.WIDTH, Display.HEIGHT, gameCam);
-    gameCam.setToOrtho(false);
-    gameCam.position.set(0, 0, 0);
+        // Create the camera and port for GAMEPLAY objects
+        backgroundCam = new OrthographicCamera(Display.WIDTH, Display.HEIGHT);
+        backgroundPort = new StretchViewport(Display.WIDTH, Display.HEIGHT, backgroundCam);
+        backgroundCam.setToOrtho(false);
+        backgroundCam.position.set(0, 0, 0);
 
-    // Create the camera and port for USER INTERFACE objects
-    hudCam = new OrthographicCamera(Display.WIDTH, Display.HEIGHT);
-    hudPort = new StretchViewport(Display.WIDTH, Display.HEIGHT, hudCam);
-    hudCam.setToOrtho(false);
-    hudCam.position.set(hudPort.getWorldWidth()/2, hudPort.getWorldHeight()/2, 0);
+
+        // Create the camera and port for GAMEPLAY objects
+        gameCam = new OrthographicCamera(Display.WIDTH, Display.HEIGHT);
+        gamePort = new StretchViewport(Display.WIDTH, Display.HEIGHT, gameCam);
+        gameCam.setToOrtho(false);
+        gameCam.position.set(0, 0, 0);
+
+        // Create the camera and port for USER INTERFACE objects
+        hudCam = new OrthographicCamera(Display.WIDTH, Display.HEIGHT);
+        hudPort = new StretchViewport(Display.WIDTH, Display.HEIGHT, hudCam);
+        hudCam.setToOrtho(false);
+        hudCam.position.set(hudPort.getWorldWidth()/2, hudPort.getWorldHeight()/2, 0);
 
 
         // Need to wait to go to fullscreen until after start to make scaling work
@@ -87,24 +102,36 @@ public class Camera
         }
     }
 
-    public void controlCameraKeyboard() {
+    public void controlCameraKeyboard()
+    {
         int translateSpeed = 50;
+        int backgroundSpeed = translateSpeed / 5;
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             gameCam.translate(-translateSpeed, 0, 0);
+            backgroundCam.translate(-backgroundSpeed, 0, 0);
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             gameCam.translate(translateSpeed, 0, 0);
+            backgroundCam.translate(backgroundSpeed, 0, 0);
+
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             gameCam.translate(0, -translateSpeed, 0);
+            backgroundCam.translate(0, -backgroundSpeed, 0);
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             gameCam.translate(0, translateSpeed, 0);
+            backgroundCam.translate(0, backgroundSpeed, 0);
+
         }
 
 
         gameCam.update();
+        backgroundCam.update();
     }
 
     public void controlCameraMouse()
@@ -113,7 +140,11 @@ public class Camera
         if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
         {
             gameCam.translate(-Gdx.input.getDeltaX() * SCALE, Gdx.input.getDeltaY() * SCALE, 0);
+            backgroundCam.translate(-Gdx.input.getDeltaX() * SCALE/5, Gdx.input.getDeltaY() * SCALE/2, 0);
+
             gameCam.update();
+            backgroundCam.update();
+
         }
 
     }
@@ -123,11 +154,14 @@ public class Camera
         if(gameCam.zoom < targetZoom)
         {
             gameCam.zoom = Math.min(gameCam.zoom + ZOOM_RATE, targetZoom);
+            backgroundCam.zoom = Math.min(backgroundCam.zoom + ZOOM_RATE, targetZoom);
+
         }
 
         if(gameCam.zoom > targetZoom)
         {
             gameCam.zoom = Math.max(gameCam.zoom - ZOOM_RATE, targetZoom);
+            backgroundCam.zoom = Math.max(backgroundCam.zoom - ZOOM_RATE, targetZoom);
         }
     }
 
@@ -166,5 +200,7 @@ public class Camera
     {
         gamePort.update(width, height);
         hudPort.update(width, height);
+        backgroundPort.update(width, height);
+
     }
 }

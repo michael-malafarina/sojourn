@@ -53,7 +53,7 @@ abstract public class State implements Screen, InputProcessor
     }
 
     private void renderBackgroundLayer(float delta) {
-        Display.beginBatchGameplay();       // change later for a background layer / parallax
+        Display.beginBatchBackground();       // change later for a background layer / parallax
         renderBackground(delta);
         Display.endBatch();
     }

@@ -10,9 +10,7 @@ public class Textures
     public static Texture boxy;
     public static Texture bubble;
 
-
     public static Texture base;
-
     public static Texture uiBar;
 
     public static Texture bullet;
@@ -22,11 +20,15 @@ public class Textures
     public static Texture titleName;
     public static Texture titleBlack;
 
+    public static Texture background;
+
     public static void loadImages()
     {
         title = new Texture(Gdx.files.internal("ui/spaceTitleTemp.png"));
         titleName = new Texture(Gdx.files.internal("ui/titleName.png"));
         titleBlack = new Texture(Gdx.files.internal("ui/titleBlack.png"));
+
+        background = new Texture(Gdx.files.internal("ui/background2.png"));
 
         uiBar = new Texture(Gdx.files.internal("ui/bar.png"));
 

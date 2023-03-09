@@ -113,7 +113,7 @@ public class EntityImage
 
         if(healthbar != null && ((owner instanceof Ship && Settings.showUnitHealthbars) || (owner instanceof Civilian && Settings.showCivilianHealthbars)))
         {
-            healthbar.render(owner.getX(), owner.getY() + owner.getHeight() + 7, owner.getWidth(), 3);
+            healthbar.render(owner.getX(), owner.getY() + owner.getHeight() + 7, owner.getWidth(), 4);
 
             if(munitionsbar != null && munitionsbar.hasMunitions())
             {

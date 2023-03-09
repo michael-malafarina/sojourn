@@ -19,6 +19,16 @@ public class World
         return Math.round(HEIGHT + StateGameplay.getWaveNumber() * WAVE_SCALING * HEIGHT);
     }
 
+    public static int getWidthBase()
+    {
+        return WIDTH;
+    }
+
+    public static int getHeightBase()
+    {
+        return HEIGHT;
+    }
+
     public static int getWestEdge()
     {
         return -WIDTH /2;

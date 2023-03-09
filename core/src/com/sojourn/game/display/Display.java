@@ -48,14 +48,6 @@ public class Display
         return (float) Gdx.graphics.getDisplayMode().height / (float) HEIGHT;
     }
 
-    public static float getMouseX() {
-        return Gdx.input.getX() / getWidthRatio();
-    }
-
-    public static float getMouseY() {
-        return HEIGHT - Gdx.input.getY() / getHeightRatio();
-    }
-
     public static void beginBatchGameplay() {
         batch.setProjectionMatrix(camera.getGameCamera().combined);
         batch.begin();
@@ -63,6 +55,11 @@ public class Display
 
     public static void beginBatchHUD() {
         batch.setProjectionMatrix(camera.getHudCamera().combined);
+        batch.begin();
+    }
+
+    public static void beginBatchBackground() {
+        batch.setProjectionMatrix(camera.getBackgroundCamera().combined);
         batch.begin();
     }
 

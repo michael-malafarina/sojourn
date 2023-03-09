@@ -10,8 +10,8 @@ public class HudElement
 	protected float width;
 	protected float height;
 	
-	private final Color COLOR_BORDER = new Color(.2f, .2f, .2f, 1f);
-	private final Color COLOR_BACKGROUND = new Color(.03f, .03f, .03f, 1f);
+	protected final Color COLOR_BORDER = new Color(.2f, .2f, .2f, 1f);
+	protected final Color COLOR_BACKGROUND = new Color(.03f, .03f, .03f, 1f);
 	
 	public HudElement(float x, float y, float w, float h)
 	{

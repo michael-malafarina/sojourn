@@ -3,6 +3,8 @@ package com.sojourn.game.display;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.sojourn.game.Settings;
+import com.sojourn.game.Textures;
 import com.sojourn.game.World;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
@@ -17,9 +19,14 @@ public class Minimap extends HudElement
 		super(x, y, w, h);
 	}
 
+	public void render()
+	{
+		Display.draw(Textures.background, new Color(Settings.backgroundBrightness, Settings.backgroundBrightness,Settings.backgroundBrightness, 1), x, y, width, height);
+	}
+
 	public void renderShapes()
 	{
-		super.renderShapes();
+		//super.renderShapes();
 //		if(Settings.showBackground)
 //		{
 //			Image i = TerritoryManager.getBackground();
@@ -27,7 +34,11 @@ public class Minimap extends HudElement
 //			Color c = new Color(bright, bright, bright);
 //			i.draw(x+2,y+1, w-4, h-4, c);
 //		}
-		
+		Shape.getRenderer().setColor(COLOR_BORDER);
+		Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+		Shape.getRenderer().rect(x, y, width, height);
+
+
 //		renderNodes(g);
 //		renderResources(g);
 		renderCivilians();
