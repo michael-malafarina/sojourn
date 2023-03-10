@@ -1,12 +1,10 @@
 package com.sojourn.game.faction.wave;
 
+import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.ambient.EnemyAlert;
-import com.sojourn.game.entity.unit.ship.EnergySniper;
-import com.sojourn.game.entity.unit.ship.EnergyTank;
-import com.sojourn.game.entity.unit.ship.Scout;
-import com.sojourn.game.entity.unit.ship.Ship;
+import com.sojourn.game.entity.unit.ship.*;
 import com.sojourn.game.faction.Team;
 import com.sojourn.game.faction.wave.distributions.OneSide;
 import com.sojourn.game.faction.wave.distributions.Scattered;
@@ -17,13 +15,15 @@ import java.util.List;
 
 public class Wave
 {
-    Team team;
-    float value;
-    Distribution currentDistribution;
+    private Team team;
+    private float value;
+    private Distribution currentDistribution;
+    private List<Class<? extends Ship>> types;
 
     public Wave(Team team)
     {
         this.team = team;
+        types = new ArrayList<>();
     }
 
     public Wave(Team team, float value)
@@ -50,28 +50,20 @@ public class Wave
 
     public void plan()
     {
-        List<Class<? extends Ship>> types = new ArrayList<>();
+        types.clear();
 
-        int count = calculateNumberOfSquads(Scout.class, value * .4f);
-
-        for(int i = 0; i < count; i++)
+        while(value > 50)
         {
-            types.add(Scout.class);
+            int r = Utility.random(4);
+            switch(r) {
+                case 1 -> buildSquad(Guardian.class);
+                case 2 -> buildSquad(Raider.class);
+                case 3 -> buildSquad(Lancer.class);
+                default -> buildSquad(Scout.class);
+
+            }
         }
 
-        count = calculateNumberOfSquads(EnergyTank.class, value * .4f);
-
-        for(int i = 0; i < count; i++)
-        {
-            types.add(EnergyTank.class);
-        }
-
-        count = calculateNumberOfSquads(EnergySniper.class, value * .2f);
-
-        for(int i = 0; i < count; i++)
-        {
-            types.add(EnergySniper.class);
-        }
 
         currentDistribution = createNewDistribution(types);
 
@@ -88,17 +80,21 @@ public class Wave
 
     }
 
+    public void buildSquad(Class<? extends Ship> clazz)
+    {
+        Ship prototype = (Ship) EntityManager.entityFactory(clazz);
+        prototype.setTeam(Sojourn.player);
+
+        if(Math.round(value) >= Math.round(prototype.getCost().getValue()))
+        {
+            types.add(clazz);
+            value -= prototype.getCost().getValue();
+        }
+    }
 
     public void spawn()
     {
         currentDistribution.getAllPositions().forEach(p -> team.createSquad(p.getType(), p.getPosition()));
-    }
-
-    public int calculateNumberOfSquads(Class<? extends Ship> clazz, float totalValue)
-    {
-        Ship prototype = (Ship) EntityManager.entityFactory(clazz);
-        prototype.setTeam(team);
-        return ((int) totalValue) / (prototype.getValue() * Math.round(prototype.getSquadSize().getValue()));
     }
 
 

@@ -17,11 +17,6 @@ public class Carrier extends Civilian
 
     }
 
-    public int getValueBase() {
-        return 15;
-    }
-
-
     @Override
     public int getWidth() {
         return 256;

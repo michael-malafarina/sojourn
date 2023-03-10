@@ -3,6 +3,7 @@ package com.sojourn.game.entity.unit.ship;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.EntityManager;
@@ -11,6 +12,8 @@ import com.sojourn.game.faction.Squad;
 
 public abstract class Ship extends Unit
 {
+    final float COST_TO_RESOURCE_RATIO = .20f;
+
     private final float HEALTH_REGEN_PLANNING = 1/120f;
 
     private boolean idle;
@@ -40,6 +43,27 @@ public abstract class Ship extends Unit
         //   drift.setLength(1);
     }
 
+
+    public void die()
+    {
+        if(!isExpired())
+        {
+            float val = getCost().getValue() / getSquadSize().getValue() * COST_TO_RESOURCE_RATIO;
+            Sojourn.player.addResources(val);
+            setExpired();
+        }
+    }
+
+    @Override
+    protected void removalCheck()
+    {
+        if(getHealth().getValue() <= 0)
+        {
+            die();
+        }
+    }
+
+    @Override
     public void upkeep(boolean planning, float delta)
     {
         super.upkeep(planning, delta);
@@ -75,6 +99,7 @@ public abstract class Ship extends Unit
         return group;
     }
 
+    @Override
     public void clicked()
     {
         super.clicked();
@@ -121,6 +146,7 @@ public abstract class Ship extends Unit
 
         Unit u = getNearestEnemyUnit();
 
+        weapons.useAllSingleTargetWeapons(u);
 
 
         if(!inRangeShortest(u))
@@ -133,7 +159,6 @@ public abstract class Ship extends Unit
         }
 
 
-        weapons.useAllSingleTargetWeapons(u);
 
     }
 

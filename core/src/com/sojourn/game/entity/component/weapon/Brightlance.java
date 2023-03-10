@@ -3,13 +3,13 @@ package com.sojourn.game.entity.component.weapon;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.unit.Unit;
 
-public class LargeLaser extends WeaponLaser
+public class Brightlance extends WeaponLaser
 {
-    public LargeLaser(Unit owner)
+    public Brightlance(Unit owner)
     {
         super(owner);
-        setRange(600);
-        setDamage(15);
+        setRange(700);
+        setDamage(30);
     }
 
     @Override

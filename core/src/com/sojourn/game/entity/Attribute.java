@@ -25,6 +25,11 @@ public class Attribute
         return value * teamBonus.getBonusPercent();
     }
 
+    public float getValueBase()
+    {
+        return value;
+    }
+
     /************ MUTATORS *************/
 
     public void update()

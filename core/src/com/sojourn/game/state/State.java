@@ -9,10 +9,11 @@ import com.sojourn.game.button.Button;
 import com.sojourn.game.display.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 abstract public class State implements Screen, InputProcessor
 {
-    protected ArrayList<Button> buttons;
+    private List<Button> buttons;
     protected final Sojourn game;
 
     public State(final Sojourn game) {
@@ -159,5 +160,10 @@ abstract public class State implements Screen, InputProcessor
     public void removeButton(Button b)
     {
         buttons.remove(b);
+    }
+
+    public List<Button> getButtons()
+    {
+        return buttons;
     }
 }

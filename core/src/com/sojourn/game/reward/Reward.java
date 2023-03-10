@@ -1,5 +1,6 @@
 package com.sojourn.game.reward;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.button.Button;
 import com.sojourn.game.display.Alignment;
@@ -13,12 +14,13 @@ abstract public class Reward
     private int x;
     private int y;
 
+    protected Color color;
     protected String name;
     protected String description;
     protected Texture icon;
 
     private Button accept;
-    private RewardMenu owner;
+    protected RewardMenu owner;
 
     abstract public void apply();
 
@@ -28,22 +30,22 @@ abstract public class Reward
         this.owner = owner;
         accept = new Button();
         accept.setClickEvent(this::apply);
-        accept.setClickEventTwo(owner::done);
+        accept.setClickEventTwo(owner::end);
         accept.setFont(Fonts.large);
         description = "";
 
-        owner.addButton(accept);
+        color = Color.WHITE;
+
 
     }
 
-    public void done()
+    public void end()
     {
         owner.removeButton(accept);
     }
 
-    public void setup(int i)
+    public void begin(int i)
     {
-        accept.setLabel(name);
 
         int numSections = owner.getNumberOfChoices();
         int menuLeftEdge = Display.WIDTH / 3;
@@ -52,11 +54,15 @@ abstract public class Reward
         int sectionSpacing = (menuWidth - sectionWidth * numSections) / (numSections - 1);
 
         x = menuLeftEdge + (i * sectionSpacing) + (i * sectionWidth) - sectionSpacing/2;
-        y = Display.HEIGHT/3;
+        y = (int) (Display.HEIGHT * .36f);
 
-
+        accept.setLabel(name);
         accept.setSize(sectionWidth, 60);
-        accept.setPosition(x- sectionWidth/2, y);
+        accept.setColor(color);
+        accept.setPosition(x, y);
+        accept.center();
+
+        owner.addButton(accept);
 
     }
 
@@ -64,7 +70,7 @@ abstract public class Reward
     {
         Text.setFont(Fonts.subtitle);
         Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
-        Text.draw(description, x, y - 30);
+        Text.draw(description, x, y - 60);
     }
 
 }

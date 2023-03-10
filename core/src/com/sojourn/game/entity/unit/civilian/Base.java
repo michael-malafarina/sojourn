@@ -21,11 +21,6 @@ public class Base extends Civilian
         modules.add(new MunitionsDepot(this));
     }
 
-    public int getValueBase() {
-        return 25;
-    }
-
-
     @Override
     public int getWidth() {
         return 256*2;

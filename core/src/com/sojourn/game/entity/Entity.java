@@ -20,6 +20,7 @@ abstract public class Entity
     // Data
 
 
+    private String name;
     private int timer;
     private Team team;
     protected Rectangle box;
@@ -31,6 +32,7 @@ abstract public class Entity
     private AttributePool health;
     private Attribute speed;
     private Attribute acceleration;
+    private Attribute cost;
 
     private float theta;
     private float delta;
@@ -39,7 +41,6 @@ abstract public class Entity
 
     // Abstract Methods
 
-    abstract public int getValueBase();
     abstract public int getWidth();
     abstract public int getHeight();
     abstract public int getNumLayers();
@@ -52,15 +53,22 @@ abstract public class Entity
 
     public Entity()
     {
-        box = new Rectangle(0,0, getWidth(), getHeight());
+
+        box = new Rectangle(0,0, 0, 0);
+
         speedTrue = new Vector2(0, 0);
+        name = getClass().getSimpleName();
 
     }
 
     public void setAttributes()
     {
         setHealth(1);
-        setSpeed(50);
+        setSpeed(0);
+        setCost(0);
+
+        box.width = getWidth();
+        box.height = getHeight();
 
         startingAttributes();
         image.setAttributes();
@@ -96,13 +104,10 @@ abstract public class Entity
         return acceleration;
     }
 
-
-    public int getValue()    {
-        // Applies additional scalars, such as if it is an elite to the base unit archetype's value
-        return getValueBase();
+    public Attribute getCost()
+    {
+        return cost;
     }
-
-
 
     private float getMaxSpeedTrue()    {
         return getSpeed().getValue() * SPEED;
@@ -121,6 +126,9 @@ abstract public class Entity
         return new Vector2(box.x + box.width/2, box.y + box.height/2);
     }
 
+    public String getName() {
+        return name;
+    }
 
     public float getX() {
         return box.x;
@@ -186,6 +194,7 @@ abstract public class Entity
         EntityMessageManager.addMessage(message);
     }
 
+
     public void setExpired()
     {
         isExpired = true;
@@ -215,16 +224,21 @@ abstract public class Entity
         {
             health.update();
 
-            if(health.getValue() <= 0)
-            {
-                setExpired();
-            }
+            removalCheck();
 
 
 
         }
 
         image.update();
+    }
+
+    protected void removalCheck()
+    {
+        if(health.getValue() <= 0)
+        {
+            setExpired();
+        }
     }
 
     protected void action(boolean planning)
@@ -289,6 +303,11 @@ abstract public class Entity
     protected void setAcceleration(int baseValue)
     {
         acceleration = new Attribute(getTeam().getTeamBonusManager().getAcceleration(), baseValue);
+    }
+
+    protected void setCost(int baseValue)
+    {
+        cost = new Attribute(getTeam().getTeamBonusManager().getCostBonus(), baseValue);
     }
 
     protected void setHealthRegeneration(int amount)

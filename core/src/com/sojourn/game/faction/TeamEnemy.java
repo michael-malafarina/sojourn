@@ -2,6 +2,7 @@ package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.faction.wave.Wave;
+import com.sojourn.game.state.StateGameplay;
 
 public class TeamEnemy extends Team
 {
@@ -20,9 +21,9 @@ public class TeamEnemy extends Team
         return Team.ID_ENEMY;
     }
 
-    public void planWave(int number)
+    public void planWave()
     {
-        int value = 60 + number * 20;
+        int value = (int) (25 + Math.pow(StateGameplay.getWaveNumber(), 1.3f) * 50);
         nextWave = new Wave(this, value);
         nextWave.plan();
     }

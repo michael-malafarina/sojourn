@@ -3,28 +3,23 @@ package com.sojourn.game.entity.component.weapon;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.unit.Unit;
 
-public class SmallLaser extends WeaponLaser
+public class Autocannon extends WeaponKinetic
 {
-    public SmallLaser(Unit owner)
+    public Autocannon(Unit owner)
     {
         super(owner);
-        setRange(350);
-        setDamage(7);
+        setRange(400);
+        setDamage(12);
     }
 
     @Override
-    public int getAnimationWidth() {
-        return 2;
+    public int getBulletWidth() {
+        return 15;
     }
 
     @Override
-    public float getAnimationAlpha() {
-        return .5f;
-    }
-
-    @Override
-    public boolean getAnimationBurst() {
-        return false;
+    public int getBulletHeight() {
+        return 15;
     }
 
     public void effect(Entity owner, Entity target)
@@ -34,14 +29,14 @@ public class SmallLaser extends WeaponLaser
 
     @Override
     public int getMunitionCost() {
-        return 0;
+        return 2;
     }
 
     @Override
-    public int getPreparationTime() { return 30;  }
+    public int getPreparationTime() { return 20;  }
 
     @Override
-    public int getActivationTime() { return 60;  }
+    public int getActivationTime() { return 40;  }
 
     @Override
     public int getRecoveryTime() {

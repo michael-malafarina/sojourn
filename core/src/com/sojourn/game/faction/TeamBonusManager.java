@@ -14,6 +14,7 @@ public class TeamBonusManager
     private TeamBonus munitions;
     private TeamBonus speed;
     private TeamBonus acceleration;
+    private TeamBonus cost;
 
     TeamBonusManager()
     {
@@ -25,6 +26,8 @@ public class TeamBonusManager
         munitions = new TeamBonus();
         speed = new TeamBonus();
         acceleration = new TeamBonus();
+        cost = new TeamBonus();
+
     }
 
     public TeamBonus getHealthBonus()
@@ -53,6 +56,7 @@ public class TeamBonusManager
     }
     public TeamBonus getSpeedBonus()    {        return speed;    }
     public TeamBonus getAcceleration()    {        return acceleration;    }
+    public TeamBonus getCostBonus()    {        return cost;    }
 
     public void render()
     {
@@ -108,6 +112,12 @@ public class TeamBonusManager
         if(acceleration.isModified())
         {
             Text.draw("Acceleration: +" + getPercentString(acceleration.getBonusPercent()-1), 350, base + i * space);
+            i++;
+        }
+
+        if(cost.isModified())
+        {
+            Text.draw("Cost: +" + getPercentString(cost.getBonusPercent()-1), 350, base + i * space);
             i++;
         }
     }

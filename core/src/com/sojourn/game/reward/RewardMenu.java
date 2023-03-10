@@ -1,7 +1,9 @@
 package com.sojourn.game.reward;
 
+import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
 import com.sojourn.game.button.Button;
+import com.sojourn.game.entity.unit.ship.*;
 import com.sojourn.game.reward.teamBonus.*;
 import com.sojourn.game.state.StateGameplay;
 
@@ -10,21 +12,64 @@ import java.util.List;
 
 public class RewardMenu
 {
-    private List<Reward> rewards;
+    private List<Reward> currentRewards;
+    private List<Reward> currentRewardPool;
+    private List<Reward> potentialShipUnlocks;
+    private List<Reward> potentialTeamBonusUpgrades;
+
     private StateGameplay state;
-    private boolean done;
+    private boolean hidden;
 
     public RewardMenu(StateGameplay state)
     {
         this.state = state;
-        rewards = new ArrayList<>();
-        rewards.addAll(getRandomRewards(3, 6));
-        position();
+
+        // Initialize reward sets
+        currentRewards = new ArrayList<>();
+        currentRewardPool = new ArrayList<>();
+        potentialShipUnlocks = new ArrayList<>();
+        potentialTeamBonusUpgrades = new ArrayList<>();
+
+        // Set up the overall pools of potental upgrades
+        loadRewardsTeamBonus();
+        loadRewardsShipUnlocks();
     }
 
-    public List<Reward> getRandomRewards(int rewardCount, int numTypes)
+    public void begin()
     {
-        List<Integer> rolls = Utility.uniqueRolls(3, 0, numTypes);
+
+        // Select which sort of reward pool is being used
+        if(Sojourn.player.getResearch() == 1)
+        {
+            setPoolToRewardShipUnlocks();
+        }
+        else
+        {
+            setPoolToRewardStandard();
+        }
+
+        currentRewards.clear();
+        currentRewards.addAll(getRandomRewards(3));
+
+        for(int i = 0; i < currentRewards.size(); i++)
+        {
+            currentRewards.get(i).begin(i);
+        }
+
+        hidden = false;
+    }
+
+    public void end()
+    {
+        hidden = true;
+        currentRewards.forEach(a -> a.end());
+        currentRewards.clear();
+        state.restoreUnits();
+    }
+
+    public List<Reward> getRandomRewards(int rewardCount)
+    {
+        List<Integer> rolls = Utility.uniqueRolls(3, 0, currentRewardPool.size()-1);
         List<Reward> newRewards = new ArrayList<>();
 
         for(int i = 0; i < rewardCount; i++)
@@ -35,18 +80,51 @@ public class RewardMenu
         return newRewards;
     }
 
+    public void loadRewardsShipUnlocks()
+    {
+        potentialShipUnlocks.add(new RewardUnlockShip(this, Scout.class));
+        potentialShipUnlocks.add(new RewardUnlockShip(this, Guardian.class));
+        potentialShipUnlocks.add(new RewardUnlockShip(this, Lancer.class));
+        potentialShipUnlocks.add(new RewardUnlockShip(this, Raider.class));
+        potentialShipUnlocks.add(new RewardUnlockShip(this, Hero.class));
+
+    }
+
+    public void loadRewardsTeamBonus()
+    {
+        potentialTeamBonusUpgrades.add(new Health((this)));
+        potentialTeamBonusUpgrades.add(new Damage((this)));
+        potentialTeamBonusUpgrades.add(new Range((this)));
+        potentialTeamBonusUpgrades.add(new ControlRadius((this)));
+        potentialTeamBonusUpgrades.add(new MunitionsCapacity((this)));
+        potentialTeamBonusUpgrades.add(new SquadSize((this)));
+    }
+
+    public void setPoolToRewardShipUnlocks()
+    {
+        currentRewardPool.clear();
+        currentRewardPool.addAll(potentialShipUnlocks);
+
+        if(currentRewardPool.size() < 3)
+        {
+            currentRewardPool.addAll(potentialTeamBonusUpgrades);
+        }
+    }
+
+    public void setPoolToRewardStandard()
+    {
+        currentRewardPool.clear();
+        currentRewardPool.addAll(potentialTeamBonusUpgrades);
+    }
+
     public Reward getReward(int index)
     {
-        return switch(index) {
-            case 1 -> new Health(this);
-            case 2 -> new Damage(this);
-            case 3 -> new Range(this);
-            case 4 -> new ControlRadius(this);
-            case 5 -> new MunitionsCapacity(this);
-            case 6 -> new Speed(this);
+        return currentRewardPool.get(index);
+    }
 
-            default -> new SquadSize(this);
-        };
+    public void removeShipUnlock(RewardUnlockShip r)
+    {
+        potentialShipUnlocks.remove(r);
     }
 
     public void addButton(Button b)
@@ -59,33 +137,17 @@ public class RewardMenu
         state.removeButton(b);
     }
 
-    public void done()
-    {
-        done = true;
-        rewards.forEach(a -> a.done());
-        state.restoreUnits();
-
-    }
-
-    public void position()
-    {
-       for(int i = 0; i < rewards.size(); i++)
-       {
-          rewards.get(i).setup(i);
-        }
-    }
-
-
     public int getNumberOfChoices()
     {
-        return rewards.size();
+        return currentRewards.size();
     }
 
     public void render()
     {
-        if(!done)
+        if(!hidden)
         {
-            rewards.forEach(a-> a.render());
+       //     Display.draw(Textures.uiBar, new Color(.1f, .1f, .1f, 1f), Display.WIDTH * .20f, Display.HEIGHT * .25f, Display.WIDTH * .60f, Display.HEIGHT * .25f);
+            currentRewards.forEach(a-> a.render());
         }
 
     }

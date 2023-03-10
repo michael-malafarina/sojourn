@@ -9,6 +9,7 @@ public class Textures
     public static Texture raider;
     public static Texture boxy;
     public static Texture bubble;
+    public static Texture pincer;
 
     public static Texture base;
     public static Texture uiBar;
@@ -36,10 +37,9 @@ public class Textures
         raider = new Texture(Gdx.files.internal("unit/raider2.png"));
         boxy = new Texture(Gdx.files.internal("unit/boxy.png"));
         bubble = new Texture(Gdx.files.internal("unit/bubble.png"));
+        pincer = new Texture(Gdx.files.internal("unit/pincer.png"));
 
         base = new Texture(Gdx.files.internal("unit/base.png"));
-
-
 
         bullet = new Texture(Gdx.files.internal("bullet.png"));
         beam = new Texture(Gdx.files.internal("beam.png"));

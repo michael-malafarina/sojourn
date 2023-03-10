@@ -3,18 +3,18 @@ package com.sojourn.game.entity.unit.ship;
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.Textures;
-import com.sojourn.game.entity.component.weapon.MachineGun;
+import com.sojourn.game.entity.component.weapon.Autocannon;
 import com.sojourn.game.entity.component.weapon.SmallLaser;
 
-public class Scout extends Skirmisher
+public class Raider extends Skirmisher
 {
     public void startingAttributes()
     {
-        setHealth(40);
-        setSquadSize(8);
-        setSpeed(80);
-        setAcceleration(80);
-        setCost(50);
+        setHealth(100);
+        setSquadSize(4);
+        setSpeed(60);
+        setAcceleration(60);
+        setCost(75);
 
         if(getTeam() == Sojourn.currentEnemy)
         {
@@ -22,38 +22,31 @@ public class Scout extends Skirmisher
         }
         else
         {
-            weapons.add(new MachineGun(this));
-            setMunitions(8);
+            weapons.add(new Autocannon(this));
+            setMunitions(16);
 
         }
-
     }
 
     public void actionCombat()
     {
         super.actionCombat();
-
-//        if(getDistance(getNearestEnemyUnit()) < 120)
-//        {
-//            takeDamage(1, getNearestEnemyUnit());
-//        }
-
     }
 
     @Override
     public Texture getSpriteSheet()
     {
-        return Textures.scout;
+        return Textures.raider;
     }
 
     @Override
     public int getWidth() {
-        return 24;
+        return 32;
     }
 
     @Override
     public int getHeight() {
-        return 24;
+        return 32;
     }
 
 }

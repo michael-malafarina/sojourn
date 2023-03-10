@@ -12,11 +12,6 @@ abstract public class Ambient extends Entity
     }
 
     @Override
-    public int getValueBase() {
-        return 0;
-    }
-
-    @Override
     public int getNumLayers() {
         return 1;
     }

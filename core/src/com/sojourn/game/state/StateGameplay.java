@@ -19,7 +19,6 @@ import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.ambient.EnemyAlert;
-import com.sojourn.game.entity.projectile.Projectile;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
@@ -40,7 +39,10 @@ public class StateGameplay extends State
     private int gameSpeed;
     private static int waveNumber;
     private RewardMenu rewardMenu;
-    Button combatStartButton = new Button();
+    Button combatStartButton;
+
+    BuildManager builder;
+
     private static int timer;
 
 
@@ -51,8 +53,11 @@ public class StateGameplay extends State
     public StateGameplay(final Sojourn game)
     {
         super(game);
+
+        builder = new BuildManager(this);
+        combatStartButton = new Button();
+
         controlGroups = new ControlGroupSet();
-        startPlanning();
         gameSpeed = 2;
         //minimap = new Minimap(10, 10, World.getWidth() * .02f, World.getHeight() * .02f);
 
@@ -61,6 +66,10 @@ public class StateGameplay extends State
         minimap = new Minimap(10, 10, Display.WIDTH * minimapScale, Display.WIDTH * minimapScale * ratio);
 
         messages = new EntityMessageManager();
+        rewardMenu = new RewardMenu(this);
+        startPlanning();
+
+
     }
 
     // Accessors
@@ -90,6 +99,7 @@ public class StateGameplay extends State
             return;
         }
 
+        builder.update();
         messages.update(delta);
         timer++;
 
@@ -194,7 +204,6 @@ public class StateGameplay extends State
 
     @Override
     protected void renderHud(float delta)    {
-        super.renderHud(delta);
 
         if(inPlanningMode()) {
             renderHudPlanning();
@@ -205,6 +214,8 @@ public class StateGameplay extends State
 
         Sojourn.player.render();
         minimap.render();
+
+        super.renderHud(delta);
 
 
     }
@@ -219,11 +230,10 @@ public class StateGameplay extends State
         Text.setFont(Fonts.subtitle);
         Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
 
-        if(rewardMenu != null)
-        {
-            rewardMenu.render();
-        }
+        rewardMenu.render();
 
+
+        builder.render();
 
     }
 
@@ -239,6 +249,7 @@ public class StateGameplay extends State
 
         Text.setFont(Fonts.subtitle);
         Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
+
     }
 
     protected void renderHudShapes()
@@ -257,7 +268,7 @@ public class StateGameplay extends State
         boolean returnValue = false;
 
         // Try using buttons first
-        for(Button b : buttons)
+        for(Button b : getButtons())
         {
             if(b.touchDown(screenX, screenY, pointer, button))
             {
@@ -487,11 +498,13 @@ public class StateGameplay extends State
 
     public void startCombat()
     {
+        builder.startCombat();
+
+
         planning = false;
-        if(rewardMenu != null)
-        {
-            rewardMenu.done();
-        }
+
+        rewardMenu.end();
+
 
         TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
 
@@ -503,38 +516,49 @@ public class StateGameplay extends State
         List<EnemyAlert> alerts = EntityManager.getEnemyAlerts();
         alerts.forEach(a -> a.setExpired());
 
-        buttons.remove(combatStartButton);
-
+        removeButton(combatStartButton);
 
     }
 
     public void startPlanning()
     {
-        // Temp code - in actual gameplay these will already be gone
-        List<Ship> enemyShips = EntityManager.getEnemyShips();
-        enemyShips.forEach(a -> a.setExpired());
+        waveNumber++;
+
+        if(getWaveNumber() == 3 || getWaveNumber() == 7 || getWaveNumber() == 15 || getWaveNumber() == 25)
+        {
+            Sojourn.player.addResearch(1);
+        }
+
+        builder.startPlanning();
+
+        // Remove any remaining ships
+     //   EntityManager.getEnemyShips().forEach(a -> a.setExpired());
 
         // Remove all projectiles
-        List<Projectile> projectiles = EntityManager.getProjectiles();
-        projectiles.forEach(a -> a.setExpired());
-
+        if(EntityManager.getProjectiles() != null) {
+            EntityManager.getProjectiles().forEach(a -> a.setExpired());
+        }
         // Restore missing and damaged ships to squads
         restoreUnits();
 
         planning = true;
-        TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
-        cpu.planWave(waveNumber);
-        waveNumber++;
+        TeamEnemy cpu = Sojourn.currentEnemy;
 
-        if(waveNumber > 1)
-        {
-            rewardMenu = new RewardMenu(this);
-        }
+        cpu.planWave();
+
+
+        rewardMenu.begin();
+
+
+        addButton(combatStartButton);
 
         combatStartButton.setPosition(Display.WIDTH - 320, 40);
         combatStartButton.setLabel("Battle!");
         combatStartButton.setClickEvent(() -> startCombat());
-        buttons.add(combatStartButton);
+
+
+
+
 
     }
 

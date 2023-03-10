@@ -2,18 +2,19 @@ package com.sojourn.game.entity.unit.ship;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
-import com.sojourn.game.entity.component.weapon.LargeLaser;
+import com.sojourn.game.entity.component.weapon.SmallLaser;
 
-public class EnergySniper extends Sniper
+public class Guardian extends Tank
 {
     public void startingAttributes()
     {
-        setHealth(75);
+        setHealth(200);
         setSquadSize(4);
-        setSpeed(30);
-        setAcceleration(30);
+        setSpeed(40);
+        setAcceleration(40);
+        setCost(65);
 
-        weapons.add(new LargeLaser(this));
+        weapons.add(new SmallLaser(this));
     }
 
     public void actionCombat()
@@ -25,23 +26,17 @@ public class EnergySniper extends Sniper
     @Override
     public Texture getSpriteSheet()
     {
-        return Textures.boxy;
-    }
-
-    @Override
-    public int getValueBase() {
-        return 6;
+        return Textures.bubble;
     }
 
     @Override
     public int getWidth() {
-        return 32;
+        return 48;
     }
 
     @Override
     public int getHeight() {
-        return 32;
+        return 48;
     }
-
 
 }

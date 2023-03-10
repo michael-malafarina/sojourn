@@ -33,10 +33,10 @@ public class MachineGun extends WeaponKinetic
     }
 
     @Override
-    public int getPreparationTime() { return 30;  }
+    public int getPreparationTime() { return 20;  }
 
     @Override
-    public int getActivationTime() { return 60;  }
+    public int getActivationTime() { return 40;  }
 
     @Override
     public int getRecoveryTime() {

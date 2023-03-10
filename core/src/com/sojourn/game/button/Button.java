@@ -1,6 +1,7 @@
 package com.sojourn.game.button;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
@@ -11,13 +12,13 @@ import com.sojourn.game.display.Fonts;
 import com.sojourn.game.display.Text;
 
 
-
 public class Button
 {
     private Texture image;
     private Rectangle box;
 
     private String label;
+    private Color color;
 
     private Texture buttonBase;
     private Texture buttonMouseover;
@@ -27,6 +28,7 @@ public class Button
 
     protected ButtonEvent mouseoverEvent;
     protected BitmapFont font;
+
 
     public Button()
     {
@@ -38,6 +40,8 @@ public class Button
         image = buttonBase;
         label = "";
 
+        color = Color.WHITE;
+
 //        clickEvent = () -> System.out.println("Clicked");
 //        mouseoverEvent = () -> System.out.println("Mouseover");
 
@@ -45,6 +49,12 @@ public class Button
 
     public void set(int x, int y, int w, int h) {
         box.set(x, y, w, h);
+    }
+
+    public void center()
+    {
+        box.x = box.x - box.width/2;
+        box.y = box.y - box.height/2;
     }
 
     public void setClickEvent(ButtonEvent clickEvent)
@@ -71,6 +81,11 @@ public class Button
         box.height = h;
     }
 
+    public void setColor(Color color)
+    {
+        this.color = color;
+    }
+
     public void setLabel(String label)
     {
         this.label = label;
@@ -87,7 +102,7 @@ public class Button
     }
 
     public void render() {
-        Display.draw(image, box.x, box.y, box.width, box.height);
+        Display.draw(image, color, box.x, box.y, box.width, box.height);
         Text.setFont(font);
         Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
         Text.draw(label, box.x+box.width/2, box.y+box.height/2);

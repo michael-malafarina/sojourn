@@ -17,11 +17,6 @@ abstract public class Projectile extends Entity
     protected int width;
     protected int height;
 
-    @Override
-    public int getValueBase() {
-        return 0;
-    }
-
     Projectile(Entity owner, Entity target, Weapon weapon)
     {
         this.owner = owner;
