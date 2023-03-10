@@ -8,10 +8,10 @@ public class Lancer extends Sniper
 {
     public void startingAttributes()
     {
-        setHealth(75);
+        setHealth(70);
         setSquadSize(5);
-        setSpeed(30);
-        setAcceleration(30);
+        setSpeed(25);
+        setAcceleration(25);
         setCost(75);
 
         weapons.add(new Brightlance(this));

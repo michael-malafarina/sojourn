@@ -14,8 +14,8 @@ public class Settings
     public static float resourcePerLevel = 25;
     public static float resourceStarting = 125;
     public static float waveValueStarting = 25;
-    public static float waveExponentiation = 1.3f;
-    public static float waveScalar = 50;
+    public static float waveExponentiation = 1.35f;
+    public static float waveScalar = 40;
 
 
 }

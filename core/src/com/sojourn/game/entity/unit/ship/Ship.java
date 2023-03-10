@@ -45,10 +45,13 @@ public abstract class Ship extends Unit
 
     public void die()
     {
-        if(!isExpired())
+        if(!isExpired() && getTeam() != Sojourn.player)
         {
-            float val = getCost().getValue() / getSquadSize().getValue() * Settings.resourceFromKill;
-            Sojourn.player.addResources(val);
+            float val = (getCost().getValueBase() / getSquadSize().getValueBase()) * Settings.resourceFromKill;
+
+//            System.out.println(getCost().getValueBase() + " | " + getSquadSize().getValueBase() + " " + val);
+
+             Sojourn.player.addResources(val);
             setExpired();
         }
     }

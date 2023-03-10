@@ -53,7 +53,7 @@ public class Wave
     {
         types.clear();
 
-        System.out.println(StateGameplay.getWaveNumber() + " Wave Value: " + value);
+//        System.out.println(StateGameplay.getWaveNumber() + " Wave Value: " + value);
 
         while(value > 50)
         {

@@ -500,7 +500,7 @@ public class StateGameplay extends State
     {
         builder.startCombat();
 
-        System.out.println(StateGameplay.getWaveNumber() + " Player Value: " + Sojourn.player.getTotalWorth());
+//        System.out.println(StateGameplay.getWaveNumber() + " Player Value: " + Sojourn.player.getTotalWorth());
 
         planning = false;
 

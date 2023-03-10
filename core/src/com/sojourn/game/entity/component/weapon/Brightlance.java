@@ -8,7 +8,7 @@ public class Brightlance extends WeaponLaser
     public Brightlance(Unit owner)
     {
         super(owner);
-        setRange(700);
+        setRange(650);
         setDamage(25);
     }
 

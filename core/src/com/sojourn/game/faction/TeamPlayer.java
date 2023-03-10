@@ -83,7 +83,7 @@ public class TeamPlayer extends Team
 
         for(Squad s : EntityManager.getPlayerSquads())
         {
-            System.out.println(s.getCost().getValueBase());
+//            System.out.println(s + " " + s.getCost().getValueBase());
             worth += s.getCost().getValueBase();
         }
 
