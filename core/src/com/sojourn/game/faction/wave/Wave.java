@@ -9,6 +9,7 @@ import com.sojourn.game.faction.Team;
 import com.sojourn.game.faction.wave.distributions.OneSide;
 import com.sojourn.game.faction.wave.distributions.Scattered;
 import com.sojourn.game.faction.wave.distributions.TwoSides;
+import com.sojourn.game.state.StateGameplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,8 @@ public class Wave
     public void plan()
     {
         types.clear();
+
+        System.out.println(StateGameplay.getWaveNumber() + " Wave Value: " + value);
 
         while(value > 50)
         {

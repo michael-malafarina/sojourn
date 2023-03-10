@@ -9,7 +9,7 @@ public class Brightlance extends WeaponLaser
     {
         super(owner);
         setRange(700);
-        setDamage(30);
+        setDamage(25);
     }
 
     @Override

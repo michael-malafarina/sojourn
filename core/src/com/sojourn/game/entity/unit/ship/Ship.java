@@ -3,6 +3,7 @@ package com.sojourn.game.entity.unit.ship;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Attribute;
@@ -12,8 +13,6 @@ import com.sojourn.game.faction.Squad;
 
 public abstract class Ship extends Unit
 {
-    final float COST_TO_RESOURCE_RATIO = .20f;
-
     private final float HEALTH_REGEN_PLANNING = 1/120f;
 
     private boolean idle;
@@ -48,7 +47,7 @@ public abstract class Ship extends Unit
     {
         if(!isExpired())
         {
-            float val = getCost().getValue() / getSquadSize().getValue() * COST_TO_RESOURCE_RATIO;
+            float val = getCost().getValue() / getSquadSize().getValue() * Settings.resourceFromKill;
             Sojourn.player.addResources(val);
             setExpired();
         }

@@ -35,12 +35,12 @@ public class Hero extends Tank
 
     @Override
     public int getWidth() {
-        return 72;
+        return 96;
     }
 
     @Override
     public int getHeight() {
-        return 72;
+        return 96;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
+import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.images.SquadImage;
 import com.sojourn.game.entity.unit.Unit;
@@ -42,6 +43,13 @@ public class Squad
         Ship prototype = (Ship) EntityManager.entityFactory(type);
         prototype.setTeam(team);
         return Math.round(prototype.getSquadSize().getValue());
+    }
+
+    public Attribute getCost()
+    {
+        Ship prototype = (Ship) EntityManager.entityFactory(type);
+        prototype.setTeam(team);
+        return prototype.getCost();
     }
 
     public int getSize()

@@ -500,13 +500,14 @@ public class StateGameplay extends State
     {
         builder.startCombat();
 
+        System.out.println(StateGameplay.getWaveNumber() + " Player Value: " + Sojourn.player.getTotalWorth());
 
         planning = false;
 
         rewardMenu.end();
 
 
-        TeamEnemy cpu = (TeamEnemy) Sojourn.currentEnemy;
+        TeamEnemy cpu = Sojourn.currentEnemy;
 
 
 
@@ -524,7 +525,11 @@ public class StateGameplay extends State
     {
         waveNumber++;
 
-        if(getWaveNumber() == 3 || getWaveNumber() == 7 || getWaveNumber() == 15 || getWaveNumber() == 25)
+
+
+        Sojourn.player.addResources(Settings.resourcePerLevel);
+
+        if(getWaveNumber() == 3 || getWaveNumber() == 6 || getWaveNumber() == 10 || getWaveNumber() == 15)
         {
             Sojourn.player.addResearch(1);
         }
@@ -532,8 +537,9 @@ public class StateGameplay extends State
         builder.startPlanning();
 
         // Remove any remaining ships
-     //   EntityManager.getEnemyShips().forEach(a -> a.setExpired());
-
+        if(EntityManager.getShips() != null) {
+            EntityManager.getEnemyShips().forEach(a -> a.die());
+        }
         // Remove all projectiles
         if(EntityManager.getProjectiles() != null) {
             EntityManager.getProjectiles().forEach(a -> a.setExpired());

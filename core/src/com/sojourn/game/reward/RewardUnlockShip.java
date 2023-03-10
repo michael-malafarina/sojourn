@@ -15,7 +15,7 @@ public class RewardUnlockShip extends Reward
         type = clazz;
         Ship prototype = (Ship) EntityManager.entityFactory(type);
         name = prototype.getName();
-        description = "Develop " + prototype.getName() + " prototype";
+        description = "Learn to make " + prototype.getName() + "";
         color = new Color(.15f, .35f, .65f, 1f);
     }
 
@@ -23,7 +23,7 @@ public class RewardUnlockShip extends Reward
     public void apply()
     {
         BuildManager.unlockShip(type);
-        EntityManager.addSquad(type, Sojourn.player.getHomePoint(), Sojourn.player);
+       // EntityManager.addSquad(type, Sojourn.player.getHomePoint(), Sojourn.player);
         owner.removeShipUnlock(this);
         Sojourn.player.spendResearch(1);
     }

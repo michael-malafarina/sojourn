@@ -2,6 +2,7 @@ package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
@@ -10,7 +11,7 @@ public class TeamPlayer extends Team
 {
     private static final int CONTROL_DISTANCE_BASE = 1000;
 
-    private float resources = 100;
+    private float resources = Settings.resourceStarting;
     private float research = 1;
 
     public TeamPlayer(Faction faction)
@@ -74,6 +75,19 @@ public class TeamPlayer extends Team
             EntityManager.addSquad(clazz, getHomePoint(), this);
             resources -= prototype.getCost().getValue();
         }
+    }
+
+    public float getTotalWorth()
+    {
+        float worth = resources;
+
+        for(Squad s : EntityManager.getPlayerSquads())
+        {
+            System.out.println(s.getCost().getValueBase());
+            worth += s.getCost().getValueBase();
+        }
+
+        return worth;
     }
 
 }
