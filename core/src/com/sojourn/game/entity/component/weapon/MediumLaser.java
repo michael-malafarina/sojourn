@@ -3,28 +3,28 @@ package com.sojourn.game.entity.component.weapon;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.unit.Unit;
 
-public class Brightlance extends WeaponLaser
+public class MediumLaser extends WeaponLaser
 {
-    public Brightlance(Unit owner)
+    public MediumLaser(Unit owner)
     {
         super(owner);
-        setRange(650);
-        setDamage(25);
+        setRange(500);
+        setDamage(12);
     }
 
     @Override
     public int getAnimationWidth() {
-        return 8;
+        return 2;
     }
 
     @Override
     public float getAnimationAlpha() {
-        return .6f;
+        return .5f;
     }
 
     @Override
     public boolean getAnimationBurst() {
-        return true;
+        return false;
     }
 
     public void effect(Entity owner, Entity target)
@@ -38,14 +38,14 @@ public class Brightlance extends WeaponLaser
     }
 
     @Override
-    public int getPreparationTime() { return 50;  }
+    public int getPreparationTime() { return 40;  }
 
     @Override
-    public int getActivationTime() { return 100;  }
+    public int getActivationTime() { return 80;  }
 
     @Override
     public int getRecoveryTime() {
-        return 100;
+        return 80;
     }
 
 }

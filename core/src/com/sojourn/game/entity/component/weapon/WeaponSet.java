@@ -27,6 +27,18 @@ public class WeaponSet
         weapons.forEach(Weapon::update);
     }
 
+    public boolean anyWeaponBeingPrepared()
+    {
+        for(Weapon w : weapons)
+        {
+            if(w.isPreparing())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public float getShortestRange()
     {
         Optional<Weapon> w = weapons.stream().min(Comparator.comparing(Weapon::getMaxRange));
@@ -53,9 +65,9 @@ public class WeaponSet
     {
         for(Weapon w : weapons)
         {
-
-            if(w.getNumTargets() == 1 && !w.targetsSelf()) {
+            if(w.getNumTargets() == 1 && !w.targetsSelf() && w.canUse(e)) {
                 w.use(e);
+                return;         // can't fire more than one per frame
             }
         }
     }

@@ -16,6 +16,9 @@ abstract public class Component
     protected int useTimer;
     protected TargetSet targets;
 
+    private boolean preparing;
+    private boolean activating;
+    private boolean recovering;
 
     private Attribute damage;
     private Attribute range;
@@ -28,6 +31,21 @@ abstract public class Component
     }
 
     // Abstract Methods
+
+    public boolean isPreparing()
+    {
+        return preparing;
+    }
+
+    public boolean isActivating()
+    {
+        return activating;
+    }
+
+    public boolean isRecovering()
+    {
+        return recovering;
+    }
 
     abstract public int getMunitionCost();
 
@@ -98,6 +116,7 @@ abstract public class Component
     public void use() {
         if (canUse()) {
             useTimer = getUseTime();
+
             if(getMunitionCost() > 0)
             {
                 owner.getMunitions().decrease(getMunitionCost());
@@ -105,6 +124,7 @@ abstract public class Component
             if(targetsSelf())
             {
                 targets = new TargetSet(owner);
+                preparationBegin();
             }
         }
 
@@ -114,6 +134,7 @@ abstract public class Component
         if (canUse(e)) {
             use();
             targets = new TargetSet(e);
+            preparationBegin();
         }
     }
 
@@ -123,6 +144,7 @@ abstract public class Component
             if (canUse(e)) {
                 use();
                 targets = new TargetSet(entities);
+                preparationBegin();
             }
         }
     }
@@ -141,10 +163,9 @@ abstract public class Component
             targets.update();
         }
 
-        // Trigger start of preparation
-        if (useTimer == getUseTime()) {
-            preparationBegin();
-        }
+//        if(useTimer == getUseTime())
+//        {
+//        }
 
         // Trigger end of preparation and beginning of activation
         if (useTimer == getUseTime() - getPreparationTime()) {
@@ -182,17 +203,17 @@ abstract public class Component
 
     public void preparationBegin()
     {
-
+        preparing = true;
     }
 
     public void preparationEnd()
     {
-
+        preparing = false;
     }
 
     public void activationBegin()
     {
-
+        activating = true;
     }
 
     public void activation(float progressPercent)
@@ -203,17 +224,17 @@ abstract public class Component
 
     public void activationEnd()
     {
-
+        activating = false;
     }
 
     public void recoveryBegin()
     {
-
+        recovering = true;
     }
 
     public void recoveryEnd()
     {
-
+        recovering = false;
     }
 
 }

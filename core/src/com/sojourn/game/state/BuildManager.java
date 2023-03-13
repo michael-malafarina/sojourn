@@ -45,7 +45,7 @@ public class BuildManager
 
     public void startPlanning()
     {
-        addButtons();
+      //  addButtons();
     }
 
     private void addButtons()
@@ -72,6 +72,10 @@ public class BuildManager
 
     private void removeButtons()
     {
+        if(buttons == null)
+        {
+            return;
+        }
         buttons.forEach(b -> game.removeButton(b));
     }
 
@@ -84,6 +88,6 @@ public class BuildManager
 
     public void startCombat()
     {
-        removeButtons();
+      //  removeButtons();
     }
 }

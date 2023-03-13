@@ -17,6 +17,21 @@ abstract public class Weapon extends Component
 
     // Constructor
 
+    public boolean canUse()
+    {
+//        if(owner instanceof Dreadnought && super.canUse())
+//        {
+//            System.out.println(StateGameplay.getTime() + " " + owner + " " +
+//                    owner.getWeapons().anyWeaponBeingPrepared());
+//        }
+
+
+
+        return super.canUse() &&
+                !owner.getWeapons().anyWeaponBeingPrepared();
+    }
+
+
     public Weapon(Unit owner) {
         super(owner);
     }
@@ -37,6 +52,7 @@ abstract public class Weapon extends Component
 
     public void preparationBegin()
     {
+        super.preparationBegin();
         owner.turnTo(targets.getCenter());
     }
 

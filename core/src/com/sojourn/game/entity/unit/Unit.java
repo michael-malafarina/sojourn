@@ -26,6 +26,11 @@ abstract public class Unit extends Entity
 //
     }
 
+    public WeaponSet getWeapons()
+    {
+        return weapons;
+    }
+
     public AttributePool getMunitions()    {
         return munitions;
     }

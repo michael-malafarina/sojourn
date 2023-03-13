@@ -25,6 +25,8 @@ abstract public class WeaponLaser extends Weapon
 
     public void activationBegin()
     {
+        super.activationBegin();
+
         beams = new ArrayList<>();
 
         for(Entity e : targets.getTargets())
@@ -46,6 +48,8 @@ abstract public class WeaponLaser extends Weapon
 
     public void activationEnd()
     {
+        super.activationEnd();
+
         for(Beam b : beams)
         {
             b.end();

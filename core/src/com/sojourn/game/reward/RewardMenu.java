@@ -86,7 +86,7 @@ public class RewardMenu
         potentialShipUnlocks.add(new RewardUnlockShip(this, Guardian.class));
         potentialShipUnlocks.add(new RewardUnlockShip(this, Lancer.class));
         potentialShipUnlocks.add(new RewardUnlockShip(this, Raider.class));
-        potentialShipUnlocks.add(new RewardUnlockShip(this, Hero.class));
+        potentialShipUnlocks.add(new RewardUnlockShip(this, Dreadnought.class));
 
     }
 

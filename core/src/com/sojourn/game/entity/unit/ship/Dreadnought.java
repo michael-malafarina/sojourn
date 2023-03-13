@@ -3,21 +3,22 @@ package com.sojourn.game.entity.unit.ship;
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.component.weapon.Autocannon;
-import com.sojourn.game.entity.component.weapon.Brightlance;
 
-public class Hero extends Tank
+public class Dreadnought extends Tank
 {
     public void startingAttributes()
     {
-        setHealth(600);
+        setHealth(700);
         setSquadSize(1);
         setSpeed(50);
         setAcceleration(50);
         setCost(70);
+        setMunitions(20*4);
 
-        weapons.add(new Brightlance(this));
         weapons.add(new Autocannon(this));
-        setMunitions(12);
+        weapons.add(new Autocannon(this));
+        weapons.add(new Autocannon(this));
+        weapons.add(new Autocannon(this));
 
     }
 

@@ -17,6 +17,8 @@ abstract public class WeaponKinetic extends Weapon
 
     public void activationBegin()
     {
+        super.activationBegin();
+
         for(Entity e : targets.getTargets())
         {
             Bullet b = new Bullet(owner, e, this);
@@ -30,7 +32,7 @@ abstract public class WeaponKinetic extends Weapon
 
     public void activationEnd()
     {
-
+        super.activationEnd();
     }
 
     @Override
