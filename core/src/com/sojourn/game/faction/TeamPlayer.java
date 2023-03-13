@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.Utility;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
 
@@ -13,6 +14,9 @@ public class TeamPlayer extends Team
 
     private float resources = Settings.resourceStarting;
     private float research = 1;
+
+    final private int SPAWN_X_WIDTH = 600;
+    final private int SPAWN_Y_HEIGHT = 400;
 
     public TeamPlayer(Faction faction)
     {
@@ -65,6 +69,11 @@ public class TeamPlayer extends Team
         research -= amount;
     }
 
+    public Vector2 getSpawnDestination()
+    {
+        return new Vector2(getSpawnPoint().x + Utility.random(-SPAWN_X_WIDTH, SPAWN_X_WIDTH), getSpawnPoint().y + Utility.random(-SPAWN_Y_HEIGHT, SPAWN_Y_HEIGHT));
+    }
+
     public void buildSquad(Class<? extends Ship> clazz)
     {
         Ship prototype = (Ship) EntityManager.entityFactory(clazz);
@@ -72,7 +81,7 @@ public class TeamPlayer extends Team
 
         if(Math.round(resources) >= Math.round(prototype.getCost().getValue()))
         {
-            EntityManager.addSquad(clazz, getHomePoint(), this);
+            EntityManager.addSquad(clazz, getSpawnPoint(), this);
             resources -= prototype.getCost().getValue();
         }
     }
@@ -81,10 +90,12 @@ public class TeamPlayer extends Team
     {
         float worth = resources;
 
-        for(Squad s : EntityManager.getPlayerSquads())
+        for(Squad s : EntityManager.getSquads())
         {
-//            System.out.println(s + " " + s.getCost().getValueBase());
-            worth += s.getCost().getValueBase();
+            if(s.getTeam() == this)
+            {
+                worth += s.getCost().getValueBase();
+            }
         }
 
         return worth;

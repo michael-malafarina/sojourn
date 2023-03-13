@@ -43,6 +43,8 @@ public class StateGameplay extends State
 
     BuildManager builder;
 
+
+
     private static int timer;
 
 
@@ -53,6 +55,8 @@ public class StateGameplay extends State
     public StateGameplay(final Sojourn game)
     {
         super(game);
+
+
 
         builder = new BuildManager(this);
         combatStartButton = new Button();
@@ -107,7 +111,7 @@ public class StateGameplay extends State
 
         if(inPlanningMode())
         {
-            for(int i = 0; i < 3; i++) {
+            for(int i = 0; i < gameSpeed * 2; i++) {
                 game.getEntityManager().update(inPlanningMode(), delta);
             }
         }
@@ -212,11 +216,31 @@ public class StateGameplay extends State
             renderHudCombat();
         }
 
-        Sojourn.player.render();
+        player.render();
         minimap.render();
 
         super.renderHud(delta);
 
+        Text.setAlignment(Alignment.CENTER, Alignment.TOP);
+
+        Text.setFont(Fonts.small);
+        Text.setAlignment(Alignment.LEFT, Alignment.TOP);
+        Text.draw("Speed " + gameSpeed, 5, Display.HEIGHT - 25);
+
+        Text.setAlignment(Alignment.CENTER, Alignment.TOP);
+
+
+        Text.setFont(Fonts.subtitle);
+        Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
+
+        Text.setFont(Fonts.medium);
+        Fonts.medium.getData().markupEnabled = true;
+        Text.draw(player.getColorCode() + player.getTotalWorth() +
+                         "[#" + Color.WHITE + "]" + " | " +
+                         currentEnemy.getColorCode() + currentEnemy.getTotalWorth(),
+                        Display.WIDTH/2,
+                        Display.HEIGHT - 70);
+        builder.render();
 
     }
 
@@ -227,28 +251,20 @@ public class StateGameplay extends State
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
         Text.draw("Planning", Display.WIDTH/2, Display.HEIGHT - 10);
 
-        Text.setFont(Fonts.subtitle);
-        Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
-
         rewardMenu.render();
 
 
-        builder.render();
 
     }
 
     protected void renderHudCombat()
     {
-        Text.setFont(Fonts.small);
-        Text.setAlignment(Alignment.LEFT, Alignment.TOP);
-        Text.draw("Speed " + gameSpeed, 5, Display.HEIGHT - 25);
+
 
         Text.setFont(Fonts.title);
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
         Text.draw("Combat", Display.WIDTH/2, Display.HEIGHT - 10);
 
-        Text.setFont(Fonts.subtitle);
-        Text.draw("Wave " + waveNumber, Display.WIDTH/2, Display.HEIGHT - 45);
 
     }
 
@@ -300,7 +316,7 @@ public class StateGameplay extends State
         // Issue orders
 
         // If I have right-clicked on a location, move selected units there
-        if(button == Input.Buttons.RIGHT && planning && Sojourn.player.inControlRadius(mouseProjected))
+        if(button == Input.Buttons.RIGHT && planning && player.inControlRadius(mouseProjected))
         {
             for (Unit u : getAllSelectedUnits()) {
 
@@ -443,6 +459,19 @@ public class StateGameplay extends State
             keyDownCombat(keycode);
         }
 
+        if(keycode == Input.Keys.F1)
+        {
+            gameSpeed = 1;
+        }
+        else if(keycode == Input.Keys.F2)
+        {
+            gameSpeed = 2;
+        }
+        else if(keycode == Input.Keys.F3)
+        {
+            gameSpeed = 3;
+        }
+
 
         return false;
     }
@@ -469,18 +498,7 @@ public class StateGameplay extends State
 
     public void keyDownCombat(int keycode)
     {
-        if(keycode == Input.Keys.NUM_1)
-        {
-            gameSpeed = 1;
-        }
-        else if(keycode == Input.Keys.NUM_2)
-        {
-            gameSpeed = 2;
-        }
-        else if(keycode == Input.Keys.NUM_3)
-        {
-            gameSpeed = 3;
-        }
+
 
     }
 
@@ -506,12 +524,7 @@ public class StateGameplay extends State
 
         rewardMenu.end();
 
-
-        TeamEnemy cpu = Sojourn.currentEnemy;
-
-
-
-        cpu.spawnWave();
+        currentEnemy.spawnWave();
 
         // Clear out old alerts
         List<EnemyAlert> alerts = EntityManager.getEnemyAlerts();
@@ -527,11 +540,11 @@ public class StateGameplay extends State
 
 
 
-        Sojourn.player.addResources(Settings.resourcePerLevel);
+        player.addResources(Settings.resourcePerLevel);
 
         if(getWaveNumber() == 3 || getWaveNumber() == 6 || getWaveNumber() == 10 || getWaveNumber() == 15)
         {
-            Sojourn.player.addResearch(1);
+            player.addResearch(1);
         }
 
         builder.startPlanning();
@@ -548,7 +561,7 @@ public class StateGameplay extends State
         restoreUnits();
 
         planning = true;
-        TeamEnemy cpu = Sojourn.currentEnemy;
+        TeamEnemy cpu = currentEnemy;
 
         cpu.planWave();
 

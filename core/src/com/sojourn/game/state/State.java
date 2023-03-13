@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.button.Button;
 import com.sojourn.game.display.*;
+import com.sojourn.game.faction.TeamEnemy;
+import com.sojourn.game.faction.TeamPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +17,15 @@ abstract public class State implements Screen, InputProcessor
 {
     private List<Button> buttons;
     protected final Sojourn game;
+    protected TeamPlayer player;
+    protected TeamEnemy currentEnemy;
 
     public State(final Sojourn game) {
         this.game = game;
         buttons = new ArrayList<>();
 
+        player = Sojourn.player;
+        currentEnemy = Sojourn.currentEnemy;
     }
 
     protected void update(float delta)

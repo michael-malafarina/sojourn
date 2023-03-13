@@ -10,12 +10,12 @@ public class Settings
     public static float backgroundBrightness = .3f;
 
 
-    public static float resourceFromKill = .2f;
+    public static float resourceFromKill = .05f;
     public static float resourcePerLevel = 25;
     public static float resourceStarting = 125;
     public static float waveValueStarting = 25;
-    public static float waveExponentiation = 1.35f;
-    public static float waveScalar = 40;
+    public static float waveExponentiation = 1.4f;
+    public static float waveScalar = 35;
 
 
 }

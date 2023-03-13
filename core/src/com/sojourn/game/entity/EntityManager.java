@@ -42,14 +42,6 @@ public class EntityManager
 
         addEntity(Base.class, new Vector2(human.getHomePoint().x, human.getHomePoint().y), human, null);
 
-        spawnPlayerUnits();
-
-    }
-
-    public static void spawnPlayerUnits()
-    {
-
-
     }
 
     public static List<com.sojourn.game.entity.Entity> getEntities() {
@@ -159,11 +151,14 @@ public class EntityManager
     public static Squad addSquad(Class<? extends Ship> clazz, Vector2 position, Team team)
     {
         Squad s = new Squad(clazz, team, position);
+        s.setDestination(team.getSpawnDestination());
 
         for (int i = 0; i < s.getMaxSize(); i++)
         {
             addEntity(clazz, position, team, s);
         }
+
+
 
         updateUnitLists();
 

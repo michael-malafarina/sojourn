@@ -72,4 +72,9 @@ public class Utility
         return rolls;
 
     }
+
+//    public String getColorCode(Color c)
+//    {
+//        return
+//    }
 }

@@ -1,7 +1,6 @@
 package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
-import com.sojourn.game.Utility;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
 
@@ -17,8 +16,7 @@ abstract public class Team
     final public static int ID_ENEMY = 2;
     final public static int ID_HOSTILE = 3;
 
-    final private int SPAWN_X_WIDTH = 800;
-    final private int SPAWN_Y_HEIGHT = 400;
+
 
     // Abstract
 
@@ -37,10 +35,14 @@ abstract public class Team
 
     public TeamBonusManager getTeamBonusManager() { return teamBonusManager; }
 
-
     public Faction getFaction()
     {
         return faction;
+    }
+
+    public String getColorCode()
+    {
+        return "[#" + getFaction().getColor(0).toString() + "]";
     }
 
     public Vector2 getHomePoint()
@@ -48,9 +50,15 @@ abstract public class Team
         return homePoint;
     }
 
+    // this is the same as home point for now, but may have different spawn locations eventually.  keep in case.
     public Vector2 getSpawnPoint()
     {
-        return new Vector2(homePoint.x + Utility.random(-SPAWN_X_WIDTH, SPAWN_X_WIDTH), homePoint.y + Utility.random(-SPAWN_Y_HEIGHT, SPAWN_Y_HEIGHT));
+        return homePoint;
+    }
+
+    public Vector2 getSpawnDestination()
+    {
+        return getSpawnPoint();
     }
 
     public void setFaction(Faction faction)
@@ -62,8 +70,6 @@ abstract public class Team
     {
         this.homePoint = homePoint;
     }
-
-
 
     public boolean isFriendly(Team other)
     {
@@ -106,5 +112,7 @@ abstract public class Team
     {
         return EntityManager.addSquad(clazz, position, this);
     }
+
+    abstract public float getTotalWorth();
 
 }

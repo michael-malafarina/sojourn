@@ -38,20 +38,18 @@ public abstract class Ship extends Unit
         super();
         drift = new Vector2(.5f, .5f);
         drift.setToRandomDirection();
-
         //   drift.setLength(1);
     }
 
 
     public void die()
     {
-        if(!isExpired() && getTeam() != Sojourn.player)
+        if(!isExpired())
         {
-            float val = (getCost().getValueBase() / getSquadSize().getValueBase()) * Settings.resourceFromKill;
-
-//            System.out.println(getCost().getValueBase() + " | " + getSquadSize().getValueBase() + " " + val);
-
-             Sojourn.player.addResources(val);
+            if(getTeam() == Sojourn.currentEnemy) {
+                float val = (getCost().getValueBase() / getSquadSize().getValueBase()) * Settings.resourceFromKill;
+                Sojourn.player.addResources(val);
+            }
             setExpired();
         }
     }
@@ -217,10 +215,9 @@ public abstract class Ship extends Unit
 
     public void idleMovement()
     {
-turnTo(getAnchor());
-turn(90);
-
-        move(10f);
+        turnTo(getAnchor());
+        turn(90);
+        move(5f);
     }
 
     public void render()

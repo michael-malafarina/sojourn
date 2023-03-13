@@ -9,7 +9,6 @@ import com.sojourn.game.faction.Team;
 import com.sojourn.game.faction.wave.distributions.OneSide;
 import com.sojourn.game.faction.wave.distributions.Scattered;
 import com.sojourn.game.faction.wave.distributions.TwoSides;
-import com.sojourn.game.state.StateGameplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ public class Wave
 {
     private Team team;
     private float value;
+    private float baseValue;
     private Distribution currentDistribution;
     private List<Class<? extends Ship>> types;
 
@@ -47,6 +47,7 @@ public class Wave
     public void setValue(float value)
     {
         this.value = value;
+        baseValue = value;
     }
 
     public void plan()
@@ -100,6 +101,10 @@ public class Wave
         currentDistribution.getAllPositions().forEach(p -> team.createSquad(p.getType(), p.getPosition()));
     }
 
+    public float getValue()
+    {
+        return baseValue;
+    }
 
 
 }

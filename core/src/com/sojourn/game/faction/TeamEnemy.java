@@ -38,4 +38,13 @@ public class TeamEnemy extends Team
             nextWave = null;
         }
     }
+
+    public float getTotalWorth()
+    {
+        if(nextWave == null) {
+            return currentWave.getValue();
+        }
+        return nextWave.getValue();
+
+    }
 }
