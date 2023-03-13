@@ -3,6 +3,8 @@ package com.sojourn.game.faction;
 public class TeamBonus
 {
     private float bonusPercent;
+    private float bonusAdded;
+
     private boolean modified;
 
     TeamBonus()
@@ -16,8 +18,19 @@ public class TeamBonus
         modified = true;
     }
 
+    public void addBonusAdded(float amount)
+    {
+        bonusAdded += amount;
+        modified = true;
+    }
+
+
+
     public float getBonusPercent() {
         return bonusPercent;
+    }
+    public float getBonusAdded() {
+        return bonusAdded;
     }
 
     public boolean isModified()

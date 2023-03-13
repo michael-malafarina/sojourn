@@ -16,7 +16,6 @@ public class CritChance extends RewardTeamBonus {
     @Override
     public void apply()
     {
-        Sojourn.player.getTeamBonusManager().getSpeedBonus().addBonusPercent(bonus);
-        Sojourn.player.getTeamBonusManager().getAcceleration().addBonusPercent(bonus);
+        Sojourn.player.getTeamBonusManager().getCritChance().addBonusAdded(bonus);
     }
 }

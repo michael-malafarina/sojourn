@@ -130,13 +130,13 @@ public class TeamBonusManager
 
         if(critChance.isModified())
         {
-            Text.draw("Crit Chance: +" + getPercentString(critChance.getBonusPercent()-1), 350, base + i * space);
+            Text.draw("Crit Chance: +" + getPercentString(critChance.getBonusAdded()), 350, base + i * space);
             i++;
         }
 
         if(critDamage.isModified())
         {
-            Text.draw("Crit Damage: +" + getPercentString(critDamage.getBonusPercent()-1), 350, base + i * space);
+            Text.draw("Crit Damage: +" + getPercentString(critDamage.getBonusAdded()), 350, base + i * space);
             i++;
         }
     }

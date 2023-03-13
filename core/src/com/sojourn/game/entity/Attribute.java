@@ -22,7 +22,7 @@ public class Attribute
 
     public float getValue()
     {
-        return value * teamBonus.getBonusPercent();
+        return value * teamBonus.getBonusPercent() + teamBonus.getBonusAdded();
     }
 
     public float getValueBase()
