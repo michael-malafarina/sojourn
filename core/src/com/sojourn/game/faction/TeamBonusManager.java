@@ -15,6 +15,9 @@ public class TeamBonusManager
     private TeamBonus speed;
     private TeamBonus acceleration;
     private TeamBonus cost;
+    private TeamBonus critChance;
+    private TeamBonus critDamage;
+
 
     TeamBonusManager()
     {
@@ -27,6 +30,8 @@ public class TeamBonusManager
         speed = new TeamBonus();
         acceleration = new TeamBonus();
         cost = new TeamBonus();
+        critChance = new TeamBonus();
+        critDamage = new TeamBonus();
 
     }
 
@@ -57,6 +62,8 @@ public class TeamBonusManager
     public TeamBonus getSpeedBonus()    {        return speed;    }
     public TeamBonus getAcceleration()    {        return acceleration;    }
     public TeamBonus getCostBonus()    {        return cost;    }
+    public TeamBonus getCritChance()    {        return critChance;    }
+    public TeamBonus getCritDamage()    {        return critDamage;    }
 
     public void render()
     {
@@ -118,6 +125,18 @@ public class TeamBonusManager
         if(cost.isModified())
         {
             Text.draw("Cost: +" + getPercentString(cost.getBonusPercent()-1), 350, base + i * space);
+            i++;
+        }
+
+        if(critChance.isModified())
+        {
+            Text.draw("Crit Chance: +" + getPercentString(critChance.getBonusPercent()-1), 350, base + i * space);
+            i++;
+        }
+
+        if(critDamage.isModified())
+        {
+            Text.draw("Crit Damage: +" + getPercentString(critDamage.getBonusPercent()-1), 350, base + i * space);
             i++;
         }
     }

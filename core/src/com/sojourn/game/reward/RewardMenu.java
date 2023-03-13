@@ -99,7 +99,8 @@ public class RewardMenu
         potentialTeamBonusUpgrades.add(new MunitionsCapacity((this)));
         potentialTeamBonusUpgrades.add(new SquadSize((this)));
         potentialTeamBonusUpgrades.add(new Speed((this)));
-
+        potentialTeamBonusUpgrades.add(new CritChance((this)));
+        potentialTeamBonusUpgrades.add(new CritDamage((this)));
     }
 
     public void setPoolToRewardShipUnlocks()

@@ -30,7 +30,7 @@ public class Bullet extends Projectile
         if(getCenterPosition().dst(target.getCenterPosition()) < (getWidth() + getHeight()) / 2)
         {
             setExpired();
-           weapon.effect(owner, target);
+           weapon.effect(target);
         }
 
     }

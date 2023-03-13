@@ -75,7 +75,7 @@ public class EntityMessage
         Text.setColor(color);
         Text.setAlpha(alpha);
         Text.draw(message, x, y);
-        Text.resetAlpha();
+        Text.resetColor();
     }
 
 }

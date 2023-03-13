@@ -41,7 +41,7 @@ abstract public class Module extends Component
     }
 
     @Override
-    public void effect(Entity owner, Entity target) {
+    public void effect(Entity target) {
 
     }
 }

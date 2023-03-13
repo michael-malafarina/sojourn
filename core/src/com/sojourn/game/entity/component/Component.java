@@ -54,7 +54,7 @@ abstract public class Component
     abstract public int getRecoveryTime();
     abstract public boolean targetsSelf();
     abstract public int getNumTargets();
-    abstract public void effect(Entity owner, Entity target);
+    abstract public void effect(Entity target);
 
     public Attribute getDamage()
     {

@@ -27,9 +27,9 @@ public class SmallLaser extends WeaponLaser
         return false;
     }
 
-    public void effect(Entity owner, Entity target)
+    public void effect(Entity target)
     {
-        target.takeDamage(getDamage().getValue(), owner);
+        dealDamage(target);
     }
 
     @Override

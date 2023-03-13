@@ -9,7 +9,6 @@ public class FloatText extends EntityMessage
 {
     private final int BASE_TIME = 120;
 
-
     protected float ySpeed;
     protected float xSpeed;
     protected float dataScaling;
@@ -46,6 +45,7 @@ public class FloatText extends EntityMessage
         super.render();
 
         myFont.getData().setScale(1, 1);
+
 
     }
 }

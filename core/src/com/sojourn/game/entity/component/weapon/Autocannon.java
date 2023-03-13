@@ -22,9 +22,9 @@ public class Autocannon extends WeaponKinetic
         return 15;
     }
 
-    public void effect(Entity owner, Entity target)
+    public void effect(Entity target)
     {
-        target.takeDamage(getDamage().getValue(), owner);
+        dealDamage(target);
     }
 
     @Override

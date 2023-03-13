@@ -2,7 +2,6 @@ package com.sojourn.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.entity.EntityManager;
@@ -73,15 +72,15 @@ public class Sojourn extends Game
 		display.update(Gdx.graphics.getDeltaTime());
 
 		getScreen().render(Gdx.graphics.getDeltaTime());
-
-		if (Gdx.input.isKeyPressed(Input.Keys.F1))
-		{
-			setScreen(title);
-		}
-		else if (Gdx.input.isKeyPressed(Input.Keys.F2))
-		{
-			setScreen(gameplay);
-		}
+//
+//		if (Gdx.input.isKeyPressed(Input.Keys.F1))
+//		{
+//			setScreen(title);
+//		}
+//		else if (Gdx.input.isKeyPressed(Input.Keys.F2))
+//		{
+//			setScreen(gameplay);
+//		}
 
 	}
 

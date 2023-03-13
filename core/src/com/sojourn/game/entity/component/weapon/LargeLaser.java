@@ -3,9 +3,9 @@ package com.sojourn.game.entity.component.weapon;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.unit.Unit;
 
-public class MediumLaser extends WeaponLaser
+public class LargeLaser extends WeaponLaser
 {
-    public MediumLaser(Unit owner)
+    public LargeLaser(Unit owner)
     {
         super(owner);
         setRange(500);
@@ -27,9 +27,9 @@ public class MediumLaser extends WeaponLaser
         return false;
     }
 
-    public void effect(Entity owner, Entity target)
+    public void effect(Entity target)
     {
-        target.takeDamage(getDamage().getValue(), owner);
+        dealDamage(target);
     }
 
     @Override

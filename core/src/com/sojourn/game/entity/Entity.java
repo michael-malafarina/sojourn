@@ -254,10 +254,13 @@ abstract public class Entity
 
     }
 
-    public void takeDamage(float amount, Entity source)
+    public void takeDamage(float amount, boolean isCritical, Entity source)
     {
         health.decrease(amount);
-        addMessage(new DamageText(Math.round(amount), this));
+
+        addMessage(new DamageText(Math.round(amount), isCritical,this));
+
+
     }
 
     public void restoreHealth(float amount, Entity source)

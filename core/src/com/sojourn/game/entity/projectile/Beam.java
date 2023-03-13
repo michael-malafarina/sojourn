@@ -91,7 +91,7 @@ public class Beam extends Projectile
         // Always deals damage at midpoint of usage
         if(getPercentProgress() > .5f && !triggeredDamage)
         {
-            weapon.effect(owner, target);
+            weapon.effect(target);
             triggeredDamage = true;
         }
 

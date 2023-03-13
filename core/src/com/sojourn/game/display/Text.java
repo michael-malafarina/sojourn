@@ -35,6 +35,10 @@ public class Text
         Text.color = new Color(color.r, color.g, color.b, 1);
     }
 
+    public static void resetColor() {
+        Text.color = Color.WHITE;
+    }
+
 
     public static void draw(String text, float x, float y)
     {

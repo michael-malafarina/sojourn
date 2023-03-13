@@ -27,9 +27,9 @@ public class Brightlance extends WeaponLaser
         return true;
     }
 
-    public void effect(Entity owner, Entity target)
+    public void effect(Entity target)
     {
-        target.takeDamage(getDamage().getValue(), owner);
+        dealDamage(target);
     }
 
     @Override

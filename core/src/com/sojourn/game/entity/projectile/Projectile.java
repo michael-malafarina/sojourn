@@ -69,7 +69,7 @@ abstract public class Projectile extends Entity
 
     public void end()
     {
-        weapon.effect(owner, target);
+        weapon.effect(target);
         setExpired();
     }
 
