@@ -1,12 +1,7 @@
 package com.sojourn.game.state;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
@@ -15,11 +10,9 @@ import com.sojourn.game.World;
 import com.sojourn.game.button.Button;
 import com.sojourn.game.display.*;
 import com.sojourn.game.display.message.EntityMessageManager;
-import com.sojourn.game.entity.ControlGroupSet;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.ambient.EnemyAlert;
-import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.TeamEnemy;
@@ -31,10 +24,7 @@ public class StateGameplay extends State
 {
     private EntityMessageManager messages;
 
-    private ControlGroupSet controlGroups;
-    private Rectangle selectionBox;
-    private Vector2 selectionBoxOrigin;
-    private boolean paused;
+
     private boolean planning;
     private int gameSpeed;
     private static int waveNumber;
@@ -42,8 +32,9 @@ public class StateGameplay extends State
     Button combatStartButton;
 
     BuildManager builder;
+    GameplayInput gameplayInput;
 
-
+    private boolean paused;
 
     private static int timer;
 
@@ -57,11 +48,10 @@ public class StateGameplay extends State
         super(game);
 
 
-
+        gameplayInput = new GameplayInput(this);
         builder = new BuildManager(this);
         combatStartButton = new Button();
 
-        controlGroups = new ControlGroupSet();
         gameSpeed = 2;
         //minimap = new Minimap(10, 10, World.getWidth() * .02f, World.getHeight() * .02f);
 
@@ -129,6 +119,16 @@ public class StateGameplay extends State
 
     }
 
+    public void setGameSpeed(int value)
+    {
+        gameSpeed = value;
+    }
+
+    public void togglePaused()
+    {
+        paused = !paused;
+    }
+
     @Override
     protected void renderBackground(float delta)
     {
@@ -174,13 +174,8 @@ public class StateGameplay extends State
             Shape.getRenderer().ellipse(-radius, -radius, radius*2, radius*2);
         }
 
-        // Draw selection box shape
-        if(selectionBox != null)
-        {
-            Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
-            Shape.getRenderer().setColor(Color.WHITE);
-            Shape.getRenderer().rect(selectionBox.x, selectionBox.y, selectionBox.getWidth(), selectionBox.getHeight());
-        }
+
+        gameplayInput.renderGameplay();
 
         // Draw gridlines
         if(Settings.showGridlines)
@@ -235,9 +230,9 @@ public class StateGameplay extends State
 
         Text.setFont(Fonts.medium);
         Fonts.medium.getData().markupEnabled = true;
-        Text.draw(player.getColorCode() + player.getTotalWorth() +
+        Text.draw(player.getColorCode() + Math.round(player.getTotalWorth()) +
                          "[#" + Color.WHITE + "]" + " | " +
-                         currentEnemy.getColorCode() + currentEnemy.getTotalWorth(),
+                         currentEnemy.getColorCode() + Math.round(currentEnemy.getTotalWorth()),
                         Display.WIDTH/2,
                         Display.HEIGHT - 70);
         builder.render();
@@ -246,26 +241,18 @@ public class StateGameplay extends State
 
     protected void renderHudPlanning()
     {
-
         Text.setFont(Fonts.title);
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
         Text.draw("Planning", Display.WIDTH/2, Display.HEIGHT - 10);
 
         rewardMenu.render();
-
-
-
     }
 
     protected void renderHudCombat()
     {
-
-
         Text.setFont(Fonts.title);
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
         Text.draw("Combat", Display.WIDTH/2, Display.HEIGHT - 10);
-
-
     }
 
     protected void renderHudShapes()
@@ -279,227 +266,30 @@ public class StateGameplay extends State
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-        Vector3 mouseRaw = new Vector3(screenX, screenY, 0);
-        Vector3 mouseProjected = Display.getCamera().getGameCamera().unproject(mouseRaw);
-        boolean returnValue = false;
-
-        // Try using buttons first
-        for(Button b : getButtons())
-        {
-            if(b.touchDown(screenX, screenY, pointer, button))
-            {
-                return true;
-            }
-        }
-
-        // Determine which units are selected with this event
-
-        if (button == Input.Buttons.LEFT)
-        {
-            if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))
-            {
-                clearSelection();
-            }
-
-            // If I have left-clicked on an entity, let it know and it will determine if it can be selected
-            for (Entity e : EntityManager.getPlayerShips()) {
-                if (e.getRectangle().contains(mouseProjected.x, mouseProjected.y)) {
-                    e.clicked();
-                    return true;
-                }
-            }
-
-            // Begin drawing box if a unit was not selected
-            selectionBoxOrigin = new Vector2(mouseProjected.x, mouseProjected.y);
-        }
-
-        // Issue orders
-
-        // If I have right-clicked on a location, move selected units there
-        if(button == Input.Buttons.RIGHT && planning && player.inControlRadius(mouseProjected))
-        {
-            for (Unit u : getAllSelectedUnits()) {
-
-                if(u instanceof Ship) {
-                    ((Ship)u).setDestination(mouseProjected.x, mouseProjected.y);
-                    returnValue = true;
-                }
-            }
-        }
-
-        return returnValue;
+        return gameplayInput.touchDown(screenX, screenY, pointer, button);
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer)
     {
-        Vector3 mouseRaw = new Vector3(screenX, screenY, 0);
-        Vector3 mouse = Display.getCamera().getGameCamera().unproject(mouseRaw);
-        boolean returnValue = false;
-
-        // This means the unit selection box was started
-        if(selectionBoxOrigin != null)
-        {
-
-            // Clear all entities again, in case box got smaller
-            if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                clearSelection();
-            }
-
-            makeSelectionBox(new Vector2(mouse.x, mouse.y));
-
-            // Selects all player ships in the selection box
-            for (Ship s : EntityManager.getPlayerShips())
-            {
-                if (selectionBox.overlaps(s.getRectangle())) {
-                    s.clicked();
-                    returnValue = true;
-                }
-            }
-        }
-
-        return returnValue;
-    }
-
-    public void makeSelectionBox(Vector2 mouse)
-    {
-        Vector2 origin = selectionBoxOrigin;
-
-        // Create the selection box
-        selectionBox = new Rectangle();
-
-        // The mouse is to the right of the origin
-        if(mouse.x > origin.x)
-        {
-            selectionBox.x = origin.x;
-            selectionBox.width = mouse.x - origin.x;
-        }
-
-        // The mouse is to the left of the origin
-        else
-        {
-            selectionBox.x = mouse.x;
-            selectionBox.width = origin.x - mouse.x;
-        }
-
-
-        // The mouse is above the origin
-        if(mouse.y > origin.y)
-        {
-            selectionBox.y = origin.y;
-            selectionBox.height = mouse.y - origin.y;
-        }
-
-        // The mouse is below the origin
-        else
-        {
-            selectionBox.y = mouse.y;
-            selectionBox.height = origin.y - mouse.y;
-        }
+        return gameplayInput.touchDragged(screenX, screenY, pointer);
     }
 
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
-
-        if(button == Input.Buttons.LEFT && selectionBoxOrigin != null)
-        {
-            selectionBoxOrigin = null;
-            selectionBox = null;
-        }
-
-        return false;
+        return gameplayInput.touchUp(screenX, screenY, pointer, button);
     }
 
     @Override
     public boolean scrolled(float amountX, float amountY)
     {
-        if(amountX != 0 || amountY != 0)
-        {
-            super.scrolled(amountX, amountY);
-            Camera.cameraZoom(amountY);
-            return true;
-        }
-
-        return false;
+        return gameplayInput.scrolled(amountX, amountY);
     }
 
     @Override
     public boolean keyDown(int keycode)
     {
-        // Toggle pause
-        if(keycode == Input.Keys.SPACE)
-        {
-            paused = !paused;
-        }
-
-        // Toggle gridlines
-        if(keycode == Input.Keys.G)
-        {
-           Settings.showGridlines = ! Settings.showGridlines;
-        }
-
-        // Toggle borders
-        if(keycode == Input.Keys.B)
-        {
-            Settings.showBorders = ! Settings.showBorders;
-        }
-
-        // Toggle planning phase (temporary)
-        if(keycode == Input.Keys.E)
-        {
-            togglePlanning();
-        }
-
-        if(inPlanningMode())
-        {
-            keyDownPlanning(keycode);
-        }
-        if(inCombatMode())
-        {
-            keyDownCombat(keycode);
-        }
-
-        if(keycode == Input.Keys.F1)
-        {
-            gameSpeed = 1;
-        }
-        else if(keycode == Input.Keys.F2)
-        {
-            gameSpeed = 2;
-        }
-        else if(keycode == Input.Keys.F3)
-        {
-            gameSpeed = 3;
-        }
-
-
-        return false;
-    }
-
-    public void keyDownPlanning(int keycode)
-    {
-        // Number keys are used for unit groups
-        if(keycode >= Input.Keys.NUM_0 && keycode <= Input.Keys.NUM_9)
-        {
-            // Holding control adds a new group
-            if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-                controlGroups.addGroup(getAllSelectedUnits(), keycode);
-            }
-
-            // Otherwise we activate the corresponding group, if it exists
-            else
-            {
-                clearSelection();
-                controlGroups.activate(keycode);
-            }
-
-        }
-    }
-
-    public void keyDownCombat(int keycode)
-    {
-
-
+        return gameplayInput.keyDown(keycode);
     }
 
     public void togglePlanning()
@@ -581,15 +371,6 @@ public class StateGameplay extends State
 
     }
 
-    public List<Unit> getAllSelectedUnits()
-    {
-        return EntityManager.getUnits().stream().filter(Entity::isSelected).toList();
-    }
-
-    public void clearSelection()
-    {
-        EntityManager.getEntities().forEach(Entity::unselect);
-    }
 
 
     public void restoreUnits()
