@@ -97,6 +97,15 @@ public class Display
         batch.setColor(Color.WHITE);
     }
 
+    public static void drawCentered(Texture t, float x, float y, float w, float h) {
+        draw(t, x-w/2, y-h/2, w, h);
+    }
+
+    public static void drawCentered(Texture t, Color c, float x, float y, float w, float h) {
+        draw(t, c, x-w/2, y-h/2, w, h);
+    }
+
+
 
 
 

@@ -6,6 +6,12 @@ import com.sojourn.game.entity.component.weapon.Autocannon;
 
 public class Dreadnought extends Tank
 {
+    public Dreadnought()
+    {
+        super();
+        description = "A single powerful battleship.";
+    }
+
     public void startingAttributes()
     {
         setHealth(700);

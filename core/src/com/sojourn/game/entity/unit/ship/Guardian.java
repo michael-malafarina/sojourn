@@ -6,6 +6,12 @@ import com.sojourn.game.entity.component.weapon.SmallLaser;
 
 public class Guardian extends Tank
 {
+    public Guardian()
+    {
+        super();
+        description = "A highly defensive ship.";
+    }
+
     public void startingAttributes()
     {
         setHealth(200);

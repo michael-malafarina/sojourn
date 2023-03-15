@@ -1,5 +1,6 @@
 package com.sojourn.game.faction.wave.distributions;
 
+import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.faction.wave.Distribution;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class OneSide extends Distribution
 {
-    int side;
+    private int side;
 
     public OneSide(List<Class<? extends Ship>> types)
     {
@@ -22,6 +23,12 @@ public class OneSide extends Distribution
 
     public TypePosition createNewPosition(Class<? extends Ship> type)
     {
-        return new TypePosition(type, getRandomSide(side));
+        TypePosition p = new TypePosition(type, getRandomSide(side));
+
+        if(!Sojourn.player.inControlRadius(p.getPosition())) {
+            return p;
+        }
+
+        return createNewPosition(type);
     }
 }

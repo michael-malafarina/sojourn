@@ -29,10 +29,10 @@ public class StateGameplay extends State
     private int gameSpeed;
     private static int waveNumber;
     private RewardMenu rewardMenu;
-    Button combatStartButton;
+    private Button combatStartButton;
 
-    BuildManager builder;
-    GameplayInput gameplayInput;
+    private BuildManager builder;
+    private GameplayInput gameplayInput;
 
     private boolean paused;
 

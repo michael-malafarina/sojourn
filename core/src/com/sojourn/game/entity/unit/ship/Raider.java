@@ -8,8 +8,15 @@ import com.sojourn.game.entity.component.weapon.SmallLaser;
 
 public class Raider extends Skirmisher
 {
+    public Raider()
+    {
+        super();
+        description = "A high damage, close ranged medium unit.";
+    }
+
     public void startingAttributes()
     {
+
         setHealth(100);
         setSquadSize(4);
         setSpeed(60);

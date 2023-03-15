@@ -6,9 +6,9 @@ import com.sojourn.game.display.Display;
 
 public class EntityImageLayer
 {
-    TextureRegion texture;
-    Color color;
-    boolean hidden;
+    private TextureRegion texture;
+    private Color color;
+    private boolean hidden;
 
     EntityImageLayer(TextureRegion texture)    {
         this.texture = texture;
@@ -54,5 +54,8 @@ public class EntityImageLayer
             Display.draw(getTexture(), getColor(), x, y, w, h, theta);
         }
     }
+
+
+
 
 }

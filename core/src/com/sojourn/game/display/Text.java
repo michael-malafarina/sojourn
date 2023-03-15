@@ -3,10 +3,12 @@ package com.sojourn.game.display;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.utils.Align;
 
 
 public class Text
 {
+    private static GlyphLayout glyphLayout;
     private final Fonts fonts;
     private static BitmapFont font;
     private static Alignment alignHorizontal;
@@ -17,6 +19,7 @@ public class Text
         fonts = new Fonts();
         color = Color.WHITE;
         setFont(fonts.small);
+        glyphLayout = new GlyphLayout();
     }
 
     public static void setFont(BitmapFont font) {
@@ -46,9 +49,33 @@ public class Text
         font.draw(Display.getBatch(), text, x - getHorizontalOffset(text), y + getVerticalOffset(text));
     }
 
+    public static void drawWidthBounded(String text, float x, float y, float width)
+    {
+//        glyphLayout.width = width;
+//        glyphLayout.height = 500;
+        //glyphLayout.setText(font, text)
+
+        font.draw(Display.getBatch(),
+                text,
+                x  ,
+                y ,
+
+                width,
+                Align.center,
+                true);
+//                x - getHorizontalOffset(text) ,
+//                y  + getVerticalOffset(text),
+       // );
+//System.out.println(glyphLayout.width);
+
+
+
+       // glyphLayout.setText(font, text, width, 0, true);
+    }
+
     private static float getHorizontalOffset(String text) {
 
-        GlyphLayout glyphLayout = new GlyphLayout(font, text);
+        glyphLayout.setText(font, text);
 
         return switch(alignHorizontal)
         {
@@ -60,7 +87,7 @@ public class Text
 
     private static float getVerticalOffset(String text)  {
 
-        GlyphLayout glyphLayout = new GlyphLayout(font, text);
+        glyphLayout.setText(font, text);
 
         return switch(alignVertical)
         {

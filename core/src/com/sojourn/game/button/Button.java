@@ -1,60 +1,36 @@
 package com.sojourn.game.button;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.sojourn.game.display.Alignment;
+import com.sojourn.game.Textures;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Fonts;
-import com.sojourn.game.display.Text;
+import com.sojourn.game.display.HudElement;
 
 
-public class Button
+public class Button extends HudElement
 {
-    private Texture image;
-    private Rectangle box;
-
-    private String label;
-    private Color color;
-
-    private Texture buttonBase;
-    private Texture buttonMouseover;
-
     protected ButtonEvent clickEvent;
     protected ButtonEvent clickEventTwo;
 
-    protected ButtonEvent mouseoverEvent;
-    protected BitmapFont font;
-
-
     public Button()
     {
-        buttonBase = new Texture(Gdx.files.internal("ui/button/button.png"));
-        buttonMouseover = new Texture(Gdx.files.internal("ui/button/buttonOver.png"));
+        super();
         box = new Rectangle(0, 0, Display.WIDTH * .15f, Display.WIDTH * .15f * .25f);
 
+        setImageBase(Textures.uiButtonBase);
+        setImageMouseover(Textures.uiButtonMouseover);
+
         font = Fonts.title;
-        image = buttonBase;
         label = "";
-
         color = Color.WHITE;
-
-//        clickEvent = () -> System.out.println("Clicked");
-//        mouseoverEvent = () -> System.out.println("Mouseover");
-
     }
 
-    public void set(int x, int y, int w, int h) {
-        box.set(x, y, w, h);
-    }
-
-    public void center()
+    public Button(float x, float y, float w, float h)
     {
-        box.x = box.x - box.width/2;
-        box.y = box.y - box.height/2;
+        this();
+        set(x, y, w, h);
     }
 
     public void setClickEvent(ButtonEvent clickEvent)
@@ -67,53 +43,14 @@ public class Button
         this.clickEventTwo = clickEvent;
     }
 
-    public void setMouseoverEvent(ButtonEvent mouseoverEvent)
-    {
-        this.mouseoverEvent = mouseoverEvent;
-    }
-
-    public void setPosition(int x, int y) {
-        box.setPosition(x, y);
-    }
-
-    public void setSize(int w, int h) {
-        box.width = w;
-        box.height = h;
-    }
-
-    public void setColor(Color color)
-    {
-        this.color = color;
-    }
-
-    public void setLabel(String label)
-    {
-        this.label = label;
-    }
-
-    public void setFont(BitmapFont font)
-    {
-        this.font = font;
-    }
-
-    public void update() {
-       // execute(() -> System.out.println("Hello, World!"));
-
-    }
-
-    public void render() {
-        Display.draw(image, color, box.x, box.y, box.width, box.height);
-        Text.setFont(font);
-        Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
-        Text.draw(label, box.x+box.width/2, box.y+box.height/2);
-    }
-
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
         Vector3 tp = new Vector3();
-        Display.getCamera().getHudCamera().unproject(tp.set(screenX, screenY, 0));
+        Display.getCamera().getHudCamera().unproject(tp.set(screenX, screenY, 0))
+        ;
+        Rectangle alignedBox = new Rectangle(getAlignedX(), getAlignedY(), box.getWidth(), box.getHeight());
 
-        if(box.contains(tp.x, tp.y)) {
+        if(alignedBox.contains(tp.x, tp.y)) {
             clicked(clickEvent);
             clicked(clickEventTwo);
             return true;
@@ -129,26 +66,7 @@ public class Button
     }
 
 
-    public boolean mouseMoved(int screenX, int screenY)
-    {
-        Vector3 tp = new Vector3();
-        Display.getCamera().getHudCamera().unproject(tp.set(screenX, screenY, 0));
 
-        if(box.contains(tp.x, tp.y)) {
-            image = buttonMouseover;
-            mouseover(mouseoverEvent);
-            return true;
-        }
-        else {
-            image = buttonBase;
-            return false;
-        }
-    }
 
-    protected void mouseover(ButtonEvent f) {
-        if(f != null ) {
-            f.activate();
-        }
-    };
 
 }

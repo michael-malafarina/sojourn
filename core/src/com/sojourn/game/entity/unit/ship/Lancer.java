@@ -6,6 +6,12 @@ import com.sojourn.game.entity.component.weapon.Brightlance;
 
 public class Lancer extends Sniper
 {
+    public Lancer()
+    {
+        super();
+        description = "A long range high damage sniper";
+    }
+
     public void startingAttributes()
     {
         setHealth(70);

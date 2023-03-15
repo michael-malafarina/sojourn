@@ -15,8 +15,11 @@ public class RewardUnlockShip extends Reward
         type = clazz;
         Ship prototype = (Ship) EntityManager.entityFactory(type);
         name = prototype.getName();
-        description = "Learn to make " + prototype.getName() + "";
-        color = new Color(.15f, .35f, .65f, 1f);
+        rewardButton.setColor(new Color(.25f, .55f, 1f, 1f));
+        rewardButton.setIcon(prototype.getIcon());
+      description = prototype.getDescription();
+     //   rewardButton.setIconColor(Sojourn.player.getFaction().getColor(0));
+
     }
 
     @Override
@@ -27,4 +30,5 @@ public class RewardUnlockShip extends Reward
         owner.removeShipUnlock(this);
         Sojourn.player.spendResearch(1);
     }
+
 }

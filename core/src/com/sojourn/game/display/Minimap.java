@@ -17,16 +17,19 @@ public class Minimap extends HudElement
 	public Minimap(float x, float y, float w, float h)
 	{
 		super(x, y, w, h);
+		showBackground = false;
 	}
 
 	public void render()
 	{
-		Display.draw(Textures.background, new Color(Settings.backgroundBrightness, Settings.backgroundBrightness,Settings.backgroundBrightness, 1), x, y, width, height);
+		Display.draw(Textures.background,
+				new Color(Settings.backgroundBrightness,
+						Settings.backgroundBrightness,Settings.backgroundBrightness, 1), getX(), getY(), getWidth(), getHeight());
 	}
 
 	public void renderShapes()
 	{
-		//super.renderShapes();
+		super.renderShapes();
 //		if(Settings.showBackground)
 //		{
 //			Image i = TerritoryManager.getBackground();
@@ -34,9 +37,9 @@ public class Minimap extends HudElement
 //			Color c = new Color(bright, bright, bright);
 //			i.draw(x+2,y+1, w-4, h-4, c);
 //		}
-		Shape.getRenderer().setColor(COLOR_BORDER);
-		Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
-		Shape.getRenderer().rect(x, y, width, height);
+//		Shape.getRenderer().setColor(COLOR_BORDER);
+//		Shape.getRenderer().set(ShapeRenderer.ShapeType.Line);
+//		Shape.getRenderer().rect(x, y, width, height);
 
 
 //		renderNodes(g);
@@ -53,8 +56,8 @@ public class Minimap extends HudElement
 
 		for(Entity e : entities)
 		{
-				float xPos = e.getCenterX() / (float) World.getWidth() * width + width/2;
-				float yPos = e.getCenterY() / (float) World.getHeight() * height + y + height/2;
+				float xPos = e.getCenterX() / (float) World.getWidth() * getWidth() + getWidth()/2;
+				float yPos = e.getCenterY() / (float) World.getHeight() * getHeight() + getY() + getHeight()/2;
 
 				int w = e.getWidth() / 40;
 				int h = e.getHeight() / 40;
@@ -91,8 +94,8 @@ public class Minimap extends HudElement
 //				float yPos = e.getY() / (float) Values.PLAYFIELD_HEIGHT * height + y + height/2;
 
 
-				float xPos = e.getCenterX() / (float) World.getWidth() * width + width/2;
-				float yPos = e.getCenterY() / (float) World.getHeight() * height + y + height/2;
+				float xPos = e.getCenterX() / (float) World.getWidth() * getWidth() + getWidth()/2;
+				float yPos = e.getCenterY() / (float) World.getHeight() * getHeight() + getY() + getHeight()/2;
 
 				int w = e.getWidth() / 12;
 				int h = e.getHeight() / 12;
@@ -183,10 +186,10 @@ public class Minimap extends HudElement
 		OrthographicCamera cam = Display.getCamera().getGameCamera();
 
 
-		float camX = cam.position.x / ((float) World.getWidth()) * width + x + width / 2;
-		float camY = cam.position.y / ((float) World.getHeight()) * height + y + height / 2;
-		float camW = (cam.viewportWidth / ((float) World.getWidth())) * width * cam.zoom;
-		float camH = (cam.viewportHeight / ((float) World.getHeight())) * height * cam.zoom;
+		float camX = cam.position.x / ((float) World.getWidth()) * getWidth() + getX() + getWidth() / 2;
+		float camY = cam.position.y / ((float) World.getHeight()) * getHeight() + getY() + getHeight() / 2;
+		float camW = (cam.viewportWidth / ((float) World.getWidth())) * getWidth() * cam.zoom;
+		float camH = (cam.viewportHeight / ((float) World.getHeight())) * getHeight() * cam.zoom;
 
 //		// Snap to right
 //		if(camX + camW / 2 > width)

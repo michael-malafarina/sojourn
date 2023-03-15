@@ -98,6 +98,11 @@ public class EntityImage
         }
     }
 
+    public EntityImageLayer getLayer(int i)
+    {
+        return imageLayers.get(i);
+    }
+
 
     public void render()
     {

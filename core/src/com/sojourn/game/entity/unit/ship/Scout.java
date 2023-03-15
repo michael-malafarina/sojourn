@@ -8,6 +8,13 @@ import com.sojourn.game.entity.component.weapon.SmallLaser;
 
 public class Scout extends Skirmisher
 {
+    public Scout()
+    {
+        super();
+        description = "A light skirmisher squad";
+    }
+
+
     public void startingAttributes()
     {
         setHealth(40);

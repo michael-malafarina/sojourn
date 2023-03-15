@@ -8,8 +8,7 @@ abstract public class RewardTeamBonus extends Reward
 
     public RewardTeamBonus(RewardMenu owner) {
         super(owner);
-        color = new Color(.65f, .65f, .35f, 1f);
-
+        rewardButton.setColor(new Color(.65f, .65f, .35f, 1f));
     }
 
     public String getPercentString(float value)

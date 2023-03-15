@@ -1,25 +1,20 @@
 package com.sojourn.game.reward;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.sojourn.game.button.Button;
-import com.sojourn.game.display.Alignment;
+import com.sojourn.game.button.RewardButton;
 import com.sojourn.game.display.Display;
-import com.sojourn.game.display.Fonts;
-import com.sojourn.game.display.Text;
 
 abstract public class Reward
 {
 
-    private int x;
-    private int y;
+    private float x;
+    private float y;
 
-    protected Color color;
     protected String name;
     protected String description;
     protected Texture icon;
 
-    private Button accept;
+    protected RewardButton rewardButton;
     protected RewardMenu owner;
 
     abstract public void apply();
@@ -28,49 +23,45 @@ abstract public class Reward
     public Reward(RewardMenu owner)
     {
         this.owner = owner;
-        accept = new Button();
-        accept.setClickEvent(this::apply);
-        accept.setClickEventTwo(owner::end);
-        accept.setFont(Fonts.large);
+        rewardButton = new RewardButton();
+        rewardButton.setClickEvent(this::apply);
+        rewardButton.setClickEventTwo(owner::end);
         description = "";
-
-        color = Color.WHITE;
-
-
     }
 
     public void end()
     {
-        owner.removeButton(accept);
+        owner.removeButton(rewardButton);
     }
 
     public void begin(int i)
     {
 
-        int numSections = owner.getNumberOfChoices();
-        int menuLeftEdge = Display.WIDTH / 3;
-        int menuWidth = (int) (Display.WIDTH * .45f) ;
-        int sectionWidth = menuWidth / (numSections+1);
-        int sectionSpacing = (menuWidth - sectionWidth * numSections) / (numSections - 1);
+        float numSections = owner.getNumberOfChoices();
+        float menuLeftEdge = Display.WIDTH / 3;
+        float menuWidth = Display.WIDTH * .50f;
+        float sectionWidth = menuWidth / (numSections+.5f);
+        float sectionSpacing = (menuWidth - sectionWidth * numSections) / (numSections - 1);
 
         x = menuLeftEdge + (i * sectionSpacing) + (i * sectionWidth) - sectionSpacing/2;
-        y = (int) (Display.HEIGHT * .36f);
+        y = (int) (Display.HEIGHT * .5f);
 
-        accept.setLabel(name);
-        accept.setSize(sectionWidth, 60);
-        accept.setColor(color);
-        accept.setPosition(x, y);
-        accept.center();
+        rewardButton.setLabel(name);
+        rewardButton.setSize(sectionWidth, 500);
+        rewardButton.setPosition(x, y);
+        rewardButton.setDescription(description);
 
-        owner.addButton(accept);
+        owner.addButton(rewardButton);
 
     }
 
     public void render()
     {
-        Text.setFont(Fonts.subtitle);
-        Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
-        Text.draw(description, x, y - 60);
+//        Display.drawCentered(icon, x, y+140, 32*3, 32*3);
+//
+//        Text.setFont(Fonts.medium);
+//        Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
+//        Text.draw(description, x, y - 60);
     }
 
 }

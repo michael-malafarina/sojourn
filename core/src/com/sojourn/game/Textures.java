@@ -12,7 +12,15 @@ public class Textures
     public static Texture pincer;
 
     public static Texture base;
+
     public static Texture uiBar;
+    public static Texture uiButtonBase;
+    public static Texture uiButtonMouseover;
+    public static Texture uiRewardBoxMouseover;
+    public static Texture uiRewardBoxBase;
+
+    public static Texture uiUpgradeDefault;
+    public static Texture uiShipDefault;
 
     public static Texture bullet;
     public static Texture beam;
@@ -31,6 +39,16 @@ public class Textures
 
         background = new Texture(Gdx.files.internal("ui/background2.png"));
 
+        uiButtonBase = new Texture(Gdx.files.internal("ui/button/button.png"));
+        uiButtonMouseover = new Texture(Gdx.files.internal("ui/button/buttonOver.png"));
+
+        uiRewardBoxBase = new Texture(Gdx.files.internal("ui/rewardBox.png"));
+        uiRewardBoxMouseover = new Texture(Gdx.files.internal("ui/rewardBoxMouseover.png"));
+
+        uiUpgradeDefault = new Texture(Gdx.files.internal("ui/upgradeDefault.png"));
+        uiShipDefault = new Texture(Gdx.files.internal("ui/shipDefault.png"));
+
+
         uiBar = new Texture(Gdx.files.internal("ui/bar.png"));
 
         scout = new Texture(Gdx.files.internal("unit/scout.png"));
@@ -43,6 +61,9 @@ public class Textures
 
         bullet = new Texture(Gdx.files.internal("bullet.png"));
         beam = new Texture(Gdx.files.internal("beam.png"));
+
+
+
 
 
     }

@@ -19,7 +19,7 @@ public class Fonts
     public static BitmapFont createFont(String name, int size, Color color, Color borderColor, int borderWidth)
     {
         // Specify Font Parameters
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal(name + ".ttf"));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts\\" + name + ".ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         fontParameter.size = (int) (size * Display.getAverageRatio());
         fontParameter.borderWidth = borderWidth;

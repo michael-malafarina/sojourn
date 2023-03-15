@@ -1,5 +1,7 @@
 package com.sojourn.game.entity.unit;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.sojourn.game.Textures;
 import com.sojourn.game.entity.AttributePool;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
@@ -15,7 +17,7 @@ abstract public class Unit extends Entity
     private final float MUNITIONS_REGEN_PLANNING = 1/120f;
     protected WeaponSet weapons;
     protected ModuleSet modules;
-
+    protected String description;
     protected AttributePool munitions;
 
     public Unit()
@@ -24,6 +26,16 @@ abstract public class Unit extends Entity
         weapons = new WeaponSet();
         modules = new ModuleSet();
 //
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public Texture getIcon()
+    {
+        return Textures.uiShipDefault;
     }
 
     public WeaponSet getWeapons()
