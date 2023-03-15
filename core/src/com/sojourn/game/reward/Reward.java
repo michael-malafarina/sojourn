@@ -39,7 +39,7 @@ abstract public class Reward
 
         float numSections = owner.getNumberOfChoices();
         float menuLeftEdge = Display.WIDTH / 3;
-        float menuWidth = Display.WIDTH * .50f;
+        float menuWidth = Display.WIDTH * .40f;
         float sectionWidth = menuWidth / (numSections+.5f);
         float sectionSpacing = (menuWidth - sectionWidth * numSections) / (numSections - 1);
 
@@ -47,7 +47,7 @@ abstract public class Reward
         y = (int) (Display.HEIGHT * .5f);
 
         rewardButton.setLabel(name);
-        rewardButton.setSize(sectionWidth, 500);
+        rewardButton.setSize(sectionWidth, 300);
         rewardButton.setPosition(x, y);
         rewardButton.setDescription(description);
 
