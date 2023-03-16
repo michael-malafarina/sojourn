@@ -1,8 +1,10 @@
 package com.sojourn.game.reward;
 
-import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
 import com.sojourn.game.button.Button;
+import com.sojourn.game.entity.unit.civilian.MunitionsShip;
+import com.sojourn.game.entity.unit.civilian.RepairShip;
+import com.sojourn.game.entity.unit.civilian.SupplyShip;
 import com.sojourn.game.entity.unit.ship.*;
 import com.sojourn.game.reward.teamBonus.*;
 import com.sojourn.game.state.StateGameplay;
@@ -15,6 +17,8 @@ public class RewardMenu
     private List<Reward> currentRewards;
     private List<Reward> currentRewardPool;
     private List<Reward> potentialShipUnlocks;
+    private List<Reward> potentialCivilianUnlocks;
+
     private List<Reward> potentialTeamBonusUpgrades;
 
     private StateGameplay state;
@@ -28,20 +32,28 @@ public class RewardMenu
         currentRewards = new ArrayList<>();
         currentRewardPool = new ArrayList<>();
         potentialShipUnlocks = new ArrayList<>();
+        potentialCivilianUnlocks = new ArrayList<>();
+
         potentialTeamBonusUpgrades = new ArrayList<>();
 
         // Set up the overall pools of potental upgrades
         loadRewardsTeamBonus();
+        loadRewardsCivilianUnlocks();
         loadRewardsShipUnlocks();
     }
 
     public void begin()
     {
-
+        int wave = StateGameplay.getWaveNumber();
         // Select which sort of reward pool is being used
-        if(Sojourn.player.getResearch() == 1)
+
+        if(wave == 1 || wave == 3 || wave == 6 || wave == 10 || wave == 15)
         {
             setPoolToRewardShipUnlocks();
+        }
+        else if(wave == 5 || wave == 8 || wave == 12 || wave == 17)
+        {
+            setPoolToRewardCivilianUnlocks();
         }
         else
         {
@@ -103,9 +115,15 @@ public class RewardMenu
         potentialShipUnlocks.add(new RewardUnlockShip(this, Lancer.class));
         potentialShipUnlocks.add(new RewardUnlockShip(this, Raider.class));
         potentialShipUnlocks.add(new RewardUnlockShip(this, Dreadnought.class));
-
     }
 
+    public void loadRewardsCivilianUnlocks()
+    {
+        potentialCivilianUnlocks.add(new RewardUnlockCivilian(this, MunitionsShip.class));
+        potentialCivilianUnlocks.add(new RewardUnlockCivilian(this, SupplyShip.class));
+        potentialCivilianUnlocks.add(new RewardUnlockCivilian(this, RepairShip.class));
+
+    }
     public void loadRewardsTeamBonus()
     {
          loadRewardsTeamBonus(Rarity.COMMON);
@@ -140,6 +158,18 @@ public class RewardMenu
         }
     }
 
+    public void setPoolToRewardCivilianUnlocks()
+    {
+        currentRewardPool.clear();
+        currentRewardPool.addAll(potentialCivilianUnlocks);
+
+        if(currentRewardPool.size() < 3)
+        {
+            currentRewardPool.addAll(potentialTeamBonusUpgrades);
+        }
+    }
+
+
     public void setPoolToRewardStandard()
     {
         currentRewardPool.clear();
@@ -156,6 +186,12 @@ public class RewardMenu
         } while(nextReward.getRarity().getRating() > rarityScore);
 
         return nextReward;
+    }
+
+
+    public void removeCivilianUnlock(RewardUnlockCivilian r)
+    {
+        potentialCivilianUnlocks.remove(r);
     }
 
     public void removeShipUnlock(RewardUnlockShip r)

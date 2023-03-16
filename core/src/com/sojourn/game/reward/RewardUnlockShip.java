@@ -1,6 +1,6 @@
 package com.sojourn.game.reward;
 
-import com.sojourn.game.Sojourn;
+import com.badlogic.gdx.graphics.Color;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
 import com.sojourn.game.state.BuildManager;
@@ -19,8 +19,8 @@ public class RewardUnlockShip extends Reward
 
 //        Color c = new Color(.75f, .45f, 1f, 1f);
 
-//         Color c = new Color(.25f, .55f, 1f, 1f);
-//        rewardButton.setColor(c);
+         Color c = new Color(.25f, .55f, 1f, 1f);
+        rewardButton.setColor(c);
 //        rewardButton.setIconColor(c);
 
 
@@ -35,7 +35,6 @@ public class RewardUnlockShip extends Reward
         BuildManager.unlockShip(type);
        // EntityManager.addSquad(type, Sojourn.player.getHomePoint(), Sojourn.player);
         owner.removeShipUnlock(this);
-        Sojourn.player.spendResearch(1);
     }
 
 }

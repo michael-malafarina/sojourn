@@ -13,7 +13,7 @@ public class TeamPlayer extends Team
     private static final int CONTROL_DISTANCE_BASE = 1000;
 
     private float resources = Settings.resourceStarting;
-    private float research = 1;
+//    private float shipResearch = 1;
 
     final private int SPAWN_X_WIDTH = 600;
     final private int SPAWN_Y_HEIGHT = 400;
@@ -39,10 +39,10 @@ public class TeamPlayer extends Team
         return resources;
     }
 
-    public float getResearch()
-    {
-        return research;
-    }
+//    public float getShipResearch()
+//    {
+//        return shipResearch;
+//    }
 
     public boolean inControlRadius(Vector2 point)
     {
@@ -59,15 +59,15 @@ public class TeamPlayer extends Team
         resources += amount;
     }
 
-    public void addResearch(float amount)
-    {
-        research += amount;
-    }
+//    public void addResearch(float amount)
+//    {
+//        shipResearch += amount;
+//    }
 
-    public void spendResearch(float amount)
-    {
-        research -= amount;
-    }
+//    public void spendResearch(float amount)
+//    {
+//        shipResearch -= amount;
+//    }
 
     public Vector2 getSpawnDestination()
     {

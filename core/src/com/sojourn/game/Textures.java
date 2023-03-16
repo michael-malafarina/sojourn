@@ -18,6 +18,7 @@ public class Textures
     public static Texture uiButtonMouseover;
     public static Texture uiRewardBoxMouseover;
     public static Texture uiRewardBoxBase;
+    public static Texture uiRewardBoxBorder;
 
     public static Texture uiUpgradeDefault;
     public static Texture uiShipDefault;
@@ -44,6 +45,7 @@ public class Textures
 
         uiRewardBoxBase = new Texture(Gdx.files.internal("ui/rewardBox.png"));
         uiRewardBoxMouseover = new Texture(Gdx.files.internal("ui/rewardBoxMouseover.png"));
+        uiRewardBoxBorder = new Texture(Gdx.files.internal("ui/rewardBoxBorder.png"));
 
         uiUpgradeDefault = new Texture(Gdx.files.internal("ui/upgradeDefault.png"));
         uiShipDefault = new Texture(Gdx.files.internal("ui/shipDefault.png"));

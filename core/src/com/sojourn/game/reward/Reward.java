@@ -39,8 +39,9 @@ abstract public class Reward
     {
         this.rarity = rarity;
         Color c = getRarity().getColor();
-        rewardButton.setColor(c);
+//        rewardButton.setColor(c);
         rewardButton.setIconColor(c);
+        rewardButton.setColorBorder(c);
     }
 
     public String getName()

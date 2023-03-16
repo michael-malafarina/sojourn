@@ -17,7 +17,7 @@ public class Minimap extends HudElement
 	public Minimap(float x, float y, float w, float h)
 	{
 		super(x, y, w, h);
-		showBackground = false;
+//		showBackground = false;
 	}
 
 	public void render()

@@ -14,17 +14,19 @@ public class HudElement
 	private Texture imageCurrent;
 	private Texture imageBase;
 	private Texture imageMouseover;
+	private Texture imageBorder;
 	private Alignment alignHorizontal;
 	private Alignment alignVertical;
 
 	protected BitmapFont font;
 	protected String label;
 	protected Color color;
+	protected Color colorBorder;
 
 	protected ButtonEvent mouseoverEvent;
 
-	protected boolean showBackground;
-	protected boolean showBorder;
+//	protected boolean showBackground;
+//	protected boolean showBorder;
 
 //	protected final Color COLOR_BORDER = new Color(.2f, .2f, .2f, 1f);
 //	protected final Color COLOR_BACKGROUND = new Color(.03f, .03f, .03f, 1f);
@@ -43,8 +45,8 @@ public class HudElement
 	{
 		this();
 		set(x, y, w, h);
-		showBackground = true;
-		showBorder = true;
+//		showBackground = true;
+//		showBorder = true;
 	}
 
 	public void set(float x, float y, float w, float h) {
@@ -106,6 +108,8 @@ public class HudElement
 		return imageCurrent;
 	}
 
+	public Texture getImageBorder()	{ return imageBorder;	}
+
 	public void setAlignment(Alignment horizontal, Alignment vertical)  {
 		alignHorizontal = horizontal;
 		alignVertical = vertical;
@@ -119,6 +123,12 @@ public class HudElement
 		imageCurrent = imageBase;
 	}
 
+
+	public void setImageBorder(Texture image)
+	{
+		imageBorder = image;
+	}
+
 	public void setImageMouseover(Texture image)
 	{
 		imageMouseover = image;
@@ -128,6 +138,12 @@ public class HudElement
 	{
 		this.color = color;
 	}
+
+	public void setColorBorder(Color color)
+	{
+		this.colorBorder = color;
+	}
+
 
 	public void setLabel(String label)
 	{
@@ -160,6 +176,12 @@ public class HudElement
 //		System.out.println(box.y + " " + getAlignedY());
 
 		Display.draw(imageCurrent, color, getAlignedX(), getAlignedY(), box.width, box.height);
+
+		if(imageBorder != null)
+		{
+//			System.out.println("drawing image border in hud element");
+			Display.draw(imageBorder, color, getAlignedX(), getAlignedY(), box.width, box.height);
+		}
 
 		Text.setFont(font);
 		Text.setAlignment(Alignment.CENTER, Alignment.CENTER);

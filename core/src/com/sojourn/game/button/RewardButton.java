@@ -26,10 +26,13 @@ public class RewardButton extends Button
         setFont(Fonts.large);
         description = "";
         setColor(Color.WHITE);
+        setColorBorder(Color.WHITE);
         setIconColor(Color.WHITE);
 
         setImageBase(Textures.uiRewardBoxBase);
         setImageMouseover(Textures.uiRewardBoxMouseover);
+        setImageBorder(Textures.uiRewardBoxBorder);
+
         setAlignment(Alignment.CENTER, Alignment.CENTER);
 
         icon = Textures.uiUpgradeDefault;
@@ -79,6 +82,11 @@ public class RewardButton extends Button
 
         // Background
         Display.draw(getImageCurrent(), new Color(color.r, color.g, color.b, .95f), getAlignedX(), getAlignedY(), modWidth, modHeight);
+        if(getImageBorder() != null)
+        {
+//			System.out.println("drawing image border in hud element");
+            Display.draw(getImageBorder(), colorBorder, getAlignedX(), getAlignedY(), modWidth, modHeight);
+        }
 
         // Title
         Text.setColor(Color.WHITE);

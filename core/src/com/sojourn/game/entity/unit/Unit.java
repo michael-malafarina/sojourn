@@ -23,6 +23,8 @@ abstract public class Unit extends Entity
     public Unit()
     {
         super();
+        description = "A generic unit";
+
         weapons = new WeaponSet();
         modules = new ModuleSet();
 //

@@ -266,12 +266,14 @@ public class StateGameplay extends State
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
+        builder.mousePressed(screenX, screenY, button);
         return gameplayInput.touchDown(screenX, screenY, pointer, button);
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer)
     {
+        builder.mouseMoved(screenX, screenY);
         return gameplayInput.touchDragged(screenX, screenY, pointer);
     }
 
@@ -332,10 +334,6 @@ public class StateGameplay extends State
 
         player.addResources(Settings.resourcePerLevel);
 
-        if(getWaveNumber() == 3 || getWaveNumber() == 6 || getWaveNumber() == 10 || getWaveNumber() == 15)
-        {
-            player.addResearch(1);
-        }
 
         builder.startPlanning();
 
