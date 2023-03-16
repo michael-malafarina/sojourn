@@ -14,7 +14,7 @@ public class Utility
 
     public static float random(float max)
     {
-        return (int) (Math.random() * max);
+        return (float) (Math.random() * max);
     }
 
     public static int random(int min, int max)

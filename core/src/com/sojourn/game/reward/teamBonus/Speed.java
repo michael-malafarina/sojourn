@@ -1,14 +1,15 @@
 package com.sojourn.game.reward.teamBonus;
 
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.reward.Rarity;
 import com.sojourn.game.reward.RewardMenu;
 import com.sojourn.game.reward.RewardTeamBonus;
 
 public class Speed extends RewardTeamBonus {
 
-    public Speed(RewardMenu owner) {
-        super(owner);
-        bonus = .20f;
+    public Speed(RewardMenu owner, Rarity rarity) {
+        super(owner, rarity);
+        bonus = .20f * getRarityScaling();
         name = "Speed";
         description = "Increases speed and acceleration by " + getPercentString(bonus);
     }

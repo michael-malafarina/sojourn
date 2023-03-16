@@ -8,7 +8,6 @@ public class Base extends Civilian
 {
     public Base()
     {
-//       setPosition(getX() - getWidth()/2, getY() - getHeight()/2);
 
     }
 

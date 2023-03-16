@@ -78,7 +78,7 @@ public class RewardButton extends Button
 
 
         // Background
-        Display.draw(getImageCurrent(), color, getAlignedX(), getAlignedY(), modWidth, modHeight);
+        Display.draw(getImageCurrent(), new Color(color.r, color.g, color.b, .95f), getAlignedX(), getAlignedY(), modWidth, modHeight);
 
         // Title
         Text.setColor(Color.WHITE);
@@ -87,7 +87,7 @@ public class RewardButton extends Button
         Text.draw(label, getAlignedX() + modWidth/2, getAlignedY() + modHeight * .85f);
 
         // Icon
-        float iconSize = box.getWidth() * .35f;
+        float iconSize = 96;
         Display.drawCentered(icon, iconColor, getX(), getAlignedY() + modHeight * .55f, iconSize, iconSize);
 
 
@@ -95,7 +95,7 @@ public class RewardButton extends Button
         Text.setFont(Fonts.medium);
         Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
         //Text.draw(description, getAlignedX()+box.width/2, getAlignedY() + 250);
-        Text.drawWidthBounded(description, getAlignedX() + modWidth * .05f, getAlignedY() + modHeight * .3f, box.getWidth() * .9f);
+        Text.drawWidthBounded(description, getAlignedX() + modWidth * .05f, getAlignedY() + modHeight * .3f, box.getWidth() * .85f);
 
 
     }

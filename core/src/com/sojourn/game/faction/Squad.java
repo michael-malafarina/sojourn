@@ -42,7 +42,7 @@ public class Squad
     {
         Ship prototype = (Ship) EntityManager.entityFactory(type);
         prototype.setTeam(team);
-        return Math.round(prototype.getSquadSize().getValue());
+        return (int) (prototype.getSquadSize().getValue());
     }
 
     public Attribute getCost()

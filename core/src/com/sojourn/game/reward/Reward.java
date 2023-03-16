@@ -1,11 +1,14 @@
 package com.sojourn.game.reward;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.button.RewardButton;
 import com.sojourn.game.display.Display;
 
 abstract public class Reward
 {
+
+    private Rarity rarity;
 
     private float x;
     private float y;
@@ -27,11 +30,32 @@ abstract public class Reward
         rewardButton.setClickEvent(this::apply);
         rewardButton.setClickEventTwo(owner::end);
         description = "";
+        rarity = Rarity.COMMON;
+
+
+    }
+
+    protected void setRarity(Rarity rarity)
+    {
+        this.rarity = rarity;
+        Color c = getRarity().getColor();
+        rewardButton.setColor(c);
+        rewardButton.setIconColor(c);
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public void end()
     {
         owner.removeButton(rewardButton);
+    }
+
+    public Rarity getRarity()
+    {
+        return rarity;
     }
 
     public void begin(int i)
@@ -47,7 +71,7 @@ abstract public class Reward
         y = (int) (Display.HEIGHT * .5f);
 
         rewardButton.setLabel(name);
-        rewardButton.setSize(sectionWidth, 300);
+        rewardButton.setSize(sectionWidth, 350);
         rewardButton.setPosition(x, y);
         rewardButton.setDescription(description);
 

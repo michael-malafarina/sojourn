@@ -1,6 +1,5 @@
 package com.sojourn.game.reward;
 
-import com.badlogic.gdx.graphics.Color;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
@@ -15,10 +14,18 @@ public class RewardUnlockShip extends Reward
         type = clazz;
         Ship prototype = (Ship) EntityManager.entityFactory(type);
         name = prototype.getName();
-        rewardButton.setColor(new Color(.25f, .55f, 1f, 1f));
         rewardButton.setIcon(prototype.getIcon());
       description = prototype.getDescription();
-     //   rewardButton.setIconColor(Sojourn.player.getFaction().getColor(0));
+
+//        Color c = new Color(.75f, .45f, 1f, 1f);
+
+//         Color c = new Color(.25f, .55f, 1f, 1f);
+//        rewardButton.setColor(c);
+//        rewardButton.setIconColor(c);
+
+
+
+        //   rewardButton.setIconColor(Sojourn.player.getFaction().getColor(0));
 
     }
 

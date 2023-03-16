@@ -69,12 +69,28 @@ public class RewardMenu
 
     public List<Reward> getRandomRewards(int rewardCount)
     {
-        List<Integer> rolls = Utility.uniqueRolls(3, 0, currentRewardPool.size()-1);
+//        List<Integer> rolls = Utility.uniqueRolls(3, 0, currentRewardPool.size()-1);
         List<Reward> newRewards = new ArrayList<>();
 
         for(int i = 0; i < rewardCount; i++)
         {
-            newRewards.add(getReward(rolls.get(i)));
+            boolean repeat = false;
+            Reward newReward = getRandomReward();
+
+            // No duplicates
+            for(Reward r : newRewards)
+            {
+                if(newReward.getName() == r.getName()) {
+                    repeat = true;
+                    i--;
+                }
+
+            }
+
+            if(!repeat)
+            {
+                newRewards.add(newReward);
+            }
         }
 
         return newRewards;
@@ -92,16 +108,26 @@ public class RewardMenu
 
     public void loadRewardsTeamBonus()
     {
-        potentialTeamBonusUpgrades.add(new Health((this)));
-        potentialTeamBonusUpgrades.add(new Damage((this)));
-        potentialTeamBonusUpgrades.add(new Range((this)));
-        potentialTeamBonusUpgrades.add(new ControlRadius((this)));
-        potentialTeamBonusUpgrades.add(new MunitionsCapacity((this)));
-        potentialTeamBonusUpgrades.add(new SquadSize((this)));
-        potentialTeamBonusUpgrades.add(new Speed((this)));
-        potentialTeamBonusUpgrades.add(new CritChance((this)));
-        potentialTeamBonusUpgrades.add(new CritDamage((this)));
+         loadRewardsTeamBonus(Rarity.COMMON);
+         loadRewardsTeamBonus(Rarity.UNCOMMON);
+         loadRewardsTeamBonus(Rarity.RARE);
+         loadRewardsTeamBonus(Rarity.EPIC);
+         loadRewardsTeamBonus(Rarity.LEGENDARY);
     }
+
+    public void loadRewardsTeamBonus(Rarity rarity)
+    {
+        potentialTeamBonusUpgrades.add(new Health(this, rarity));
+        potentialTeamBonusUpgrades.add(new Damage(this, rarity));
+        potentialTeamBonusUpgrades.add(new Range(this, rarity));
+        potentialTeamBonusUpgrades.add(new ControlRadius(this, rarity));
+        potentialTeamBonusUpgrades.add(new MunitionsCapacity(this, rarity));
+        potentialTeamBonusUpgrades.add(new SquadSize(this, rarity));
+        potentialTeamBonusUpgrades.add(new Speed(this,rarity));
+        potentialTeamBonusUpgrades.add(new CritChance(this, rarity));
+        potentialTeamBonusUpgrades.add(new CritDamage(this, rarity));
+    }
+
 
     public void setPoolToRewardShipUnlocks()
     {
@@ -120,9 +146,16 @@ public class RewardMenu
         currentRewardPool.addAll(potentialTeamBonusUpgrades);
     }
 
-    public Reward getReward(int index)
+    public Reward getRandomReward()
     {
-        return currentRewardPool.get(index);
+        float rarityScore = Utility.random(1f);
+        Reward nextReward;
+
+        do {
+            nextReward = currentRewardPool.get(Utility.random(currentRewardPool.size()));
+        } while(nextReward.getRarity().getRating() > rarityScore);
+
+        return nextReward;
     }
 
     public void removeShipUnlock(RewardUnlockShip r)
