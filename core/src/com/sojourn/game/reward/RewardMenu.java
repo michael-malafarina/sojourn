@@ -124,26 +124,18 @@ public class RewardMenu
         potentialCivilianUnlocks.add(new RewardUnlockCivilian(this, RepairShip.class));
 
     }
+
     public void loadRewardsTeamBonus()
     {
-         loadRewardsTeamBonus(Rarity.COMMON);
-         loadRewardsTeamBonus(Rarity.UNCOMMON);
-         loadRewardsTeamBonus(Rarity.RARE);
-         loadRewardsTeamBonus(Rarity.EPIC);
-         loadRewardsTeamBonus(Rarity.LEGENDARY);
-    }
-
-    public void loadRewardsTeamBonus(Rarity rarity)
-    {
-        potentialTeamBonusUpgrades.add(new Health(this, rarity));
-        potentialTeamBonusUpgrades.add(new Damage(this, rarity));
-        potentialTeamBonusUpgrades.add(new Range(this, rarity));
-        potentialTeamBonusUpgrades.add(new ControlRadius(this, rarity));
-        potentialTeamBonusUpgrades.add(new MunitionsCapacity(this, rarity));
-        potentialTeamBonusUpgrades.add(new SquadSize(this, rarity));
-        potentialTeamBonusUpgrades.add(new Speed(this,rarity));
-        potentialTeamBonusUpgrades.add(new CritChance(this, rarity));
-        potentialTeamBonusUpgrades.add(new CritDamage(this, rarity));
+        potentialTeamBonusUpgrades.add(new Health(this));
+        potentialTeamBonusUpgrades.add(new Damage(this));
+        potentialTeamBonusUpgrades.add(new Range(this));
+        potentialTeamBonusUpgrades.add(new ControlRadius(this));
+        potentialTeamBonusUpgrades.add(new MunitionsCapacity(this));
+        potentialTeamBonusUpgrades.add(new SquadSize(this));
+        potentialTeamBonusUpgrades.add(new Speed(this));
+        potentialTeamBonusUpgrades.add(new CritChance(this));
+        potentialTeamBonusUpgrades.add(new CritDamage(this));
     }
 
 

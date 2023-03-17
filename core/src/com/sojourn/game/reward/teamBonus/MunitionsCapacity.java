@@ -7,9 +7,9 @@ import com.sojourn.game.reward.RewardTeamBonus;
 
 public class MunitionsCapacity extends RewardTeamBonus {
 
-    public MunitionsCapacity(RewardMenu owner, Rarity rarity) {
-        super(owner, rarity);
-        bonus = .20f * getRarityScaling();
+    public MunitionsCapacity(RewardMenu owner) {
+        super(owner, Rarity.UNCOMMON);
+        bonus = .30f;
         name = "Munitions";
         description = "Increases munitions capacity by " + getPercentString(bonus);
     }

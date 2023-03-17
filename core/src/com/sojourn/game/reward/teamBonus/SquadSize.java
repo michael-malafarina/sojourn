@@ -7,9 +7,9 @@ import com.sojourn.game.reward.RewardTeamBonus;
 
 public class SquadSize extends RewardTeamBonus {
 
-    public SquadSize(RewardMenu owner, Rarity rarity) {
-        super(owner, rarity);
-        bonus = .08f * getRarityScaling();
+    public SquadSize(RewardMenu owner) {
+        super(owner, Rarity.RARE);
+        bonus = .10f;
         name = "Manufacturing";
         description = "Increases squad size by " + getPercentString(bonus);
     }

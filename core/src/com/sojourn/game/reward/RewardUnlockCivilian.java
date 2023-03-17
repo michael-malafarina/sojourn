@@ -1,5 +1,6 @@
 package com.sojourn.game.reward;
 
+import com.badlogic.gdx.graphics.Color;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.civilian.Civilian;
 import com.sojourn.game.state.BuildManager;
@@ -15,6 +16,8 @@ public class RewardUnlockCivilian extends Reward
         name = prototype.getName();
         rewardButton.setIcon(prototype.getIcon());
         description = prototype.getDescription();
+        rewardButton.setColor(new Color(.75f, .45f, 1f, 1f));
+
     }
 
     @Override

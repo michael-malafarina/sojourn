@@ -11,9 +11,9 @@ import java.util.List;
 
 public class Health extends RewardTeamBonus {
 
-    public Health(RewardMenu owner, Rarity rarity) {
-        super(owner, rarity);
-        bonus = .10f * getRarityScaling();
+    public Health(RewardMenu owner) {
+        super(owner, Rarity.COMMON);
+        bonus = .15f;
         name = "Health";
         description = "Increases health by " + getPercentString(bonus);
     }

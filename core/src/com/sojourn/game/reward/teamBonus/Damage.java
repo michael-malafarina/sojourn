@@ -7,9 +7,9 @@ import com.sojourn.game.reward.RewardTeamBonus;
 
 public class Damage extends RewardTeamBonus {
 
-    public Damage(RewardMenu owner, Rarity rarity) {
-        super(owner, rarity);
-        bonus = .10f * getRarityScaling();
+    public Damage(RewardMenu owner) {
+        super(owner, Rarity.COMMON);
+        bonus = .10f ;
         name = "Damage";
         description = "Increases damage by " + getPercentString(bonus);
     }

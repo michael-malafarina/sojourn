@@ -7,9 +7,9 @@ import com.sojourn.game.reward.RewardTeamBonus;
 
 public class CritDamage extends RewardTeamBonus {
 
-    public CritDamage(RewardMenu owner, Rarity rarity) {
-        super(owner, rarity);
-        bonus = .30f * getRarityScaling();
+    public CritDamage(RewardMenu owner) {
+        super(owner, Rarity.UNCOMMON);
+        bonus = .50f;
         name = "Crit Damage";
         description = "Increases critical hit damage by " + getPercentString(bonus);
     }

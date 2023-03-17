@@ -7,10 +7,10 @@ import com.sojourn.game.reward.RewardTeamBonus;
 
 public class ControlRadius extends RewardTeamBonus {
 
-    public ControlRadius(RewardMenu owner, Rarity rarity) {
-        super(owner, rarity);
+    public ControlRadius(RewardMenu owner) {
+        super(owner, Rarity.COMMON);
 
-        bonus = .20f * getRarityScaling();
+        bonus = .30f;
         name = "Communications";
         description = "Increases control radius by " + getPercentString(bonus);
     }

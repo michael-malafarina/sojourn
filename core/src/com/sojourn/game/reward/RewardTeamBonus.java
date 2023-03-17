@@ -16,19 +16,6 @@ abstract public class RewardTeamBonus extends Reward
 
     }
 
-    public float getRarityScaling()
-    {
-        return switch(getRarity())
-        {
-            case COMMON -> 1f;
-            case UNCOMMON -> 1.5f;
-            case RARE ->  2f;
-            case EPIC -> 2.5f;
-            default -> 3f;
-        };
-    }
-
-
     public String getPercentString(float value)
     {
         return Math.round(value * 100) + "%";
