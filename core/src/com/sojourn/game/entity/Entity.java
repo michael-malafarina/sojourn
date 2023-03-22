@@ -189,6 +189,7 @@ abstract public class Entity
         box.y = y;
     }
 
+
     public void addMessage(EntityMessage message)
     {
         EntityMessageManager.addMessage(message);
@@ -359,6 +360,41 @@ abstract public class Entity
         turnTo((float) Math.toDegrees(angle));
       //  move();
    }
+
+//   public void hide()
+//   {
+//       image.hide();
+//   }
+//
+//   public void show()
+//   {
+//        image.show();
+//   }
+//
+//   public void setAlpha(float alpha)
+//   {
+//        image.setAlpha(alpha);
+//   }
+//
+//    public void setColor(Color color)
+//    {
+//        image.setColor(color);
+//    }
+//
+//    public void resetColor()
+//    {
+//        image.resetColor();
+//    }
+//
+//    public void hideHealthbar()
+//    {
+//        showHealthbar = false;
+//    }
+//
+//    public void showHealthbar()
+//    {
+//        showHealthbar = true;
+//    }
 
     private void accelerate()
     {

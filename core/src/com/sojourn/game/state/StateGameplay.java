@@ -273,7 +273,6 @@ public class StateGameplay extends State
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer)
     {
-        builder.mouseMoved(screenX, screenY);
         return gameplayInput.touchDragged(screenX, screenY, pointer);
     }
 
@@ -308,7 +307,6 @@ public class StateGameplay extends State
 
     public void startCombat()
     {
-        builder.startCombat();
 
 //        System.out.println(StateGameplay.getWaveNumber() + " Player Value: " + Sojourn.player.getTotalWorth());
 
@@ -330,12 +328,7 @@ public class StateGameplay extends State
     {
         waveNumber++;
 
-
-
         player.addResources(Settings.resourcePerLevel);
-
-
-        builder.startPlanning();
 
         // Remove any remaining ships
         if(EntityManager.getShips() != null) {
@@ -353,20 +346,13 @@ public class StateGameplay extends State
 
         cpu.planWave();
 
-
         rewardMenu.begin();
-
 
         addButton(combatStartButton);
 
         combatStartButton.setPosition(Display.WIDTH - 320, 40);
         combatStartButton.setLabel("Battle!");
         combatStartButton.setClickEvent(() -> startCombat());
-
-
-
-
-
     }
 
 
@@ -375,7 +361,6 @@ public class StateGameplay extends State
     {
         List<Squad> playerSquads = EntityManager.getPlayerSquads();
         playerSquads.forEach(s -> s.restore());
-
     }
 
     public void dispose()

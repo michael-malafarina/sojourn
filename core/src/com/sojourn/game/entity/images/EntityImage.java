@@ -26,10 +26,13 @@ public class EntityImage
     private Entity owner;
     private HealthBar healthbar;
     private MunitionsBar munitionsbar;
+    private boolean hidden;
+    private boolean showHealthbar;
 
     public EntityImage(Entity owner)
     {
         this.owner = owner;
+        showHealthbar = true;
     }
 
     public EntityImage(Entity owner, Texture sheet)
@@ -86,6 +89,49 @@ public class EntityImage
         imageLayers.get(layer).hide();
     }
 
+    public void hide()
+    {
+        hidden = true;
+    }
+
+    public void show()
+    {
+        hidden = false;
+    }
+
+    public void hideHealthbar()
+    {
+        showHealthbar = false;
+    }
+
+    public void showHealthbar()
+    {
+        showHealthbar = true;
+    }
+
+    public void setAlpha(float alpha)
+    {
+        imageLayers.forEach(a -> a.setAlpha(alpha));
+    }
+
+    public void setColor(Color color)
+    {
+        imageLayers.forEach(a -> a.setColor(color));
+    }
+
+    public void resetColor()
+    {
+        for(int i = 0; i < owner.getNumLayers(); i++) {
+            Color color = owner.getTeam().getFaction().getColor(i);
+
+            if (owner instanceof Civilian) {
+                color = owner.getTeam().getFaction().getColorAlternate(i);
+            }
+
+            imageLayers.get(i).setColor(color);
+        }
+    }
+
     public void update()
     {
         if(owner instanceof Unit)
@@ -111,12 +157,17 @@ public class EntityImage
             return;
         }
 
+        if(hidden)
+        {
+            return;
+        }
+
         imageLayers.forEach(n -> n.render(owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
 
 
 //        imageLayers.forEach(n -> Display.draw(n.getTexture(), n.getColor(), owner.getX(), owner.getY(), owner.getWidth(), owner.getHeight(), owner.getTheta()));
 
-        if(healthbar != null && ((owner instanceof Ship && Settings.showUnitHealthbars) || (owner instanceof Civilian && Settings.showCivilianHealthbars)))
+        if(healthbar != null && showHealthbar && ((owner instanceof Ship && Settings.showUnitHealthbars) || (owner instanceof Civilian && Settings.showCivilianHealthbars)))
         {
             healthbar.render(owner.getX(), owner.getY() + owner.getHeight() + 7, owner.getWidth(), 4);
 

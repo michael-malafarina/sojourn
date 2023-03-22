@@ -1,5 +1,7 @@
 package com.sojourn.game.state;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.button.Button;
@@ -44,6 +46,21 @@ public class BuildManager
             needsRefresh = false;
         }
 
+        Vector3 mouseRaw = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        Vector3 mouse = Display.getCamera().getGameCamera().unproject(mouseRaw);
+
+        if(currentCivilian != null)
+        {
+            currentCivilian.setPosition(mouse.x - currentCivilian.getWidth()/2, mouse.y - currentCivilian.getHeight()/2);
+            currentCivilian.getImage().setColor(new Color(0f, 1f, 0f, .5f));
+            currentCivilian.getImage().hideHealthbar();
+        }
+
+       // if(Gdx.input.())
+//        {
+//            System.out.println();
+//        }
+
     }
 
     public void render()
@@ -51,11 +68,6 @@ public class BuildManager
         Text.setFont(Fonts.large);
         Text.setAlignment(Alignment.LEFT, Alignment.CENTER);
         Text.draw("Resources: " + Math.round(Sojourn.player.getResources()), 50, 700);
-    }
-
-    public void startPlanning()
-    {
-      //  addButtons();
     }
 
     private void addButtons()
@@ -91,7 +103,7 @@ public class BuildManager
             b.setSize(150, 40);
             b.setFont(Fonts.small);
             b.setLabel("Build " + prototype.getName() + " (" + Math.round(prototype.getCost().getValue())+ ")");
-            b.setClickEvent(() -> beginPlacingCivilian(prototype));
+            b.setClickEvent(() -> beginPlacingCivilian(civilian));
             game.addButton(b);
             buttons.add(b);
         }
@@ -118,36 +130,23 @@ public class BuildManager
         needsRefresh = true;
     }
 
-
-    public void startCombat()
+    public void beginPlacingCivilian(Class<? extends Civilian> clazz)
     {
-      //  removeButtons();
-    }
-
-    public void beginPlacingCivilian(Civilian c)
-    {
-        currentCivilian = c;
+        currentCivilian = (Civilian) EntityManager.entityFactory(clazz);
+        currentCivilian.setTeam(Sojourn.player);
+        currentCivilian.getImage().setAlpha(.7f);
         EntityManager.addEntity(currentCivilian);
 
     }
 
-    public void mouseMoved(float mouseX, float mouseY)
-    {
-        Vector3 mouseRaw = new Vector3(mouseX, mouseY, 0);
-        Vector3 mouse = Display.getCamera().getGameCamera().unproject(mouseRaw);
-
-        if(currentCivilian != null)
-        {
-            currentCivilian.setPosition(mouse.x, mouse.y);
-        }
-    }
-
     public void mousePressed(float mouseX, float mouseY, int button)
     {
-//        if(currentCivilian != null)
-//        {
-//            currentCivilian = null;
-//        }
+        if(currentCivilian != null)
+        {
+            currentCivilian.getImage().resetColor();
+            currentCivilian.getImage().showHealthbar();
+            currentCivilian = null;
+        }
 
     }
 

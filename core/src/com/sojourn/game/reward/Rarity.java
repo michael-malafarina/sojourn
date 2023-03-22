@@ -10,7 +10,7 @@ public enum Rarity
     {
         return switch(this)
                 {
-                    case UNCOMMON -> new Color(.5f, .7f, .9f, 1f);
+                    case UNCOMMON -> new Color(.6f, .8f, 1.0f, 1f);
                     case RARE -> new Color(.9f, .9f, .3f, 1f);
                     default -> new Color(1f, 1f, 1f, 1f);
                 };

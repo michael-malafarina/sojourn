@@ -19,10 +19,14 @@ public class EntityImageLayer
         this.color = color;
     }
 
+    public void setAlpha(float alpha)
+    {
+        this.color = new Color(color.r, color.g, color.b, alpha);
+    }
+
     public void hide()   {
         this.hidden = true;
     }
-
 
     public void setTexture(TextureRegion texture)    {
         this.texture = texture;
