@@ -21,7 +21,8 @@ public class BlueFaction extends Faction
         {
             case 0 -> Color.GRAY;
             case 1 -> Color.GRAY;
-            default -> new Color(.2f, .4f, .6f, 1f);
+            case 2 -> new Color(.2f, .4f, .6f, 1f);
+            default -> Color.WHITE;
         };
     }
 

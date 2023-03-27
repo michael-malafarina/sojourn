@@ -18,9 +18,11 @@ public class RedFaction extends Faction
     {
         return switch(layerNum)
                 {
-                    case 0 -> Color.WHITE;
-//            case 1 -> new Color(.2f, .4f, 1f, 1f);
-                    default -> new Color(.9f, .1f, .05f, 1f);
+                    case 0 -> Color.GRAY;
+                    case 1 -> Color.GRAY;
+                    case 2 -> new Color(.9f, .1f, .05f, 1f);
+                    default -> Color.WHITE;
+
                 };
     }
 

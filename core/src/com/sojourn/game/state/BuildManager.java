@@ -2,6 +2,8 @@ package com.sojourn.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.button.Button;
@@ -9,6 +11,7 @@ import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Fonts;
 import com.sojourn.game.display.Text;
+import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.civilian.Civilian;
 import com.sojourn.game.entity.unit.ship.Ship;
@@ -27,7 +30,6 @@ public class BuildManager
     private static boolean needsRefresh;
 
     private Civilian currentCivilian;
-    public boolean placingCivilian;
 
     public BuildManager(StateGameplay game)
     {
@@ -52,7 +54,19 @@ public class BuildManager
         if(currentCivilian != null)
         {
             currentCivilian.setPosition(mouse.x - currentCivilian.getWidth()/2, mouse.y - currentCivilian.getHeight()/2);
-            currentCivilian.getImage().setColor(new Color(0f, 1f, 0f, .5f));
+
+
+            if(canPlaceCurrentCivilian())
+            {
+                currentCivilian.getImage().setColor(new Color(0f, 1f, 0f, .5f));
+            }
+            else
+            {
+                currentCivilian.getImage().setColor(new Color(1f, 0f, 0f, .5f));
+            }
+
+
+
             currentCivilian.getImage().hideHealthbar();
         }
 
@@ -62,6 +76,44 @@ public class BuildManager
 //        }
 
     }
+
+    public boolean canPlaceCurrentCivilian()
+    {
+        // Must be in the control radius of the base ship
+        if(!inControlRadius(currentCivilian))
+        {
+            return false;
+        }
+
+        for(Civilian c : EntityManager.getCivilians())
+        {
+            // Avoids checking collisions with the current civilian
+            if(c == currentCivilian)
+            {
+                continue;
+            }
+
+            // Cannot overlap with another civilian ship
+            if(currentCivilian.getRectangle().overlaps(c.getRectangle()))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean inControlRadius(Entity e)
+    {
+        Circle control = new Circle(0, 0, Sojourn.player.getControlDistance());
+        Rectangle placement = e.getRectangle();
+
+        return  control.contains(placement.getX(), placement.getY()) &&
+                control.contains(placement.getX() + placement.getWidth(), placement.getY()) &&
+                control.contains(placement.getX(), placement.getY() + placement.getHeight()) &&
+                control.contains(placement.getX() + placement.getWidth(), placement.getY() + placement.getHeight());
+    }
+
 
     public void render()
     {
@@ -141,13 +193,18 @@ public class BuildManager
 
     public void mousePressed(float mouseX, float mouseY, int button)
     {
-        if(currentCivilian != null)
+        if(isPlacingCivilian() && canPlaceCurrentCivilian())
         {
             currentCivilian.getImage().resetColor();
             currentCivilian.getImage().showHealthbar();
             currentCivilian = null;
         }
 
+    }
+
+    public boolean isPlacingCivilian()
+    {
+        return currentCivilian != null;
     }
 
 
