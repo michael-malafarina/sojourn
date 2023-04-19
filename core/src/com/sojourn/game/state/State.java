@@ -28,6 +28,16 @@ abstract public class State implements Screen, InputProcessor
         currentEnemy = Sojourn.currentEnemy;
     }
 
+    public TeamPlayer getPlayer()
+    {
+        return player;
+    }
+
+    public TeamEnemy getEnemy()
+    {
+        return currentEnemy;
+    }
+
     protected void update(float delta)
     {
         buttons.forEach(Button::update);

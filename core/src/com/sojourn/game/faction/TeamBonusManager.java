@@ -17,7 +17,7 @@ public class TeamBonusManager
     private TeamBonus cost;
     private TeamBonus critChance;
     private TeamBonus critDamage;
-
+    private TeamBonus supply;
 
     TeamBonusManager()
     {
@@ -32,6 +32,7 @@ public class TeamBonusManager
         cost = new TeamBonus();
         critChance = new TeamBonus();
         critDamage = new TeamBonus();
+        supply = new TeamBonus();
 
     }
 
@@ -64,6 +65,7 @@ public class TeamBonusManager
     public TeamBonus getCostBonus()    {        return cost;    }
     public TeamBonus getCritChance()    {        return critChance;    }
     public TeamBonus getCritDamage()    {        return critDamage;    }
+    public TeamBonus getSupply()    {        return supply;    }
 
     public void render()
     {
@@ -137,6 +139,12 @@ public class TeamBonusManager
         if(critDamage.isModified())
         {
             Text.draw("Crit Damage: +" + getPercentString(critDamage.getBonusAdded()), 350, base + i * space);
+            i++;
+        }
+
+        if(supply.isModified())
+        {
+            Text.draw("Supply Cap: +" + getPercentString(supply.getBonusAdded()), 350, base + i * space);
             i++;
         }
     }
