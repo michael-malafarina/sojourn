@@ -223,8 +223,8 @@ abstract public class Component
 
     public void activation(float progressPercent)
     {
-        owner.turnTo(targets.getCenter());
-        owner.turnLock();
+//        owner.turnTo(targets.getCenter());
+//        owner.turnLock();
     }
 
     public void activationEnd()

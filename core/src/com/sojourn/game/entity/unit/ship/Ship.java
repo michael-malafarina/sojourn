@@ -152,6 +152,18 @@ public abstract class Ship extends Unit
 
         Unit u = getNearestEnemyUnit();
 
+//
+//        if(getTimer() % 600 <= 300)
+//        {
+//            moveTo(u);
+//            weapons.useAllSingleTargetWeapons(u);
+//        }
+//        else
+//        {
+//            moveTo(getTeam().getHomePoint());
+//        }
+
+
         weapons.useAllSingleTargetWeapons(u);
 
 
@@ -188,6 +200,7 @@ public abstract class Ship extends Unit
         if(lowMunitions)
         {
             moveTo(EntityManager.getNearestMunitionsDepot(this));
+            turnLock();
         }
 
     }
