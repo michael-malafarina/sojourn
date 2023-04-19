@@ -48,6 +48,8 @@ public class AttributePool extends Attribute
         return maximum * teamBonus.getBonusPercent();
     }
 
+    public boolean isMaximum() { return getCurrent() == getMaximum(); }
+
     public float getRegeneration()
     {
         return regeneration;

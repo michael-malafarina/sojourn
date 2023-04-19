@@ -47,6 +47,11 @@ abstract public class Component
         return recovering;
     }
 
+    public Unit getOwner()
+    {
+        return owner;
+    }
+
     abstract public int getMunitionCost();
 
     abstract public int getPreparationTime();

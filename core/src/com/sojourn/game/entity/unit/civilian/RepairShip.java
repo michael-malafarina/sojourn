@@ -2,6 +2,7 @@ package com.sojourn.game.entity.unit.civilian;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.sojourn.game.Textures;
+import com.sojourn.game.entity.component.module.RepairBay;
 
 public class RepairShip extends Civilian
 {
@@ -15,6 +16,9 @@ public class RepairShip extends Civilian
     public void startingAttributes()
     {
         setHealth(5000);
+        setCost(30);
+
+        modules.add(new RepairBay(this));
 
 
     }

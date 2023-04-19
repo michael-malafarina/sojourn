@@ -7,6 +7,7 @@ import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.display.Shape;
 import com.sojourn.game.entity.Attribute;
+import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.Unit;
 import com.sojourn.game.faction.Squad;
@@ -27,6 +28,9 @@ public abstract class Ship extends Unit
     private Squad group;
 
     protected Attribute squadSize;
+
+    private boolean lowMunitions = false;
+    private boolean lowHealth = false;
 
     public void setGroup(Squad group) {
         this.group = group;
@@ -139,10 +143,12 @@ public abstract class Ship extends Unit
 
     public void actionCombat()
     {
+        seekHealing();
+        restockMunitions();
         avoidNearby();
         //drift();
 
-        restockMunitions();
+
 
         Unit u = getNearestEnemyUnit();
 
@@ -164,10 +170,45 @@ public abstract class Ship extends Unit
 
     protected void restockMunitions()
     {
-        if(getMunitions().getMaximum() > 0 && getMunitions().getPercent() < .1f)
+        if(getMunitions().getMaximum() == 0)
+        {
+            return;
+        }
+
+        if(getMunitions().getPercent() < .1f)
+        {
+            lowMunitions = true;
+        }
+
+        if(getMunitions().isMaximum())
+        {
+            lowMunitions = false;
+        }
+
+        if(lowMunitions)
         {
             moveTo(EntityManager.getNearestMunitionsDepot(this));
         }
+
+    }
+
+    protected void seekHealing()
+    {
+        if(getHealth().getPercent() < .2f)
+        {
+            lowHealth = true;
+        }
+
+        if(getHealth().isMaximum())
+        {
+            lowHealth = false;
+        }
+
+        if(lowHealth)
+        {
+            moveTo(EntityManager.getNearestHealer(this));
+        }
+
     }
 
 
@@ -175,7 +216,7 @@ public abstract class Ship extends Unit
     {
         Ship s = getNearestShip();
 
-        // If another ship is my distance radius, try to move away and increase that radius slightly
+        // If another ship is my distance radius, try to move away
         if(getDistance(s) < 25)
         {
             avoid(s);
@@ -183,7 +224,7 @@ public abstract class Ship extends Unit
 
     }
 
-    public void avoid(com.sojourn.game.entity.Entity e)
+    public void avoid(Entity e)
     {
         turnTo(e);
         turnAround();

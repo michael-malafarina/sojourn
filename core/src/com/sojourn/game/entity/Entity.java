@@ -8,6 +8,7 @@ import com.sojourn.game.Utility;
 import com.sojourn.game.display.message.DamageText;
 import com.sojourn.game.display.message.EntityMessage;
 import com.sojourn.game.display.message.EntityMessageManager;
+import com.sojourn.game.display.message.HealingText;
 import com.sojourn.game.entity.images.EntityImage;
 import com.sojourn.game.faction.Team;
 
@@ -267,6 +268,7 @@ abstract public class Entity
     public void restoreHealth(float amount, Entity source)
     {
         health.increase(amount);
+        addMessage(new HealingText(Math.round(amount),this));
     }
 
     public void render()

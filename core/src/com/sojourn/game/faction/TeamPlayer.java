@@ -13,6 +13,7 @@ public class TeamPlayer extends Team
     private static final int CONTROL_DISTANCE_BASE = 1000;
 
     private float resources = Settings.resourceStarting;
+
 //    private float shipResearch = 1;
 
     final private int SPAWN_X_WIDTH = 600;

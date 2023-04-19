@@ -7,6 +7,7 @@ import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.component.module.ModuleSet;
 import com.sojourn.game.entity.component.module.MunitionsDepot;
+import com.sojourn.game.entity.component.module.RepairBay;
 import com.sojourn.game.entity.component.weapon.WeaponSet;
 import com.sojourn.game.entity.unit.ship.Ship;
 
@@ -68,6 +69,11 @@ abstract public class Unit extends Entity
     public boolean isMunitionsDepot()
     {
         return modules.hasModule(MunitionsDepot.class);
+    }
+
+    public boolean isHealer()
+    {
+        return modules.hasModule(RepairBay.class);
     }
 
     public void setAttributes()

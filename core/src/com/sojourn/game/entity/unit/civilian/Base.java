@@ -14,8 +14,8 @@ public class Base extends Civilian
     public void startingAttributes()
     {
         setHealth(5000);
-        setMunitions(300);
-        setMunitionsRegeneration(1);
+//        setMunitions(300);
+//        setMunitionsRegeneration(1);
 
         modules.add(new MunitionsDepot(this));
     }

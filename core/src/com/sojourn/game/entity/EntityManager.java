@@ -87,8 +87,16 @@ public class EntityManager
         return getFriendlyUnits(team).stream().filter(u -> u.isMunitionsDepot()).toList();
     }
 
+    public static List<Unit> getHealers(Team team) {
+        return getFriendlyUnits(team).stream().filter(u -> u.isHealer()).toList();
+    }
+
     public static List<Unit> getFriendlyUnits(Team team) {
         return getUnits().stream().filter(u -> u.getTeam().isFriendly(team)).toList();
+    }
+
+    public static List<Ship> getFriendyShips(Team team) {
+        return getShips().stream().filter(u -> u.getTeam().isFriendly(team)).toList();
     }
 
     public static List<Unit> getHostileUnits(Team team) {
@@ -255,7 +263,8 @@ public class EntityManager
         return (Unit) getNearestEntity(origin, new ArrayList<>(getMunitionDepots(origin.getTeam())));
     }
 
-
-
-
+    public static Unit getNearestHealer(Entity origin)
+    {
+        return (Unit) getNearestEntity(origin, new ArrayList<>(getHealers(origin.getTeam())));
+    }
 }
