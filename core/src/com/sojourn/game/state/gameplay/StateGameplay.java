@@ -1,4 +1,4 @@
-package com.sojourn.game.state;
+package com.sojourn.game.state.gameplay;
 
 import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
@@ -10,6 +10,7 @@ import com.sojourn.game.entity.ambient.EnemyAlert;
 import com.sojourn.game.faction.Squad;
 import com.sojourn.game.faction.TeamEnemy;
 import com.sojourn.game.reward.RewardMenu;
+import com.sojourn.game.state.State;
 
 import java.util.List;
 
@@ -17,9 +18,8 @@ public class StateGameplay extends State
 {
     private EntityMessageManager messages;
 
-
     private boolean planning;
-    private static int gameSpeed;
+    private int gameSpeed;
     private static int waveNumber;
     private RewardMenu rewardMenu;
     private Button combatStartButton;
@@ -32,14 +32,11 @@ public class StateGameplay extends State
 
     private static int timer;
 
-
-
     // Constructor
 
     public StateGameplay(final Sojourn game)
     {
         super(game);
-
 
         gameplayInput = new GameplayInput(this);
         gameplayRender = new GameplayRender(this);
@@ -47,8 +44,6 @@ public class StateGameplay extends State
         combatStartButton = new Button();
 
         gameSpeed = 2;
-        //minimap = new Minimap(10, 10, World.getWidth() * .02f, World.getHeight() * .02f);
-
 
         messages = new EntityMessageManager();
         rewardMenu = new RewardMenu(this);
@@ -74,7 +69,7 @@ public class StateGameplay extends State
         return waveNumber;
     }
     public static int getTime()         { return timer;}
-    public static int getGameSpeed()      { return gameSpeed; }
+    public int getGameSpeed()      { return gameSpeed; }
 
     public BuildManager getBuilder()
     {
@@ -172,24 +167,23 @@ public class StateGameplay extends State
         return gameplayInput.touchDown(screenX, screenY, pointer, button);
     }
 
-    @Override
     public boolean touchDragged(int screenX, int screenY, int pointer)
     {
         return gameplayInput.touchDragged(screenX, screenY, pointer);
     }
+
 
     public boolean touchUp(int screenX, int screenY, int pointer, int button)
     {
         return gameplayInput.touchUp(screenX, screenY, pointer, button);
     }
 
-    @Override
+
     public boolean scrolled(float amountX, float amountY)
     {
         return gameplayInput.scrolled(amountX, amountY);
     }
 
-    @Override
     public boolean keyDown(int keycode)
     {
         return gameplayInput.keyDown(keycode);

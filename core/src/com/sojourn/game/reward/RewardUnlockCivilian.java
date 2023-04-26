@@ -3,7 +3,7 @@ package com.sojourn.game.reward;
 import com.badlogic.gdx.graphics.Color;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.civilian.Civilian;
-import com.sojourn.game.state.BuildManager;
+import com.sojourn.game.state.gameplay.BuildManager;
 
 public class RewardUnlockCivilian extends Reward
 {

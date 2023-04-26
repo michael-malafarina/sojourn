@@ -40,7 +40,7 @@ public class MunitionsShip extends Civilian
 
     @Override
     public Texture getSpriteSheet() {
-        return Textures.boxy;
+        return Textures.raider;
     }
 
 }

@@ -22,6 +22,11 @@ abstract public class Civilian extends Unit
 
     }
 
+    public void onBuild()
+    {
+
+    }
+
     public void spawnUnit(Class<? extends Unit> clazz)
     {
 //        EntityManager.addUnit(clazz, getPosition(), getTeam(), this);

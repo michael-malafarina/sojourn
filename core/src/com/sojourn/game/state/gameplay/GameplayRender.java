@@ -1,4 +1,4 @@
-package com.sojourn.game.state;
+package com.sojourn.game.state.gameplay;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -107,13 +107,16 @@ public class GameplayRender {
 
         Text.setFont(Fonts.small);
         Text.setAlignment(Alignment.LEFT, Alignment.TOP);
-        Text.draw("Speed " + StateGameplay.getGameSpeed(), 5, Display.HEIGHT - 25);
+        Text.draw("Speed " + state.getGameSpeed(), 5, Display.HEIGHT - 25);
 
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
 
+        // WAVE
 
         Text.setFont(Fonts.subtitle);
         Text.draw("Wave " + StateGameplay.getWaveNumber(), Display.WIDTH/2, Display.HEIGHT - 45);
+
+        // POWER
 
         Text.setFont(Fonts.medium);
         Fonts.medium.getData().markupEnabled = true;
@@ -122,6 +125,11 @@ public class GameplayRender {
                         state.getEnemy().getColorCode() + Math.round(state.getEnemy().getTotalWorth()),
                 Display.WIDTH/2,
                 Display.HEIGHT - 70);
+
+
+
+
+
         state.getBuilder().render();
 
     }

@@ -3,7 +3,7 @@ package com.sojourn.game.faction;
 import com.badlogic.gdx.math.Vector2;
 import com.sojourn.game.Settings;
 import com.sojourn.game.faction.wave.Wave;
-import com.sojourn.game.state.StateGameplay;
+import com.sojourn.game.state.gameplay.StateGameplay;
 
 public class TeamEnemy extends Team
 {

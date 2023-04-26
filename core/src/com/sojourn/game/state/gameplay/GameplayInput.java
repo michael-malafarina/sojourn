@@ -1,4 +1,4 @@
-package com.sojourn.game.state;
+package com.sojourn.game.state.gameplay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

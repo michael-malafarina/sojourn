@@ -1,7 +1,7 @@
 package com.sojourn.game;
 
 import com.badlogic.gdx.math.Vector2;
-import com.sojourn.game.state.StateGameplay;
+import com.sojourn.game.state.gameplay.StateGameplay;
 
 public class World
 {

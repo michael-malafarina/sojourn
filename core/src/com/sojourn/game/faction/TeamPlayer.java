@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.sojourn.game.Settings;
 import com.sojourn.game.Sojourn;
 import com.sojourn.game.Utility;
+import com.sojourn.game.entity.AttributePool;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
 
@@ -15,6 +16,7 @@ public class TeamPlayer extends Team
     private float resources = Settings.resourceStarting;
 
 //    private float shipResearch = 1;
+    protected AttributePool supply;
 
     final private int SPAWN_X_WIDTH = 600;
     final private int SPAWN_Y_HEIGHT = 400;
@@ -23,6 +25,7 @@ public class TeamPlayer extends Team
     {
         super(faction);
         setHomePoint(new Vector2(0, 0));
+        supply = new AttributePool(getTeamBonusManager().getSupply(), 3);
     }
 
     @Override
@@ -35,10 +38,30 @@ public class TeamPlayer extends Team
         return Math.round(CONTROL_DISTANCE_BASE * getTeamBonusManager().getControlRadiusBonus().getBonusPercent());
     }
 
+    public AttributePool getSupply()
+    {
+        return supply;
+    }
+
     public float getResources()
     {
         return resources;
     }
+
+    public void spendResources(float amount)
+    {
+          resources -= amount;
+
+    }
+
+    public void addResources(float amount)
+    {
+        resources += amount;
+    }
+
+
+
+
 
 //    public float getShipResearch()
 //    {
@@ -55,10 +78,6 @@ public class TeamPlayer extends Team
         return point.dst(0, 0, 0) <= getControlDistance();
     }
 
-    public void addResources(float amount)
-    {
-        resources += amount;
-    }
 
 //    public void addResearch(float amount)
 //    {
@@ -77,13 +96,18 @@ public class TeamPlayer extends Team
 
     public void buildSquad(Class<? extends Ship> clazz)
     {
+
         Ship prototype = (Ship) EntityManager.entityFactory(clazz);
         prototype.setTeam(Sojourn.player);
 
-        if(Math.round(resources) >= Math.round(prototype.getCost().getValue()))
+        // If I have enough supply and resources...
+        if(getSupply().getCurrent() > 0 &&
+                Math.round(resources) >= Math.round(prototype.getCost().getValue()))
         {
             EntityManager.addSquad(clazz, getSpawnPoint(), this);
             resources -= prototype.getCost().getValue();
+            System.out.println("BUILDING A SQUAD");
+            getSupply().decrease(1);
         }
     }
 

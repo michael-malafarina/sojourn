@@ -1,7 +1,7 @@
 package com.sojourn.game.entity;
 
 import com.sojourn.game.faction.TeamBonus;
-import com.sojourn.game.state.StateGameplay;
+import com.sojourn.game.state.gameplay.StateGameplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +114,11 @@ public class AttributePool extends Attribute
         healingTimes.add(new AttributeDelta(StateGameplay.getTime(), actualAmount));
     }
 
+    public void increaseMaximum(float amount)
+    {
+        maximum += amount;
+    }
+
     public void decrease(float amount)
     {
         float actualAmount = amount;
@@ -126,6 +131,12 @@ public class AttributePool extends Attribute
 
         current -= actualAmount;
         damageTimes.add(new AttributeDelta(StateGameplay.getTime(), actualAmount));
+    }
+
+
+    public void decreaseMaximum(float amount)
+    {
+        maximum -= amount;
     }
 
 }

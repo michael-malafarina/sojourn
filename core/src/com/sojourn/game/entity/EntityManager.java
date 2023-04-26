@@ -156,6 +156,7 @@ public class EntityManager
         newEntities.add(e);
     }
 
+
     public static Squad addSquad(Class<? extends Ship> clazz, Vector2 position, Team team)
     {
         Squad s = new Squad(clazz, team, position);

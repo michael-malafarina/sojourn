@@ -4,10 +4,9 @@ import com.sojourn.game.Utility;
 import com.sojourn.game.button.Button;
 import com.sojourn.game.entity.unit.civilian.MunitionsShip;
 import com.sojourn.game.entity.unit.civilian.RepairShip;
-import com.sojourn.game.entity.unit.civilian.SupplyShip;
 import com.sojourn.game.entity.unit.ship.*;
 import com.sojourn.game.reward.teamBonus.*;
-import com.sojourn.game.state.StateGameplay;
+import com.sojourn.game.state.gameplay.StateGameplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,9 +119,7 @@ public class RewardMenu
     public void loadRewardsCivilianUnlocks()
     {
         potentialCivilianUnlocks.add(new RewardUnlockCivilian(this, MunitionsShip.class));
-        potentialCivilianUnlocks.add(new RewardUnlockCivilian(this, SupplyShip.class));
         potentialCivilianUnlocks.add(new RewardUnlockCivilian(this, RepairShip.class));
-
     }
 
     public void loadRewardsTeamBonus()

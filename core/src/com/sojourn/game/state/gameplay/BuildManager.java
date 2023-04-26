@@ -1,6 +1,7 @@
-package com.sojourn.game.state;
+package com.sojourn.game.state.gameplay;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,6 +15,7 @@ import com.sojourn.game.display.Text;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.civilian.Civilian;
+import com.sojourn.game.entity.unit.civilian.SupplyShip;
 import com.sojourn.game.entity.unit.ship.Ship;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class BuildManager
 
         unlockedShips = new ArrayList<>();
         unlockedCivilians = new ArrayList<>();
+        unlockedCivilians.add(SupplyShip.class);
 
     }
 
@@ -117,9 +120,14 @@ public class BuildManager
 
     public void render()
     {
+        // Resources
         Text.setFont(Fonts.large);
         Text.setAlignment(Alignment.LEFT, Alignment.CENTER);
-        Text.draw("Resources: " + Math.round(Sojourn.player.getResources()), 50, 700);
+        Text.draw("Resources: " + Math.round(Sojourn.player.getResources()), 50, 760);
+
+        // SUPPLY
+        int usedSupply = Math.round(game.getPlayer().getSupply().getMaximum() - game.getPlayer().getSupply().getCurrent());
+        Text.draw( "Supply: " + usedSupply + " / " + Math.round(game.getPlayer().getSupply().getMaximum()), 50, 800);
     }
 
     private void addButtons()
@@ -182,12 +190,28 @@ public class BuildManager
         needsRefresh = true;
     }
 
+    public void clearPlacingCivilian()
+    {
+        currentCivilian.setExpired();
+        currentCivilian = null;
+    }
+
     public void beginPlacingCivilian(Class<? extends Civilian> clazz)
     {
         currentCivilian = (Civilian) EntityManager.entityFactory(clazz);
         currentCivilian.setTeam(Sojourn.player);
-        currentCivilian.getImage().setAlpha(.7f);
-        EntityManager.addEntity(currentCivilian);
+        currentCivilian.setAttributes();
+
+        if(game.inPlanningMode() && Sojourn.player.getResources() >= currentCivilian.getCost().getValue())
+        {
+            currentCivilian.getImage().setAlpha(.7f);
+            Sojourn.player.spendResources(currentCivilian.getCost().getValue());
+            EntityManager.addEntity(currentCivilian);
+        }
+        else
+        {
+            clearPlacingCivilian();
+        }
 
     }
 
@@ -195,9 +219,19 @@ public class BuildManager
     {
         if(isPlacingCivilian() && canPlaceCurrentCivilian())
         {
-            currentCivilian.getImage().resetColor();
-            currentCivilian.getImage().showHealthbar();
-            currentCivilian = null;
+            if(button == Input.Buttons.LEFT)
+            {
+                currentCivilian.getImage().resetColor();
+                currentCivilian.getImage().showHealthbar();
+                currentCivilian.onBuild();
+                currentCivilian = null;
+            }
+            else
+            {
+                Sojourn.player.addResources(currentCivilian.getCost().getValue());
+                clearPlacingCivilian();
+            }
+
         }
 
     }

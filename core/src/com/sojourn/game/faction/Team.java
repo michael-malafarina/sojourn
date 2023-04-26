@@ -1,7 +1,6 @@
 package com.sojourn.game.faction;
 
 import com.badlogic.gdx.math.Vector2;
-import com.sojourn.game.entity.AttributePool;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
 
@@ -17,7 +16,6 @@ abstract public class Team
     final public static int ID_ENEMY = 2;
     final public static int ID_HOSTILE = 3;
 
-    private AttributePool supply;
 
     // Abstract
 
@@ -29,7 +27,7 @@ abstract public class Team
     {
         this.faction = faction;
         teamBonusManager = new TeamBonusManager();
-        supply = new AttributePool(teamBonusManager.getSupply(), 10);
+
     }
 
 
@@ -73,10 +71,7 @@ abstract public class Team
         this.homePoint = homePoint;
     }
 
-    public AttributePool getSupply()
-    {
-        return supply;
-    }
+
 
     public boolean isFriendly(Team other)
     {
@@ -121,10 +116,5 @@ abstract public class Team
     }
 
     abstract public float getTotalWorth();
-
-    public void setSupply(AttributePool supply)
-    {
-        this.supply = supply;
-    }
 
 }

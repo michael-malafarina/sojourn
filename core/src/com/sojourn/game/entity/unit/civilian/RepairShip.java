@@ -35,12 +35,12 @@ public class RepairShip extends Civilian
 
     @Override
     public int getNumLayers() {
-        return 3;
+        return 5;
     }
 
     @Override
     public Texture getSpriteSheet() {
-        return Textures.base;
+        return Textures.bubble;
     }
 
 }

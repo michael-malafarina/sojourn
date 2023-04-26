@@ -3,7 +3,7 @@ package com.sojourn.game.reward;
 import com.badlogic.gdx.graphics.Color;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.ship.Ship;
-import com.sojourn.game.state.BuildManager;
+import com.sojourn.game.state.gameplay.BuildManager;
 
 public class RewardUnlockShip extends Reward
 {
