@@ -1,8 +1,6 @@
 package com.sojourn.game.entity.projectile;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.sojourn.game.Textures;
 import com.sojourn.game.Utility;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.component.weapon.Weapon;
@@ -82,9 +80,6 @@ abstract public class Projectile extends Entity
         return height;
     }
 
-    @Override
-    public Texture getSpriteSheet() {
-        return Textures.bullet;
-    }
+
 
 }

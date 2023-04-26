@@ -20,6 +20,12 @@ abstract public class Component
     private boolean activating;
     private boolean recovering;
 
+    protected int munitionCost;
+
+    protected int preparationTime;
+    protected int activationTime;
+    protected int recoveryTime;
+
     private Attribute damage;
     private Attribute range;
 
@@ -52,11 +58,23 @@ abstract public class Component
         return owner;
     }
 
-    abstract public int getMunitionCost();
+    int getMunitionCost()
+    {
+        return munitionCost;
+    }
 
-    abstract public int getPreparationTime();
-    abstract public int getActivationTime();
-    abstract public int getRecoveryTime();
+    public int getPreparationTime()
+    {
+        return preparationTime;
+    }
+    public int getActivationTime()
+    {
+        return activationTime;
+    }
+    public int getRecoveryTime()
+    {
+        return recoveryTime;
+    }
     abstract public boolean targetsSelf();
     abstract public int getNumTargets();
     abstract public void effect(Entity target);
@@ -107,16 +125,27 @@ abstract public class Component
 
     // Mutators
 
-    protected void setDamage(float baseValue)
+    public void setMunitionCost(int cost)
+    {
+        munitionCost = cost;
+    }
+
+    public void setDamage(float baseValue)
     {
         damage = new Attribute(owner.getTeam().getTeamBonusManager().getDamageBonus(), baseValue);
     }
 
-    protected void setRange(float baseValue)
+    public void setRange(float baseValue)
     {
         range = new Attribute(owner.getTeam().getTeamBonusManager().getRangeBonus(), baseValue);
     }
 
+    public void setUseTimes(int preparationTime, int activationTime, int recoveryTime)
+    {
+        this.preparationTime = preparationTime;
+        this.activationTime = activationTime;
+        this.recoveryTime = recoveryTime;
+    }
 
     public void use() {
         if (canUse()) {

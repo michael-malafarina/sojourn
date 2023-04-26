@@ -16,6 +16,7 @@ abstract public class Weapon extends Component
 {
     final public static float CRIT_CHANCE_BASE = .05f;
     final public static float CRIT_DAMAGE_BASE = 1.5f;
+    int size;
 
     // Data
 
@@ -29,6 +30,16 @@ abstract public class Weapon extends Component
 
         setCritChance(CRIT_CHANCE_BASE);
         setCritDamage(CRIT_DAMAGE_BASE);
+    }
+
+    int getProjectileSize()
+    {
+        return size;
+    }
+
+    public void effect(Entity target)
+    {
+        dealDamage(target);
     }
 
     public boolean rollHit(Entity target)

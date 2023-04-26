@@ -21,6 +21,8 @@ public class Dreadnought extends Tank
         setCost(70);
         setMunitions(20*4);
 
+
+
         weapons.add(new Autocannon(this));
         weapons.add(new Autocannon(this));
         weapons.add(new Autocannon(this));

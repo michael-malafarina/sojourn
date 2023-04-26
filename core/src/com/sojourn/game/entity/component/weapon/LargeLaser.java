@@ -10,12 +10,11 @@ public class LargeLaser extends WeaponLaser
         super(owner);
         setRange(500);
         setDamage(12);
+        size = 3;
+
     }
 
-    @Override
-    public int getAnimationWidth() {
-        return 2;
-    }
+
 
     @Override
     public float getAnimationAlpha() {
@@ -30,11 +29,6 @@ public class LargeLaser extends WeaponLaser
     public void effect(Entity target)
     {
         dealDamage(target);
-    }
-
-    @Override
-    public int getMunitionCost() {
-        return 0;
     }
 
     @Override

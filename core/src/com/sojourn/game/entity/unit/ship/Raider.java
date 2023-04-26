@@ -1,10 +1,8 @@
 package com.sojourn.game.entity.unit.ship;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.sojourn.game.Sojourn;
 import com.sojourn.game.Textures;
-import com.sojourn.game.entity.component.weapon.Autocannon;
-import com.sojourn.game.entity.component.weapon.SmallLaser;
+import com.sojourn.game.entity.component.weapon.WeaponMissile;
 
 public class Raider extends Skirmisher
 {
@@ -23,16 +21,26 @@ public class Raider extends Skirmisher
         setAcceleration(60);
         setCost(75);
 
-        if(getTeam() == Sojourn.currentEnemy)
-        {
-            weapons.add(new SmallLaser(this));
-        }
-        else
-        {
-            weapons.add(new Autocannon(this));
+//        if(getTeam() == Sojourn.currentEnemy)
+//        {
+//            weapons.add(new SmallLaser(this));
+//        }
+//        else
+//        {
+            weapons.add(makeWeapon());
             setMunitions(16);
+//        }
+    }
 
-        }
+    public WeaponMissile makeWeapon()
+    {
+        WeaponMissile w = new WeaponMissile(this);
+        w.setRange(400);
+        w.setDamage(12);
+        w.setMunitionCost(2);
+        w.setUseTimes(20, 40, 60);
+
+        return w;
     }
 
     public void actionCombat()

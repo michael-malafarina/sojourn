@@ -8,19 +8,30 @@ import com.sojourn.game.entity.unit.Unit;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class WeaponLaser extends Weapon
+public class WeaponLaser extends Weapon
 {
     List<Beam> beams;
 
+    float alpha;
+    boolean burst;
+
     public WeaponLaser(Unit owner) {
         super(owner);
+        setMunitionCost(0);
+        size = 3;
+        burst = false;
+        alpha = .7f;
     }
 
-    abstract public int getAnimationWidth();
+    public float getAnimationAlpha()
+    {
+        return alpha;
+    }
 
-    abstract public float getAnimationAlpha();
-
-    abstract public boolean getAnimationBurst();
+    public boolean getAnimationBurst()
+    {
+        return burst;
+    }
 
 
     public void activationBegin()
@@ -32,7 +43,7 @@ abstract public class WeaponLaser extends Weapon
         for(Entity e : targets.getTargets())
         {
             Beam b = new Beam(owner, e, this);
-            b.setWidth(getAnimationWidth());
+            b.setWidth(getProjectileSize());
             b.setAlpha(getAnimationAlpha());
             b.setBurst(getAnimationBurst());
 
@@ -66,4 +77,6 @@ abstract public class WeaponLaser extends Weapon
     public boolean targetsSelf() {
         return false;
     }
+
+
 }

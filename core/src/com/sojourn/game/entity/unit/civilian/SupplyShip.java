@@ -19,8 +19,8 @@ public class SupplyShip extends Civilian
 
     public void onBuild()
     {
-        Sojourn.player.getSupply().increaseMaximum(3);
-        Sojourn.player.getSupply().increase(3);
+        Sojourn.player.getSupply().increaseMaximum(2);
+        Sojourn.player.getSupply().increase(2);
     }
 
     @Override

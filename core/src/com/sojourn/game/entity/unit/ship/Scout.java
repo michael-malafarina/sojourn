@@ -1,10 +1,8 @@
 package com.sojourn.game.entity.unit.ship;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.sojourn.game.Sojourn;
 import com.sojourn.game.Textures;
 import com.sojourn.game.entity.component.weapon.MachineGun;
-import com.sojourn.game.entity.component.weapon.SmallLaser;
 
 public class Scout extends Skirmisher
 {
@@ -23,16 +21,16 @@ public class Scout extends Skirmisher
         setAcceleration(80);
         setCost(50);
 
-        if(getTeam() == Sojourn.currentEnemy)
-        {
-            weapons.add(new SmallLaser(this));
-        }
-        else
-        {
+//        if(getTeam() == Sojourn.currentEnemy)
+//        {
+//            weapons.add(new SmallLaser(this));
+//        }
+//        else
+//        {
             weapons.add(new MachineGun(this));
             setMunitions(8);
-
-        }
+//
+//        }
 
     }
 

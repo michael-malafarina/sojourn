@@ -2,14 +2,15 @@ package com.sojourn.game.entity.component.weapon;
 
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
-import com.sojourn.game.entity.projectile.Bullet;
+import com.sojourn.game.entity.projectile.Missile;
 import com.sojourn.game.entity.unit.Unit;
 
-public class WeaponKinetic extends Weapon
+public class WeaponMissile extends Weapon
 {
-    public WeaponKinetic(Unit owner) {
+
+    public WeaponMissile(Unit owner) {
         super(owner);
-        size = 8;
+        size = 16;
     }
 
     public void activationBegin()
@@ -18,9 +19,9 @@ public class WeaponKinetic extends Weapon
 
         for(Entity e : targets.getTargets())
         {
-            Bullet b = new Bullet(owner, e, this);
-            b.setSize(getProjectileSize(), getProjectileSize());
-            EntityManager.addEntity(b);
+            Missile m = new Missile(owner, e, this);
+            m.setSize(getProjectileSize());
+            EntityManager.addEntity(m);
         }
 
     }
@@ -36,4 +37,6 @@ public class WeaponKinetic extends Weapon
     public boolean targetsSelf() {
         return false;
     }
+
+
 }

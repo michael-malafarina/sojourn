@@ -76,33 +76,7 @@ public class BuildManager
             currentCivilian.getImage().hideHealthbar();
         }
 
-       // updateBuildingButtons();
-
-       // if(Gdx.input.())
-//        {
-//            System.out.println();
-//        }
-
     }
-
-//    public void updateBuildingButtons()
-//    {
-//        for(Button b : buttons)
-//        {
-//            if(isPlacingCivilian())
-//            {
-//                b.disable();
-//            }
-//            else if(game.inCombatMode() && b.)
-//            {
-//                b.disable();
-//            }
-//            else
-//            {
-//                b.enable();
-//            }
-//        }
-//    }
 
     public boolean canPlaceCurrentCivilian()
     {
@@ -247,16 +221,16 @@ public class BuildManager
 
     public void mousePressed(float mouseX, float mouseY, int button)
     {
-        if(isPlacingCivilian() && canPlaceCurrentCivilian())
+        if(isPlacingCivilian())
         {
-            if(button == Input.Buttons.LEFT)
+            if(button == Input.Buttons.LEFT && canPlaceCurrentCivilian())
             {
                 currentCivilian.getImage().resetColor();
                 currentCivilian.getImage().showHealthbar();
                 currentCivilian.onBuild();
                 currentCivilian = null;
             }
-            else
+            else if(button != Input.Buttons.LEFT)
             {
                 Sojourn.player.addResources(currentCivilian.getCost().getValue());
                 clearPlacingCivilian();

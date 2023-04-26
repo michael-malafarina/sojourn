@@ -79,28 +79,6 @@ public class Button extends HudElement
         colorText = Color.WHITE;
     }
 
-//    public void render()
-//    {
-////		System.out.println(alignVertical);
-////		System.out.println(box.y + " " + getAlignedY());
-//
-//        Display.draw(getImageCurrent(), color, getAlignedX(), getAlignedY(), box.width, box.height);
-//
-//        if(getImageBorder() != null)
-//        {
-////			System.out.println("drawing image border in hud element");
-//            Display.draw(getImageBorder(), color, getAlignedX(), getAlignedY(), box.width, box.height);
-//        }
-//
-//        Text.setFont(font);
-//        Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
-//        Text.draw(label, getAlignedX()+box.width/2, getAlignedY()+box.height/2);
-//    }
-
-
-
-
-
 
 
 }

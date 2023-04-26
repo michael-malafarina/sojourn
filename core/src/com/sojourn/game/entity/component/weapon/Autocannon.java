@@ -10,37 +10,16 @@ public class Autocannon extends WeaponKinetic
         super(owner);
         setRange(400);
         setDamage(12);
+        setMunitionCost(2);
+        size = 15;
+        setUseTimes(20, 40, 60);
     }
 
-    @Override
-    public int getBulletWidth() {
-        return 15;
-    }
-
-    @Override
-    public int getBulletHeight() {
-        return 15;
-    }
 
     public void effect(Entity target)
     {
         dealDamage(target);
     }
 
-    @Override
-    public int getMunitionCost() {
-        return 2;
-    }
-
-    @Override
-    public int getPreparationTime() { return 20;  }
-
-    @Override
-    public int getActivationTime() { return 40;  }
-
-    @Override
-    public int getRecoveryTime() {
-        return 60;
-    }
 
 }

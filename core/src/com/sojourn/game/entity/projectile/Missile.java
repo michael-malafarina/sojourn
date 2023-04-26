@@ -5,17 +5,24 @@ import com.sojourn.game.Textures;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.component.weapon.Weapon;
 
-public class Bullet extends Projectile
+public class Missile extends Projectile
 {
 
-    public Bullet(Entity owner, Entity target, Weapon weapon) {
+    public Missile(Entity owner, Entity target, Weapon weapon) {
         super(owner, target, weapon);
     }
 
-    public void setSize(int width, int height)
+
+    public void startingAttributes() {
+        setSpeed(125);
+        setAcceleration(300);
+
+    }
+
+    public void setSize(int size)
     {
-       this.width = width;
-       this.height = height;
+       this.width = size;
+       this.height = size;
     }
 
 
@@ -36,9 +43,10 @@ public class Bullet extends Projectile
         }
 
     }
+
     @Override
     public Texture getSpriteSheet() {
-        return Textures.bullet;
+        return Textures.raider;
     }
 
     public float getPercentProgress()

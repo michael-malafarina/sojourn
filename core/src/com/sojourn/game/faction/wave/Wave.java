@@ -54,10 +54,14 @@ public class Wave
     {
         types.clear();
 
-//        System.out.println(StateGameplay.getWaveNumber() + " Wave Value: " + value);
+        // Always build at least one carrier
 
+        buildSquad(Carrier.class);
+
+        // Keep building squads of units as long as there is value remaining
         while(value > 50)
         {
+
             int r = Utility.random(4);
             switch(r) {
                 case 1 -> buildSquad(Guardian.class);
@@ -68,11 +72,12 @@ public class Wave
             }
         }
 
-
+        // Select a type of distribution for units based on these units
         currentDistribution = createNewDistribution(types);
-
         List<TypePosition> pairs = currentDistribution.getAllPositions();
 
+
+        // Find all pairings of unit types and positions and create alerts at those positions
         for(int i = 0; i < pairs.size(); i++)
         {
             EnemyAlert e = new EnemyAlert();
@@ -80,6 +85,7 @@ public class Wave
             e.setPosition(pairs.get(i).getPosition());
             e.setTeam(team);
             EntityManager.addEntity(e);
+
         }
 
     }

@@ -10,12 +10,7 @@ abstract public class Module extends Component
         super(owner);
     }
 
-    @Override
-    public int getMunitionCost() {
-        return 0;
-    }
-
-    @Override
+     @Override
     public int getPreparationTime() {
         return 0;
     }
