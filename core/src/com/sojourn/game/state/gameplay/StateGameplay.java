@@ -18,7 +18,7 @@ public class StateGameplay extends State
 {
     private EntityMessageManager messages;
 
-    private boolean planning;
+    private static boolean planning;
     private int gameSpeed;
     private static int waveNumber;
     private RewardMenu rewardMenu;
@@ -54,12 +54,12 @@ public class StateGameplay extends State
 
     // Accessors
 
-    public boolean inPlanningMode()
+    public static boolean inPlanningMode()
     {
         return planning;
     }
 
-    public boolean inCombatMode()
+    public static boolean inCombatMode()
     {
         return !planning;
     }

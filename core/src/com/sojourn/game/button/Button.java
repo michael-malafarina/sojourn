@@ -13,6 +13,7 @@ public class Button extends HudElement
 {
     protected ButtonEvent clickEvent;
     protected ButtonEvent clickEventTwo;
+    protected boolean disabled;
 
     public Button()
     {
@@ -46,11 +47,10 @@ public class Button extends HudElement
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
         Vector3 tp = new Vector3();
-        Display.getCamera().getHudCamera().unproject(tp.set(screenX, screenY, 0))
-        ;
+        Display.getCamera().getHudCamera().unproject(tp.set(screenX, screenY, 0));
         Rectangle alignedBox = new Rectangle(getAlignedX(), getAlignedY(), box.getWidth(), box.getHeight());
 
-        if(alignedBox.contains(tp.x, tp.y)) {
+        if(alignedBox.contains(tp.x, tp.y) && !disabled) {
             clicked(clickEvent);
             clicked(clickEventTwo);
             return true;
@@ -64,6 +64,40 @@ public class Button extends HudElement
 //            System.out.println("clicked " + label);
         }
     }
+
+    public void disable()
+    {
+        disabled = true;
+        color = new Color(.3f, .3f, .3f, 1f);
+        colorText = new Color(.6f, .6f, .6f, 1f);
+    }
+
+    public void enable()
+    {
+        disabled = false;
+        color = Color.WHITE;
+        colorText = Color.WHITE;
+    }
+
+//    public void render()
+//    {
+////		System.out.println(alignVertical);
+////		System.out.println(box.y + " " + getAlignedY());
+//
+//        Display.draw(getImageCurrent(), color, getAlignedX(), getAlignedY(), box.width, box.height);
+//
+//        if(getImageBorder() != null)
+//        {
+////			System.out.println("drawing image border in hud element");
+//            Display.draw(getImageBorder(), color, getAlignedX(), getAlignedY(), box.width, box.height);
+//        }
+//
+//        Text.setFont(font);
+//        Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
+//        Text.draw(label, getAlignedX()+box.width/2, getAlignedY()+box.height/2);
+//    }
+
+
 
 
 

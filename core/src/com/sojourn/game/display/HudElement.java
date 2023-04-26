@@ -22,6 +22,7 @@ public class HudElement
 	protected String label;
 	protected Color color;
 	protected Color colorBorder;
+	protected Color colorText;
 
 	protected ButtonEvent mouseoverEvent;
 
@@ -38,6 +39,7 @@ public class HudElement
 		imageBase = Textures.uiButtonBase;
 		imageMouseover = Textures.uiButtonMouseover;
 		imageCurrent = imageBase;
+		colorText = Color.WHITE;
 		box = new Rectangle(0, 0, 100, 100);
 	}
 
@@ -184,6 +186,7 @@ public class HudElement
 		}
 
 		Text.setFont(font);
+		Text.setColor(colorText);
 		Text.setAlignment(Alignment.CENTER, Alignment.CENTER);
 		Text.draw(label, getAlignedX()+box.width/2, getAlignedY()+box.height/2);
 	}

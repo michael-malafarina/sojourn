@@ -102,6 +102,7 @@ public class GameplayRender {
         state.getPlayer().render();
         minimap.render();
 
+        Text.setColor(Color.WHITE);
 
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
 
@@ -136,6 +137,7 @@ public class GameplayRender {
 
     protected void renderHudPlanning()
     {
+        Text.setColor(Color.WHITE);
         Text.setFont(Fonts.title);
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
         Text.draw("Planning", Display.WIDTH/2, Display.HEIGHT - 10);
@@ -145,6 +147,7 @@ public class GameplayRender {
 
     protected void renderHudCombat()
     {
+        Text.setColor(Color.WHITE);
         Text.setFont(Fonts.title);
         Text.setAlignment(Alignment.CENTER, Alignment.TOP);
         Text.draw("Combat", Display.WIDTH/2, Display.HEIGHT - 10);

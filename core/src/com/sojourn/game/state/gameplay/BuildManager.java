@@ -7,11 +7,14 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.sojourn.game.Sojourn;
+import com.sojourn.game.button.BuildCivilianButton;
+import com.sojourn.game.button.BuildSquadButton;
 import com.sojourn.game.button.Button;
 import com.sojourn.game.display.Alignment;
 import com.sojourn.game.display.Display;
 import com.sojourn.game.display.Fonts;
 import com.sojourn.game.display.Text;
+import com.sojourn.game.entity.Attribute;
 import com.sojourn.game.entity.Entity;
 import com.sojourn.game.entity.EntityManager;
 import com.sojourn.game.entity.unit.civilian.Civilian;
@@ -31,12 +34,12 @@ public class BuildManager
     private StateGameplay game;
     private static boolean needsRefresh;
 
-    private Civilian currentCivilian;
+    private static Civilian currentCivilian;
 
     public BuildManager(StateGameplay game)
     {
         this.game = game;
-
+        buttons = new ArrayList<>();
         unlockedShips = new ArrayList<>();
         unlockedCivilians = new ArrayList<>();
         unlockedCivilians.add(SupplyShip.class);
@@ -73,12 +76,33 @@ public class BuildManager
             currentCivilian.getImage().hideHealthbar();
         }
 
+       // updateBuildingButtons();
+
        // if(Gdx.input.())
 //        {
 //            System.out.println();
 //        }
 
     }
+
+//    public void updateBuildingButtons()
+//    {
+//        for(Button b : buttons)
+//        {
+//            if(isPlacingCivilian())
+//            {
+//                b.disable();
+//            }
+//            else if(game.inCombatMode() && b.)
+//            {
+//                b.disable();
+//            }
+//            else
+//            {
+//                b.enable();
+//            }
+//        }
+//    }
 
     public boolean canPlaceCurrentCivilian()
     {
@@ -123,11 +147,17 @@ public class BuildManager
         // Resources
         Text.setFont(Fonts.large);
         Text.setAlignment(Alignment.LEFT, Alignment.CENTER);
+        Text.setColor(Color.WHITE);
         Text.draw("Resources: " + Math.round(Sojourn.player.getResources()), 50, 760);
 
         // SUPPLY
         int usedSupply = Math.round(game.getPlayer().getSupply().getMaximum() - game.getPlayer().getSupply().getCurrent());
         Text.draw( "Supply: " + usedSupply + " / " + Math.round(game.getPlayer().getSupply().getMaximum()), 50, 800);
+    }
+
+    public static boolean canPay(Attribute cost)
+    {
+        return Sojourn.player.getResources() >= cost.getValue();
     }
 
     private void addButtons()
@@ -141,7 +171,7 @@ public class BuildManager
             Ship prototype = (Ship) EntityManager.entityFactory(ship);
             prototype.setTeam(Sojourn.player);
 
-            Button b = new Button();
+            Button b = new BuildSquadButton(prototype.getCost());
             b.setPosition(50, 600 - i * 60);
             b.setSize(150, 40);
             b.setFont(Fonts.small);
@@ -158,7 +188,7 @@ public class BuildManager
             Civilian prototype = (Civilian) EntityManager.entityFactory(civilian);
             prototype.setTeam(Sojourn.player);
 
-            Button b = new Button();
+            Button b = new BuildCivilianButton(prototype.getCost());
             b.setPosition(250, 600 - i * 60);
             b.setSize(150, 40);
             b.setFont(Fonts.small);
@@ -202,7 +232,7 @@ public class BuildManager
         currentCivilian.setTeam(Sojourn.player);
         currentCivilian.setAttributes();
 
-        if(game.inPlanningMode() && Sojourn.player.getResources() >= currentCivilian.getCost().getValue())
+        if(game.inPlanningMode() && canPay(currentCivilian.getCost()))
         {
             currentCivilian.getImage().setAlpha(.7f);
             Sojourn.player.spendResources(currentCivilian.getCost().getValue());
@@ -236,7 +266,7 @@ public class BuildManager
 
     }
 
-    public boolean isPlacingCivilian()
+    public static boolean isPlacingCivilian()
     {
         return currentCivilian != null;
     }

@@ -14,7 +14,7 @@ public class SupplyShip extends Civilian
     public void startingAttributes()
     {
         setHealth(5000);
-        setCost(30);
+        setCost(10);
     }
 
     public void onBuild()

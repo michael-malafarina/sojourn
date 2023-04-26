@@ -106,7 +106,6 @@ public class TeamPlayer extends Team
         {
             EntityManager.addSquad(clazz, getSpawnPoint(), this);
             resources -= prototype.getCost().getValue();
-            System.out.println("BUILDING A SQUAD");
             getSupply().decrease(1);
         }
     }
